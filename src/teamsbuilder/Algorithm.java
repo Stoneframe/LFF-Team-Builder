@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import model.Team;
 import model.Unit;
 
-public class Algorithm implements Layer
+public class Algorithm
+	implements
+		Layer
 {
 	private Function<Integer, Boolean> scoringRule;
 
@@ -20,9 +21,12 @@ public class Algorithm implements Layer
 	private Comparator<Unit> NUMBER_OF_PLAYERS =
 			Comparator.comparing((Unit u) -> u.numberOfPlayers());
 
-	public Algorithm(Function<Integer, Boolean> scoringRule)
+	private List<String> teamNames;
+
+	public Algorithm(Function<Integer, Boolean> scoringRule, List<String> teamNames)
 	{
 		this.scoringRule = scoringRule;
+		this.teamNames = teamNames;
 	}
 
 	@Override
@@ -70,12 +74,18 @@ public class Algorithm implements Layer
 		}
 	}
 
-	private static List<Team> createEmptyTeams(int numberOfTeams)
+	private List<Team> createEmptyTeams(int numberOfTeams)
 	{
-		return Stream
-			.generate(Team::new)
-			.limit(numberOfTeams)
-			.collect(Collectors.toList());
+		List<Team> teams = new LinkedList<>();
+
+		for (int i = 0; i < numberOfTeams; i++)
+		{
+			Team team = new Team(teamNames.get(i % teamNames.size()));
+
+			teams.add(team);
+		}
+
+		return teams;
 	}
 
 	private List<Unit> sortUnitsBy(List<Unit> units, Comparator<Unit> comparator)

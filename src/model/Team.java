@@ -10,6 +10,18 @@ public class Team
 {
 	private List<Player> players = new LinkedList<>();
 
+	private String name;
+
+	public Team(String name)
+	{
+		this.name = name;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
 	public void add(Player player)
 	{
 		players.add(player);
@@ -46,6 +58,9 @@ public class Team
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();
+
+		builder.append(name + ":");
+		builder.append(System.lineSeparator());
 
 		for (Player player : players)
 		{

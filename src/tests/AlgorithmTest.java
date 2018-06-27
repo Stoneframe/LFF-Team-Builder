@@ -17,12 +17,14 @@ import teamsbuilder.Layer;
 
 public class AlgorithmTest
 {
-	final private Function<Integer, Boolean> scoringRule = age -> age < 15;
+	private Function<Integer, Boolean> scoringRule = age -> age < 15;
+
+	private List<String> teamNames = Arrays.asList("Team 1", "Team 2", "Team 3");
 
 	@Test
 	public void test1()
 	{
-		Layer algorithm = new Algorithm(scoringRule);
+		Layer algorithm = new Algorithm(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Player("Player 1", 10),
@@ -40,7 +42,7 @@ public class AlgorithmTest
 	@Test
 	public void test2()
 	{
-		Layer algorithm = new Algorithm(scoringRule);
+		Layer algorithm = new Algorithm(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Group(
@@ -77,7 +79,7 @@ public class AlgorithmTest
 		int numberOfPlayers = units.stream().mapToInt(u -> u.numberOfPlayers()).sum();
 		int numberOfTeams = numberOfPlayers / playersPerTeam - 1;
 
-		Layer algorithm = new Algorithm(scoringRule);
+		Layer algorithm = new Algorithm(scoringRule, teamNames);
 
 		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
 
@@ -87,12 +89,14 @@ public class AlgorithmTest
 	private static void print(List<Unit> units, List<Team> teams)
 	{
 		System.out.println("Units:");
+		System.out.println();
 		units.forEach(u -> System.out.println(u));
 
 		System.out.println();
 		System.out.println();
 
 		System.out.println("Teams:");
+		System.out.println();
 		teams.forEach(t -> System.out.println(t));
 	}
 }
