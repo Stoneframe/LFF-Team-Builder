@@ -9,9 +9,15 @@ import java.util.stream.Stream;
 
 public class Algorithm
 {
+	private Function<Integer, Boolean> scoringRule;
+
 	private int numberOfTeams;
 
-	private Function<Integer, Boolean> scoringRule;
+	private Comparator<Unit> NUMBER_OF_SCOREABLE_PLAYERS =
+			Comparator.comparing((Unit u) -> u.numberOfScoreablePlayers(scoringRule));
+
+	private Comparator<Unit> NUMBER_OF_PLAYERS =
+			Comparator.comparing((Unit u) -> u.numberOfPlayers());
 
 	public Algorithm(int numberOfTeams, Function<Integer, Boolean> scoringRule)
 	{
@@ -26,22 +32,18 @@ public class Algorithm
 
 		splitUnitsByScoreablePlayers(units, scoreableUnits, remainingUnits);
 
-		scoreableUnits = sortUnitsByNumberOfScoreablePlayersDescending(scoreableUnits);
-		remainingUnits = sortUnitsByNumberOfPlayersDescending(remainingUnits);
+		List<Team> teams = createEmptyTeams(numberOfTeams);
 
-		List<Team> teams =
-				Stream.generate(Team::new).limit(numberOfTeams).collect(Collectors.toList());
-
-		for (Unit unit : scoreableUnits)
+		for (Unit unit : sortUnitsBy(scoreableUnits, NUMBER_OF_SCOREABLE_PLAYERS.reversed()))
 		{
-			Team team = getTeamWithLeastScoreablePlayers(teams);
+			Team team = getTeamWithLowest(teams, NUMBER_OF_SCOREABLE_PLAYERS);
 
 			team.add(unit);
 		}
 
-		for (Unit unit : remainingUnits)
+		for (Unit unit : sortUnitsBy(remainingUnits, NUMBER_OF_PLAYERS.reversed()))
 		{
-			Team team = getTeamWithLeastPlayers(teams);
+			Team team = getTeamWithLowest(teams, NUMBER_OF_PLAYERS);
 
 			team.add(unit);
 		}
@@ -67,48 +69,28 @@ public class Algorithm
 		}
 	}
 
-	private List<Unit> sortUnitsByNumberOfScoreablePlayersDescending(List<Unit> units)
+	private static List<Team> createEmptyTeams(int numberOfTeams)
+	{
+		return Stream
+			.generate(Team::new)
+			.limit(numberOfTeams)
+			.collect(Collectors.toList());
+	}
+
+	private List<Unit> sortUnitsBy(List<Unit> units, Comparator<Unit> comparator)
 	{
 		return units
 			.stream()
-			.sorted(
-				Comparator
-					.comparing((Unit u) -> u.numberOfScoreablePlayers(scoringRule))
-					.reversed())
+			.sorted(comparator)
 			.collect(Collectors.toList());
 	}
 
-	private List<Unit> sortUnitsByNumberOfPlayersDescending(List<Unit> units)
+	private Team getTeamWithLowest(List<Team> teams, Comparator<Unit> comparator)
 	{
-		return units
+		return teams
 			.stream()
-			.sorted(Comparator.comparing((Unit u) -> u.numberOfPlayers()).reversed())
-			.collect(Collectors.toList());
-	}
-
-	private Team getTeamWithLeastScoreablePlayers(List<Team> teams)
-	{
-		List<Team> sortedTeams = teams
-			.stream()
-			.sorted(Comparator.comparing((Team t) -> t.numberOfScoreablePlayers(scoringRule)))
-			.collect(Collectors.toList());
-
-		return sortedTeams
-			.stream()
+			.sorted(comparator)
 			.findFirst()
-			.orElse(sortedTeams.get(0));
-	}
-
-	private Team getTeamWithLeastPlayers(List<Team> teams)
-	{
-		List<Team> sortedTeams = teams
-			.stream()
-			.sorted(Comparator.comparing((Team t) -> t.numberOfPlayers()))
-			.collect(Collectors.toList());
-
-		return sortedTeams
-			.stream()
-			.findFirst()
-			.orElse(sortedTeams.get(0));
+			.get();
 	}
 }

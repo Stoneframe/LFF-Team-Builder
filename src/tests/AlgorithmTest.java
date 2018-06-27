@@ -18,10 +18,6 @@ public class AlgorithmTest
 {
 	final private Function<Integer, Boolean> scoringRule = age -> age < 15;
 
-	static int playerCount;
-
-	static int groupCount;
-
 	@Test
 	public void test3PlayersAnd3Teams()
 	{
