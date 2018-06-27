@@ -34,12 +34,16 @@ public class Algorithm
 
 		for (Unit unit : scoreableUnits)
 		{
-			addUnitToTeam(unit, getTeamWithLeastScoreablePlayers(teams));
+			Team team = getTeamWithLeastScoreablePlayers(teams);
+
+			team.add(unit);
 		}
 
 		for (Unit unit : remainingUnits)
 		{
-			addUnitToTeam(unit, getTeamWithLeastPlayers(teams));
+			Team team = getTeamWithLeastPlayers(teams);
+
+			team.add(unit);
 		}
 
 		return teams;
@@ -106,20 +110,5 @@ public class Algorithm
 			.stream()
 			.findFirst()
 			.orElse(sortedTeams.get(0));
-	}
-
-	private static void addUnitToTeam(Unit unit, Team team)
-	{
-		if (unit instanceof Player)
-		{
-			team.add((Player)unit);
-		}
-		else
-		{
-			for (Unit subUnit : (Group)unit)
-			{
-				addUnitToTeam(subUnit, team);
-			}
-		}
 	}
 }

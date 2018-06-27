@@ -15,6 +15,21 @@ public class Team
 		players.add(player);
 	}
 
+	public void add(Unit unit)
+	{
+		if (unit instanceof Player)
+		{
+			add((Player)unit);
+		}
+		else
+		{
+			for (Unit subUnit : (Group)unit)
+			{
+				add(subUnit);
+			}
+		}
+	}
+
 	@Override
 	public int numberOfPlayers()
 	{
