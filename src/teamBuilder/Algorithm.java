@@ -11,21 +11,18 @@ public class Algorithm
 {
 	private Function<Integer, Boolean> scoringRule;
 
-	private int numberOfTeams;
-
 	private Comparator<Unit> NUMBER_OF_SCOREABLE_PLAYERS =
 			Comparator.comparing((Unit u) -> u.numberOfScoreablePlayers(scoringRule));
 
 	private Comparator<Unit> NUMBER_OF_PLAYERS =
 			Comparator.comparing((Unit u) -> u.numberOfPlayers());
 
-	public Algorithm(int numberOfTeams, Function<Integer, Boolean> scoringRule)
+	public Algorithm(Function<Integer, Boolean> scoringRule)
 	{
-		this.numberOfTeams = numberOfTeams;
 		this.scoringRule = scoringRule;
 	}
 
-	public List<Team> createTeams(List<Unit> units)
+	public List<Team> createTeams(List<Unit> units, int numberOfTeams)
 	{
 		List<Unit> scoreableUnits = new LinkedList<>();
 		List<Unit> remainingUnits = new LinkedList<>();

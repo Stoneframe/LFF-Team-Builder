@@ -46,9 +46,9 @@ public class TeamsBuilder
 
 	private List<Team> createTeams(List<Unit> units, int numberOfTeams)
 	{
-		Algorithm algorithm = new Algorithm(numberOfTeams, scoringRule);
+		Algorithm algorithm = new Algorithm(scoringRule);
 
-		List<Team> teams = algorithm.createTeams(units);
+		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
 
 		if (anyTeamInvalid(teams))
 		{
@@ -101,9 +101,9 @@ public class TeamsBuilder
 
 	public List<Team> createTeams3(List<Unit> units, int numberOfTeams)
 	{
-		Algorithm algorithm = new Algorithm(numberOfTeams, scoringRule);
+		Algorithm algorithm = new Algorithm(scoringRule);
 
-		List<Team> teams = algorithm.createTeams(units);
+		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
 
 		if (!anyTeamInvalid(teams) && --numberOfTeams > 1)
 		{

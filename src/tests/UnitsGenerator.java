@@ -10,6 +10,9 @@ import teamBuilder.Unit;
 
 public class UnitsGenerator
 {
+	private static int groupCount = 0;
+	private static int playerCount = 0;
+
 	public static List<Unit> createRandomUnitList()
 	{
 		List<Unit> units = new LinkedList<>();
@@ -42,7 +45,7 @@ public class UnitsGenerator
 
 		Group group = new Group();
 
-		int id = ++AlgorithmTest.groupCount;
+		int id = ++groupCount;
 
 		for (int i = 0; i < numberOfPlayers; i++)
 		{
@@ -54,7 +57,7 @@ public class UnitsGenerator
 
 	public static Player createRandomPlayer(int group)
 	{
-		String name = "Player " + ++AlgorithmTest.playerCount + "_" + group;
+		String name = "Player " + ++playerCount + "_" + group;
 
 		return new Player(name, new Random().nextInt(25) + 5);
 	}
