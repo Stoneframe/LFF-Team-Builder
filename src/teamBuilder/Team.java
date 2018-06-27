@@ -26,18 +26,18 @@ public class Team
 	{
 		return players.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();
-		
+
 		for (Player player : players)
 		{
 			builder.append(player);
 			builder.append(System.lineSeparator());
 		}
-		
+
 		return builder.toString();
 	}
 }

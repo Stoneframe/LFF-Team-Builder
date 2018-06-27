@@ -15,15 +15,20 @@ public class Player
 		this.age = age;
 	}
 
+	public String getName()
+	{
+		return name;
+	}
+
+	public int getAge()
+	{
+		return age;
+	}
+
 	@Override
 	public int numberOfPlayers()
 	{
 		return 1;
-	}
-
-	public String getName()
-	{
-		return name;
 	}
 
 	@Override
@@ -31,7 +36,7 @@ public class Player
 	{
 		return scoringRule.apply(age) ? 1 : 0;
 	}
-	
+
 	@Override
 	public String toString()
 	{
