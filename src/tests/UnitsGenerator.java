@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import teamBuilder.Group;
-import teamBuilder.Player;
-import teamBuilder.Unit;
+import model.Group;
+import model.Player;
+import model.Unit;
 
 public class UnitsGenerator
 {

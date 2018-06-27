@@ -1,4 +1,4 @@
-package teamBuilder;
+package model;
 
 import java.util.Arrays;
 import java.util.Iterator;

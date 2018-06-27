@@ -1,4 +1,4 @@
-package teamBuilder;
+package teamsbuilder;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import model.Team;
+import model.Unit;
 
 public class Algorithm
 {

@@ -8,11 +8,11 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-import teamBuilder.Algorithm;
-import teamBuilder.Group;
-import teamBuilder.Player;
-import teamBuilder.Team;
-import teamBuilder.Unit;
+import model.Group;
+import model.Player;
+import model.Team;
+import model.Unit;
+import teamsbuilder.Algorithm;
 
 public class AlgorithmTest
 {
