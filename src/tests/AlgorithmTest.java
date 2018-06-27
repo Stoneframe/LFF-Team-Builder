@@ -25,7 +25,7 @@ public class AlgorithmTest
 	@Test
 	public void test3PlayersAnd3Teams()
 	{
-		Algorithm algorithm = new Algorithm(3, 3, scoringRule);
+		Algorithm algorithm = new Algorithm(3, scoringRule);
 
 		List<Unit> units = Arrays.asList(
 			new Player("Player 1", 10),
@@ -43,7 +43,7 @@ public class AlgorithmTest
 	@Test
 	public void test2()
 	{
-		Algorithm algorithm = new Algorithm(3, 3, scoringRule);
+		Algorithm algorithm = new Algorithm(3, scoringRule);
 
 		List<Unit> units = Arrays.asList(
 			new Group(
@@ -82,7 +82,7 @@ public class AlgorithmTest
 		int numberOfPlayers = units.stream().mapToInt(u -> u.numberOfPlayers()).sum();
 		int numberOfTeams = numberOfPlayers / playersPerTeam - 1;
 
-		Algorithm algorithm = new Algorithm(numberOfTeams, playersPerTeam, scoringRule);
+		Algorithm algorithm = new Algorithm(numberOfTeams, scoringRule);
 
 		List<Team> teams = algorithm.createTeams(units);
 

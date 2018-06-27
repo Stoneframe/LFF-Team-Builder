@@ -46,7 +46,7 @@ public class TeamsBuilder
 
 	private List<Team> createTeams(List<Unit> units, int numberOfTeams)
 	{
-		Algorithm algorithm = new Algorithm(numberOfTeams, playersPerTeam, scoringRule);
+		Algorithm algorithm = new Algorithm(numberOfTeams, scoringRule);
 
 		List<Team> teams = algorithm.createTeams(units);
 
@@ -101,7 +101,7 @@ public class TeamsBuilder
 
 	public List<Team> createTeams3(List<Unit> units, int numberOfTeams)
 	{
-		Algorithm algorithm = new Algorithm(numberOfTeams, playersPerTeam, scoringRule);
+		Algorithm algorithm = new Algorithm(numberOfTeams, scoringRule);
 
 		List<Team> teams = algorithm.createTeams(units);
 
