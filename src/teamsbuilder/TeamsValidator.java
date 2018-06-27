@@ -17,6 +17,8 @@ public class TeamsValidator
 			int minimumNumberOfPlayers,
 			int maximumNumberOfPlayers)
 	{
+		this.scoringRule = scoringRule;
+
 		this.minimumNumberOfPlayers = minimumNumberOfPlayers;
 		this.maximumNumberOfPlayers = maximumNumberOfPlayers;
 	}
@@ -35,11 +37,11 @@ public class TeamsValidator
 
 	private boolean noTeamsHaveTooFewPlayers(List<Team> teams)
 	{
-		return teams.stream().allMatch(t -> t.numberOfPlayers() > minimumNumberOfPlayers);
+		return teams.stream().allMatch(t -> t.numberOfPlayers() >= minimumNumberOfPlayers);
 	}
 
 	private boolean noTeamsHaveTooManyPlayers(List<Team> teams)
 	{
-		return teams.stream().allMatch(t -> t.numberOfPlayers() < maximumNumberOfPlayers);
+		return teams.stream().allMatch(t -> t.numberOfPlayers() <= maximumNumberOfPlayers);
 	}
 }

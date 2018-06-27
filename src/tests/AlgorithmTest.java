@@ -13,7 +13,6 @@ import model.Player;
 import model.Team;
 import model.Unit;
 import teamsbuilder.Algorithm;
-import teamsbuilder.Layer;
 
 public class AlgorithmTest
 {
@@ -24,7 +23,7 @@ public class AlgorithmTest
 	@Test
 	public void test1()
 	{
-		Layer algorithm = new Algorithm(scoringRule, teamNames);
+		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Player("Player 1", 10),
@@ -42,7 +41,7 @@ public class AlgorithmTest
 	@Test
 	public void test2()
 	{
-		Layer algorithm = new Algorithm(scoringRule, teamNames);
+		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Group(
@@ -74,29 +73,15 @@ public class AlgorithmTest
 	{
 		final int playersPerTeam = 5;
 
-		List<Unit> units = UnitsGenerator.createRandomUnitList();
+		List<Unit> units = UnitsUtil.createRandomUnitList();
 
-		int numberOfPlayers = units.stream().mapToInt(u -> u.numberOfPlayers()).sum();
+		int numberOfPlayers = UnitsUtil.countNumberOfPlayers(units);
 		int numberOfTeams = numberOfPlayers / playersPerTeam - 1;
 
-		Layer algorithm = new Algorithm(scoringRule, teamNames);
+		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
 
 		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
 
-		print(units, teams);
-	}
-
-	private static void print(List<Unit> units, List<Team> teams)
-	{
-		System.out.println("Units:");
-		System.out.println();
-		units.forEach(u -> System.out.println(u));
-
-		System.out.println();
-		System.out.println();
-
-		System.out.println("Teams:");
-		System.out.println();
-		teams.forEach(t -> System.out.println(t));
+		UnitsUtil.print(units, teams);
 	}
 }

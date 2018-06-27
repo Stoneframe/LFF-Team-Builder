@@ -6,9 +6,10 @@ import java.util.Random;
 
 import model.Group;
 import model.Player;
+import model.Team;
 import model.Unit;
 
-public class UnitsGenerator
+public class UnitsUtil
 {
 	private static int groupCount = 0;
 	private static int playerCount = 0;
@@ -21,7 +22,7 @@ public class UnitsGenerator
 
 		for (int i = 0; i < numberOfUnits; i++)
 		{
-			units.add(UnitsGenerator.createRandomUnit());
+			units.add(UnitsUtil.createRandomUnit());
 		}
 
 		return units;
@@ -31,11 +32,11 @@ public class UnitsGenerator
 	{
 		if (new Random().nextBoolean())
 		{
-			return UnitsGenerator.createRandomPlayer(0);
+			return UnitsUtil.createRandomPlayer(0);
 		}
 		else
 		{
-			return UnitsGenerator.createRandomGroup();
+			return UnitsUtil.createRandomGroup();
 		}
 	}
 
@@ -49,7 +50,7 @@ public class UnitsGenerator
 
 		for (int i = 0; i < numberOfPlayers; i++)
 		{
-			group.add(UnitsGenerator.createRandomPlayer(id));
+			group.add(UnitsUtil.createRandomPlayer(id));
 		}
 
 		return group;
@@ -60,5 +61,24 @@ public class UnitsGenerator
 		String name = "Player " + ++playerCount + "_" + group;
 
 		return new Player(name, new Random().nextInt(25) + 5);
+	}
+
+	public static void print(List<Unit> units, List<Team> teams)
+	{
+		System.out.println("Units:");
+		System.out.println();
+		units.forEach(u -> System.out.println(u));
+
+		System.out.println();
+		System.out.println();
+
+		System.out.println("Teams:");
+		System.out.println();
+		teams.forEach(t -> System.out.println(t));
+	}
+
+	public static int countNumberOfPlayers(List<Unit> units)
+	{
+		return units.stream().mapToInt(u -> u.numberOfPlayers()).sum();
 	}
 }
