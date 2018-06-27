@@ -27,11 +27,8 @@ public class Group
 		units.add(unit);
 	}
 
-	public Group[] split()
+	public void split(Group group1, Group group2)
 	{
-		Group group1 = new Group();
-		Group group2 = new Group();
-
 		for (int i = 0; i < units.size(); i++)
 		{
 			if (i % 2 == 0)
@@ -43,11 +40,6 @@ public class Group
 				group2.add(units.get(i));
 			}
 		}
-
-		return new Group[]
-		{
-				group1, group2
-		};
 	}
 
 	@Override

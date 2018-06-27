@@ -154,10 +154,13 @@ public class TeamsBuilder
 			{
 				Group group = (Group)sortedUnits.get(i);
 
-				Group[] split = group.split();
+				Group group1 = new Group();
+				Group group2 = new Group();
 
-				modifiedUnits.add(split[0]);
-				modifiedUnits.add(split[1]);
+				group.split(group1, group2);
+
+				modifiedUnits.add(group1);
+				modifiedUnits.add(group2);
 			}
 			else
 			{
