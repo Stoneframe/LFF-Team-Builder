@@ -26,8 +26,8 @@ public class Algorithm
 
 		splitUnitsByScoreablePlayers(units, scoreableUnits, remainingUnits);
 
-		scoreableUnits = sortUnitsByNumberOfScoreablePlayers(scoreableUnits);
-		remainingUnits = sortUnitsByNumberOfPlayers(remainingUnits);
+		scoreableUnits = sortUnitsByNumberOfScoreablePlayersDescending(scoreableUnits);
+		remainingUnits = sortUnitsByNumberOfPlayersDescending(remainingUnits);
 
 		List<Team> teams =
 				Stream.generate(Team::new).limit(numberOfTeams).collect(Collectors.toList());
@@ -63,7 +63,7 @@ public class Algorithm
 		}
 	}
 
-	private List<Unit> sortUnitsByNumberOfScoreablePlayers(List<Unit> units)
+	private List<Unit> sortUnitsByNumberOfScoreablePlayersDescending(List<Unit> units)
 	{
 		return units
 			.stream()
@@ -74,7 +74,7 @@ public class Algorithm
 			.collect(Collectors.toList());
 	}
 
-	private List<Unit> sortUnitsByNumberOfPlayers(List<Unit> units)
+	private List<Unit> sortUnitsByNumberOfPlayersDescending(List<Unit> units)
 	{
 		return units
 			.stream()
