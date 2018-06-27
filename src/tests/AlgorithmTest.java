@@ -13,6 +13,7 @@ import model.Player;
 import model.Team;
 import model.Unit;
 import teamsbuilder.Algorithm;
+import teamsbuilder.Layer;
 
 public class AlgorithmTest
 {
@@ -21,7 +22,7 @@ public class AlgorithmTest
 	@Test
 	public void test1()
 	{
-		Algorithm algorithm = new Algorithm(scoringRule);
+		Layer algorithm = new Algorithm(scoringRule);
 
 		List<Unit> units = Arrays.asList(
 			new Player("Player 1", 10),
@@ -39,7 +40,7 @@ public class AlgorithmTest
 	@Test
 	public void test2()
 	{
-		Algorithm algorithm = new Algorithm(scoringRule);
+		Layer algorithm = new Algorithm(scoringRule);
 
 		List<Unit> units = Arrays.asList(
 			new Group(
@@ -76,7 +77,7 @@ public class AlgorithmTest
 		int numberOfPlayers = units.stream().mapToInt(u -> u.numberOfPlayers()).sum();
 		int numberOfTeams = numberOfPlayers / playersPerTeam - 1;
 
-		Algorithm algorithm = new Algorithm(scoringRule);
+		Layer algorithm = new Algorithm(scoringRule);
 
 		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
 

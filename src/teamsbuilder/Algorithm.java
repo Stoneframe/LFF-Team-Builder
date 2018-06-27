@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import model.Team;
 import model.Unit;
 
-public class Algorithm
+public class Algorithm implements Layer
 {
 	private Function<Integer, Boolean> scoringRule;
 
@@ -25,6 +25,7 @@ public class Algorithm
 		this.scoringRule = scoringRule;
 	}
 
+	@Override
 	public List<Team> createTeams(List<Unit> units, int numberOfTeams)
 	{
 		List<Unit> scoreableUnits = new LinkedList<>();
