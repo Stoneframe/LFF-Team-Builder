@@ -19,7 +19,7 @@ public class AlgorithmTest
 	final private Function<Integer, Boolean> scoringRule = age -> age < 15;
 
 	@Test
-	public void test3PlayersAnd3Teams()
+	public void test1()
 	{
 		Algorithm algorithm = new Algorithm(scoringRule);
 
@@ -57,8 +57,6 @@ public class AlgorithmTest
 
 		List<Team> teams = algorithm.createTeams(units, 3);
 
-		teams.forEach(team -> System.out.println(team));
-
 		assertEquals(3, teams.size());
 		assertEquals(3, teams.get(0).numberOfPlayers());
 		assertEquals(3, teams.get(1).numberOfPlayers());
@@ -69,7 +67,7 @@ public class AlgorithmTest
 	}
 
 	@Test
-	public void test3()
+	public void testNoAssert()
 	{
 		final int playersPerTeam = 5;
 
