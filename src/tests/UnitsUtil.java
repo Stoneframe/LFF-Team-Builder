@@ -16,19 +16,24 @@ public class UnitsUtil
 
 	public static List<Unit> createRandomUnitList()
 	{
+		return createRandomUnitList(false);
+	}
+
+	public static List<Unit> createRandomUnitList(boolean includeLockedGroups)
+	{
 		List<Unit> units = new LinkedList<>();
 
 		int numberOfUnits = new Random().nextInt(20) + 10;
 
 		for (int i = 0; i < numberOfUnits; i++)
 		{
-			units.add(UnitsUtil.createRandomUnit());
+			units.add(UnitsUtil.createRandomUnit(includeLockedGroups));
 		}
 
 		return units;
 	}
 
-	public static Unit createRandomUnit()
+	public static Unit createRandomUnit(boolean includeLockedGroups)
 	{
 		if (new Random().nextBoolean())
 		{
@@ -36,15 +41,17 @@ public class UnitsUtil
 		}
 		else
 		{
-			return UnitsUtil.createRandomGroup();
+			return UnitsUtil.createRandomGroup(includeLockedGroups);
 		}
 	}
 
-	public static Group createRandomGroup()
+	public static Group createRandomGroup(boolean includeLockedGroups)
 	{
-		int numberOfPlayers = new Random().nextInt(5) + 1;
+		Random random = new Random();
 
-		Group group = new Group();
+		int numberOfPlayers = random.nextInt(5) + 1;
+
+		Group group = new Group(includeLockedGroups && random.nextInt(4) == 1);
 
 		int id = ++groupCount;
 
@@ -67,7 +74,7 @@ public class UnitsUtil
 	{
 		System.out.println("Units:");
 		System.out.println();
-		units.forEach(u -> System.out.println(u));
+		units.forEach(u -> System.out.println(u + System.lineSeparator()));
 
 		System.out.println();
 		System.out.println();

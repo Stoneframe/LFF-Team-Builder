@@ -13,13 +13,27 @@ public class Group
 {
 	private List<Unit> units = new LinkedList<>();
 
-	public Group()
+	private boolean isLocked;
+
+	public Group(boolean isLocked, Unit... units)
 	{
+		this.isLocked = isLocked;
+		this.units.addAll(Arrays.asList(units));
 	}
 
 	public Group(Unit... units)
 	{
-		this.units.addAll(Arrays.asList(units));
+		this(false, units);
+	}
+
+	public boolean isLocked()
+	{
+		return isLocked;
+	}
+
+	public void setLocked(boolean isLocked)
+	{
+		this.isLocked = isLocked;
 	}
 
 	public void add(Unit unit)
@@ -65,10 +79,12 @@ public class Group
 	{
 		StringBuilder builder = new StringBuilder();
 
+		builder.append(isLocked ? "(locked)" : "(not locked)");
+
 		for (Unit unit : units)
 		{
-			builder.append(unit);
 			builder.append(System.lineSeparator());
+			builder.append(unit);
 		}
 
 		return builder.toString();

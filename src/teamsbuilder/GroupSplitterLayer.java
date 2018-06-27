@@ -39,34 +39,35 @@ public class GroupSplitterLayer
 
 	private List<Unit> splitLargestGroup(List<Unit> units)
 	{
-		System.out.println("Splitting largest group");
-		System.out.println();
-
 		List<Unit> sortedUnits = sortUnitsByNumberOfPlayersDescending(units);
 
-		if (sortedUnits.get(0).numberOfPlayers() == 1)
-		{
-			return null;
-		}
-
-		Group group = (Group)sortedUnits.get(0);
-
-		Group group1 = new Group();
-		Group group2 = new Group();
+		boolean groupIsSplit = false;
 
 		List<Unit> modifiedUnits = new LinkedList<>();
 
-		group.split(group1, group2);
-
-		modifiedUnits.add(group1);
-		modifiedUnits.add(group2);
-
-		for (int i = 1; i < units.size(); i++)
+		for (Unit unit : sortedUnits)
 		{
-			modifiedUnits.add(sortedUnits.get(i));
+			if (unit instanceof Group && unit.numberOfPlayers() > 1 && !((Group)unit).isLocked())
+			{
+				Group group = (Group)unit;
+
+				Group group1 = new Group();
+				Group group2 = new Group();
+
+				group.split(group1, group2);
+
+				modifiedUnits.add(group1);
+				modifiedUnits.add(group2);
+
+				groupIsSplit = true;
+			}
+			else
+			{
+				modifiedUnits.add(unit);
+			}
 		}
 
-		return modifiedUnits;
+		return groupIsSplit ? modifiedUnits : null;
 	}
 
 	private List<Unit> sortUnitsByNumberOfPlayersDescending(List<Unit> units)

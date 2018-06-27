@@ -24,15 +24,15 @@ public class GroupSplitterLayerTest
 
 		groupSplitterLayer = new GroupSplitterLayer(
 				new Algorithm(scoringRule, Arrays.asList("Team")),
-				new TeamsValidator(scoringRule, 5, 7));
+				new TeamsValidator(scoringRule, 3, 4));
 	}
 
 	@Test
 	public void testNoAssert()
 	{
-		final int playersPerTeam = 5;
+		final int playersPerTeam = 3;
 
-		List<Unit> units = UnitsUtil.createRandomUnitList();
+		List<Unit> units = UnitsUtil.createRandomUnitList(true);
 
 		int numberOfPlayers = UnitsUtil.countNumberOfPlayers(units);
 		int numberOfTeams = numberOfPlayers / playersPerTeam - 1;
