@@ -22,9 +22,9 @@ public class Team
 	}
 
 	@Override
-	public int numberOfPlayersThatCanScore(Function<Integer, Boolean> scoringRule)
+	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
-		return players.stream().mapToInt(p -> p.numberOfPlayersThatCanScore(scoringRule)).sum();
+		return players.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
 	}
 	
 	@Override

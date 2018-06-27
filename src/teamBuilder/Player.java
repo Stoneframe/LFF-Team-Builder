@@ -27,7 +27,7 @@ public class Player
 	}
 
 	@Override
-	public int numberOfPlayersThatCanScore(Function<Integer, Boolean> scoringRule)
+	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
 		return scoringRule.apply(age) ? 1 : 0;
 	}

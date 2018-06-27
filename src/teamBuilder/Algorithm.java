@@ -24,9 +24,9 @@ public class Algorithm
 		List<Unit> scoreableUnits = new LinkedList<>();
 		List<Unit> remainingUnits = new LinkedList<>();
 
-		splitUnitsByPlayersThatCanScore(units, scoreableUnits, remainingUnits);
+		splitUnitsByScoreablePlayers(units, scoreableUnits, remainingUnits);
 
-		scoreableUnits = sortUnitsByNumberOfPlayersThatCanScore(scoreableUnits);
+		scoreableUnits = sortUnitsByNumberOfScoreablePlayers(scoreableUnits);
 		remainingUnits = sortUnitsByNumberOfPlayers(remainingUnits);
 
 		List<Team> teams =
@@ -34,7 +34,7 @@ public class Algorithm
 
 		for (Unit unit : scoreableUnits)
 		{
-			addUnitToTeam(unit, getTeamWithLeastPlayersThatCanScore(teams));
+			addUnitToTeam(unit, getTeamWithLeastScoreablePlayers(teams));
 		}
 
 		for (Unit unit : remainingUnits)
@@ -45,14 +45,14 @@ public class Algorithm
 		return teams;
 	}
 
-	private void splitUnitsByPlayersThatCanScore(
+	private void splitUnitsByScoreablePlayers(
 			List<Unit> allUnits,
 			List<Unit> scoreableUnits,
 			List<Unit> remainingUnits)
 	{
 		for (Unit unit : allUnits)
 		{
-			if (unit.numberOfPlayersThatCanScore(scoringRule) > 0)
+			if (unit.numberOfScoreablePlayers(scoringRule) > 0)
 			{
 				scoreableUnits.add(unit);
 			}
@@ -63,13 +63,13 @@ public class Algorithm
 		}
 	}
 
-	private List<Unit> sortUnitsByNumberOfPlayersThatCanScore(List<Unit> units)
+	private List<Unit> sortUnitsByNumberOfScoreablePlayers(List<Unit> units)
 	{
 		return units
 			.stream()
 			.sorted(
 				Comparator
-					.comparing((Unit u) -> u.numberOfPlayersThatCanScore(scoringRule))
+					.comparing((Unit u) -> u.numberOfScoreablePlayers(scoringRule))
 					.reversed())
 			.collect(Collectors.toList());
 	}
@@ -82,11 +82,11 @@ public class Algorithm
 			.collect(Collectors.toList());
 	}
 
-	private Team getTeamWithLeastPlayersThatCanScore(List<Team> teams)
+	private Team getTeamWithLeastScoreablePlayers(List<Team> teams)
 	{
 		List<Team> sortedTeams = teams
 			.stream()
-			.sorted(Comparator.comparing((Team t) -> t.numberOfPlayersThatCanScore(scoringRule)))
+			.sorted(Comparator.comparing((Team t) -> t.numberOfScoreablePlayers(scoringRule)))
 			.collect(Collectors.toList());
 
 		return sortedTeams

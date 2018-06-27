@@ -67,9 +67,9 @@ public class AlgorithmTest
 		assertEquals(3, teams.get(0).numberOfPlayers());
 		assertEquals(3, teams.get(1).numberOfPlayers());
 		assertEquals(3, teams.get(2).numberOfPlayers());
-		assertEquals(1, teams.get(0).numberOfPlayersThatCanScore(scoringRule));
-		assertEquals(1, teams.get(1).numberOfPlayersThatCanScore(scoringRule));
-		assertEquals(1, teams.get(2).numberOfPlayersThatCanScore(scoringRule));
+		assertEquals(1, teams.get(0).numberOfScoreablePlayers(scoringRule));
+		assertEquals(1, teams.get(1).numberOfScoreablePlayers(scoringRule));
+		assertEquals(1, teams.get(2).numberOfScoreablePlayers(scoringRule));
 	}
 
 	@Test

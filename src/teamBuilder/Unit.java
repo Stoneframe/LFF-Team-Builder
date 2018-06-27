@@ -6,5 +6,5 @@ public interface Unit
 {
 	public int numberOfPlayers();
 
-	public int numberOfPlayersThatCanScore(Function<Integer, Boolean> scoringRule);
+	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule);
 }

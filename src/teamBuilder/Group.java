@@ -57,9 +57,9 @@ public class Group
 	}
 
 	@Override
-	public int numberOfPlayersThatCanScore(Function<Integer, Boolean> scoringRule)
+	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
-		return units.stream().mapToInt(p -> p.numberOfPlayersThatCanScore(scoringRule)).sum();
+		return units.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
 	}
 
 	@Override
