@@ -30,7 +30,7 @@ public class RegistratorFrame
 	{
 		lundsFFPanel = new LundsFFPanel();
 
-		unitListPanel = new UnitListPanel();
+		unitListPanel = new UnitListPanel("Spelare");
 		unitListPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		unitListPanel.addRemoveButtonActionListener(l -> removeUnit());
 
@@ -66,7 +66,6 @@ public class RegistratorFrame
 				RegistratorFrame.this.windowClosed();
 			};
 		});
-
 	}
 
 	private void windowOpened()

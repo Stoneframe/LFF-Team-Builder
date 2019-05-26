@@ -1,12 +1,103 @@
 package gui.generator;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import gui.LundsFFPanel;
+import gui.UnitListPanel;
+import gui.components.LffPanel;
+import io.FileHandler;
+import model.Team;
+import model.Unit;
+import teamsbuilder.TeamsBuilder;
 
 public class GeneratorFrame
 	extends JFrame
 {
 	private static final long serialVersionUID = 1932555429400080599L;
+
+	private final LundsFFPanel lundsFFPanel;
+	private final UnitListPanel unitListPanel;
+	private final SettingsPanel settingsPanel;
+
+	public GeneratorFrame()
+	{
+		lundsFFPanel = new LundsFFPanel();
+
+		unitListPanel = new UnitListPanel("Spelare");
+		unitListPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		unitListPanel.setRemoveButtonVisible(false);
+
+		settingsPanel = new SettingsPanel();
+		settingsPanel.addGenerateButtonActionListener(l -> onGenerate());
+
+		LffPanel centerPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
+
+		centerPanel.add(settingsPanel);
+
+		setTitle("Generering");
+
+		setLayout(new BorderLayout());
+
+		add(lundsFFPanel, BorderLayout.NORTH);
+		add(unitListPanel, BorderLayout.WEST);
+		add(centerPanel, BorderLayout.CENTER);
+
+		pack();
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowOpened(WindowEvent e)
+			{
+				GeneratorFrame.this.windowOpened();
+			};
+		});
+	}
+
+	private void windowOpened()
+	{
+		List<Unit> units = FileHandler.readFromFile(new File("units"));
+
+		unitListPanel.setUnits(units);
+
+		settingsPanel.setNbrOfPlayers(unitListPanel.getNbrOfPlayers());
+	}
+
+	private void onGenerate()
+	{
+		TeamsBuilder builder = new TeamsBuilder(
+				age -> age < 15 && 50 < age,
+				Arrays.asList(
+					"Team 1",
+					"Team 2",
+					"Team 3",
+					"Team 4",
+					"Team 5",
+					"Team 6"));
+
+		builder.setSplitNonLockedGroups(true);
+
+		List<Team> teams = builder.createTeams(
+			unitListPanel.getUnits(),
+			settingsPanel.getNbrOfTeams());
+
+		for (Team team : teams)
+		{
+			System.out.println(team);
+		}
+	}
 
 	public static void main(String[] args)
 	{

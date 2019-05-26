@@ -18,6 +18,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
 import gui.components.LffButton;
+import gui.components.LffLabel;
 import gui.components.LffList;
 import gui.components.LffPanel;
 import model.Unit;
@@ -27,13 +28,17 @@ public class UnitListPanel
 {
 	private static final long serialVersionUID = -2290820403313112798L;
 
+	private final LffLabel titleLabel;
+
 	private final DefaultListModel<Unit> unitListModel;
 	private final LffList<Unit> unitList;
 
 	private final LffButton removeButton;
 
-	public UnitListPanel()
+	public UnitListPanel(String titel)
 	{
+		titleLabel = new LffLabel(titel, Font.BOLD, 40);
+
 		unitListModel = new DefaultListModel<>();
 
 		unitList = new LffList<>(unitListModel);
@@ -88,6 +93,7 @@ public class UnitListPanel
 
 		setLayout(new BorderLayout());
 
+		add(titleLabel, BorderLayout.NORTH);
 		add(scrollPane, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
 	}
@@ -117,9 +123,19 @@ public class UnitListPanel
 		unitListModel.removeElement(unit);
 	}
 
+	public int getNbrOfPlayers()
+	{
+		return getUnits().stream().mapToInt(u -> u.numberOfPlayers()).sum();
+	}
+
 	public void addRemoveButtonActionListener(ActionListener listener)
 	{
 		removeButton.addActionListener(listener);
+	}
+
+	public void setRemoveButtonVisible(boolean isEnabled)
+	{
+		removeButton.setVisible(isEnabled);
 	}
 
 	private void onSelectionChanged()

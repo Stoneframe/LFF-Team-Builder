@@ -11,11 +11,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.JLabel;
-
 import gui.Util;
 import gui.components.LffButton;
 import gui.components.LffCheckBox;
+import gui.components.LffLabel;
 import gui.components.LffPanel;
 import model.Group;
 import model.Player;
@@ -26,7 +25,7 @@ public class FormPanel
 {
 	private static final long serialVersionUID = -8893769532503054139L;
 
-	private final JLabel titleLabel;
+	private final LffLabel titleLabel;
 
 	private final List<PlayerPanel> playerPanels;
 
@@ -41,9 +40,7 @@ public class FormPanel
 
 	public FormPanel()
 	{
-		titleLabel = new JLabel("Spelare");
-		titleLabel.setFont(new Font("Dialog", Font.BOLD, 40));
-		titleLabel.setForeground(Util.FOREGROUND);
+		titleLabel = new LffLabel("Registrering", Font.BOLD, 40);
 
 		playerPanels = Arrays.asList(
 			new PlayerPanel(),
