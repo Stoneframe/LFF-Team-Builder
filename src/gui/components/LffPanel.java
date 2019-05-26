@@ -1,10 +1,10 @@
-package components;
+package gui.components;
 
 import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
-import registrator.Util;
+import gui.Util;
 
 public class LffPanel
 	extends JPanel

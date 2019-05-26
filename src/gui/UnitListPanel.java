@@ -1,4 +1,4 @@
-package registrator;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -17,9 +17,9 @@ import javax.swing.JTextArea;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
-import components.LffButton;
-import components.LffList;
-import components.LffPanel;
+import gui.components.LffButton;
+import gui.components.LffList;
+import gui.components.LffPanel;
 import model.Unit;
 
 public class UnitListPanel

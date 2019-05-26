@@ -1,13 +1,13 @@
-package registrator;
+package gui;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import components.LffIcon;
-import components.LffLabel;
-import components.LffPanel;
+import gui.components.LffIcon;
+import gui.components.LffLabel;
+import gui.components.LffPanel;
 
 public class LundsFFPanel
 	extends LffPanel

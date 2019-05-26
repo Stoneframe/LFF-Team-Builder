@@ -1,10 +1,10 @@
-package components;
+package gui.components;
 
 import java.awt.Font;
 
 import javax.swing.JCheckBox;
 
-import registrator.Util;
+import gui.Util;
 
 public class LffCheckBox
 	extends JCheckBox

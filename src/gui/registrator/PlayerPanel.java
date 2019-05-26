@@ -1,4 +1,4 @@
-package registrator;
+package gui.registrator;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 
 import org.junit.platform.commons.util.StringUtils;
 
-import components.LffLabel;
-import components.LffPanel;
-import components.LffTextField;
+import gui.components.LffLabel;
+import gui.components.LffPanel;
+import gui.components.LffTextField;
 import model.Player;
 
 public class PlayerPanel

@@ -1,4 +1,4 @@
-package registrator;
+package gui.registrator;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,9 +13,10 @@ import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 
-import components.LffButton;
-import components.LffCheckBox;
-import components.LffPanel;
+import gui.Util;
+import gui.components.LffButton;
+import gui.components.LffCheckBox;
+import gui.components.LffPanel;
 import model.Group;
 import model.Player;
 import model.Unit;

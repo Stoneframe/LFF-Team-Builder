@@ -1,4 +1,4 @@
-package registrator;
+package gui.registrator;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -11,7 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import components.LffPanel;
+import gui.LundsFFPanel;
+import gui.UnitListPanel;
+import gui.components.LffPanel;
 import io.FileHandler;
 import model.Unit;
 

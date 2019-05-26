@@ -1,11 +1,11 @@
-package components;
+package gui.components;
 
 import java.awt.Font;
 
 import javax.swing.JList;
 import javax.swing.ListModel;
 
-import registrator.Util;
+import gui.Util;
 
 public class LffList<T>
 	extends JList<T>

@@ -1,10 +1,10 @@
-package components;
+package gui.components;
 
 import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import registrator.Util;
+import gui.Util;
 
 public class LffLabel
 	extends JLabel

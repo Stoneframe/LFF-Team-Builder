@@ -1,10 +1,10 @@
-package components;
+package gui.components;
 
 import java.awt.Font;
 
 import javax.swing.JButton;
 
-import registrator.Util;
+import gui.Util;
 
 public class LffButton
 	extends JButton
