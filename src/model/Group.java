@@ -85,7 +85,7 @@ public class Group
 	public String toString()
 	{
 		return String.join(
-			", ",
+			System.lineSeparator(),
 			players.stream().map(p -> p.toString()).collect(Collectors.toList()));
 	}
 

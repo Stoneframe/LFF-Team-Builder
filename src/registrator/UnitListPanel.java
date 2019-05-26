@@ -1,15 +1,20 @@
 package registrator;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
 import model.Unit;
@@ -34,6 +39,42 @@ public class UnitListPanel
 		unitList = new LffList<>(unitListModel);
 		unitList.addListSelectionListener(l -> onSelectionChanged());
 		unitList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		unitList.setCellRenderer(new ListCellRenderer<Unit>()
+		{
+			@Override
+			public Component getListCellRendererComponent(
+					JList<? extends Unit> list,
+					Unit value,
+					int index,
+					boolean isSelected,
+					boolean cellHasFocus)
+			{
+				JTextArea cell = new JTextArea(value.toString());
+
+				cell.setFont(new Font("Dialog", Font.BOLD, 20));
+
+				if (isSelected)
+				{
+					cell.setForeground(Util.BACKGROUND);
+					cell.setBackground(Util.FOREGROUND);
+				}
+				else
+				{
+					cell.setForeground(Util.FOREGROUND);
+
+					if (index % 2 == 1)
+					{
+						cell.setBackground(Util.MILD_BACKGROUND);
+					}
+					else
+					{
+						cell.setBackground(Util.BACKGROUND);
+					}
+				}
+
+				return cell;
+			}
+		});
 
 		removeButton = new LffButton("Ta bort", false);
 
