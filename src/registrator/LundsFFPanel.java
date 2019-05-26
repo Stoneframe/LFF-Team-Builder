@@ -5,9 +5,9 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import registrator.components.LffIcon;
-import registrator.components.LffLabel;
-import registrator.components.LffPanel;
+import components.LffIcon;
+import components.LffLabel;
+import components.LffPanel;
 
 public class LundsFFPanel
 	extends LffPanel

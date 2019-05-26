@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 
+import components.LffButton;
+import components.LffCheckBox;
+import components.LffPanel;
 import model.Group;
 import model.Player;
 import model.Unit;
-import registrator.components.LffButton;
-import registrator.components.LffCheckBox;
-import registrator.components.LffPanel;
 
 public class FormPanel
 	extends LffPanel

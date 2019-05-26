@@ -11,9 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import components.LffPanel;
 import io.FileHandler;
 import model.Unit;
-import registrator.components.LffPanel;
 
 public class RegistratorFrame
 	extends JFrame

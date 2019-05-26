@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 
 import org.junit.platform.commons.util.StringUtils;
 
+import components.LffLabel;
+import components.LffPanel;
+import components.LffTextField;
 import model.Player;
-import registrator.components.LffLabel;
-import registrator.components.LffPanel;
-import registrator.components.LffTextField;
 
 public class PlayerPanel
 	extends LffPanel

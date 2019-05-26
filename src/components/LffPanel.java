@@ -1,4 +1,4 @@
-package registrator.components;
+package components;
 
 import java.awt.LayoutManager;
 

@@ -17,10 +17,10 @@ import javax.swing.JTextArea;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
+import components.LffButton;
+import components.LffList;
+import components.LffPanel;
 import model.Unit;
-import registrator.components.LffButton;
-import registrator.components.LffList;
-import registrator.components.LffPanel;
 
 public class UnitListPanel
 	extends LffPanel
