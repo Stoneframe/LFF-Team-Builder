@@ -1,18 +1,3 @@
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 1_1","age":23}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 2_1","age":27}}],"isLocked":false}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 3_0","age":11}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 4_0","age":6}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 5_0","age":6}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 6_0","age":17}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 7_0","age":15}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 8_0","age":21}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 9_0","age":5}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 10_0","age":19}}
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 11_2","age":11}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 12_2","age":22}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 13_2","age":29}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 14_2","age":21}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 15_2","age":20}}],"isLocked":false}}
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 16_3","age":16}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 17_3","age":11}}],"isLocked":false}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 18_0","age":22}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 19_0","age":28}}
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 20_4","age":16}}],"isLocked":false}}
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 21_5","age":16}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 22_5","age":6}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 23_5","age":19}}],"isLocked":false}}
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 24_6","age":22}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 25_6","age":8}}],"isLocked":false}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 26_0","age":22}}
-{"CLASSNAME":"model.Group","INSTANCE":{"units":[{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 27_7","age":6}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 28_7","age":14}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 29_7","age":16}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 30_7","age":16}},{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 31_7","age":7}}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Paul","age":29}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Christina","age":31}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Olivia Bibby","age":13},{"name":"Julia Bibby","age":11}],"isLocked":false}}

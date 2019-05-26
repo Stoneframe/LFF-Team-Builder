@@ -5,23 +5,30 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Group
 	implements
 		Unit,
-		Iterable<Unit>
+		Iterable<Player>
 {
-	private List<Unit> units = new LinkedList<>();
+	private List<Player> players = new LinkedList<>();
 
 	private boolean isLocked;
 
-	public Group(boolean isLocked, Unit... units)
+	public Group(boolean isLocked, List<Player> players)
 	{
 		this.isLocked = isLocked;
-		this.units.addAll(Arrays.asList(units));
+		this.players.addAll(players);
 	}
 
-	public Group(Unit... units)
+	public Group(boolean isLocked, Player... units)
+	{
+		this.isLocked = isLocked;
+		this.players.addAll(Arrays.asList(units));
+	}
+
+	public Group(Player... units)
 	{
 		this(false, units);
 	}
@@ -36,22 +43,22 @@ public class Group
 		this.isLocked = isLocked;
 	}
 
-	public void add(Unit unit)
+	public void add(Player player)
 	{
-		units.add(unit);
+		players.add(player);
 	}
 
 	public void split(Group group1, Group group2)
 	{
-		for (int i = 0; i < units.size(); i++)
+		for (int i = 0; i < players.size(); i++)
 		{
 			if (i % 2 == 0)
 			{
-				group1.add(units.get(i));
+				group1.add(players.get(i));
 			}
 			else
 			{
-				group2.add(units.get(i));
+				group2.add(players.get(i));
 			}
 		}
 	}
@@ -59,29 +66,36 @@ public class Group
 	@Override
 	public int numberOfPlayers()
 	{
-		return units.stream().mapToInt(p -> p.numberOfPlayers()).sum();
+		return players.stream().mapToInt(p -> p.numberOfPlayers()).sum();
 	}
 
 	@Override
 	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
-		return units.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
+		return players.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
 	}
 
 	@Override
-	public Iterator<Unit> iterator()
+	public Iterator<Player> iterator()
 	{
-		return units.iterator();
+		return players.iterator();
 	}
 
 	@Override
 	public String toString()
 	{
+		return String.join(
+			", ",
+			players.stream().map(p -> p.toString()).collect(Collectors.toList()));
+	}
+
+	public String toDetailedString()
+	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(isLocked ? "(locked)" : "(not locked)");
 
-		for (Unit unit : units)
+		for (Unit unit : players)
 		{
 			builder.append(System.lineSeparator());
 			builder.append(unit);
