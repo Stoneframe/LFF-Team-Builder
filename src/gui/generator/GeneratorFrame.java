@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -85,13 +84,7 @@ public class GeneratorFrame
 	{
 		TeamsBuilder builder = new TeamsBuilder(
 				age -> age < 15 && 50 < age,
-				Arrays.asList(
-					"Team 1",
-					"Team 2",
-					"Team 3",
-					"Team 4",
-					"Team 5",
-					"Team 6"));
+				settingsPanel.getTeamNames());
 
 		builder.setSplitNonLockedGroups(true);
 
@@ -100,11 +93,6 @@ public class GeneratorFrame
 			settingsPanel.getNbrOfTeams());
 
 		teamListPanel.showTeams(teams);
-
-		for (Team team : teams)
-		{
-			System.out.println(team);
-		}
 	}
 
 	public static void main(String[] args)

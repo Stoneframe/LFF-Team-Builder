@@ -7,22 +7,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import gui.Util;
 
-public class LffTextField
-	extends JTextField
+public class LffTextArea
+	extends JTextArea
 {
-	private static final long serialVersionUID = -8203369786318762329L;
+	private static final long serialVersionUID = 3406709267446974710L;
 
 	private List<ActionListener> textListeners = new LinkedList<>();
 
-	public LffTextField(int columns)
+	public LffTextArea(int rows, int columns)
 	{
-		super(columns);
+		super(rows, columns);
 
 		setForeground(Util.FOREGROUND);
 		setBackground(Util.BACKGROUND);

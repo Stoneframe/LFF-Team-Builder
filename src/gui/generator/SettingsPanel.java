@@ -6,14 +6,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.swing.BorderFactory;
-import javax.swing.JTextArea;
-
-import gui.Util;
 import gui.components.LffButton;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
+import gui.components.LffTextArea;
 import gui.components.LffTextField;
 
 public class SettingsPanel
@@ -30,7 +30,7 @@ public class SettingsPanel
 	private final LffTextField nbrOfTeamsTextField;
 
 	private final LffLabel teamNamesLabel;
-	private final JTextArea teamNamesTextArea;
+	private final LffTextArea teamNamesTextArea;
 
 	private final LffButton generateButton;
 
@@ -44,13 +44,14 @@ public class SettingsPanel
 
 		nbrOfTeamsLabel = new LffLabel("Antal lag:");
 		nbrOfTeamsTextField = new LffTextField(5);
+		nbrOfTeamsTextField.addTextListener(l -> onTextChange());
 
 		teamNamesLabel = new LffLabel("Lag namn:");
-
-		teamNamesTextArea = new JTextArea(15, 25);
-		teamNamesTextArea.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 1));
+		teamNamesTextArea = new LffTextArea(15, 15);
+		teamNamesTextArea.addTextListener(l -> onTextChange());
 
 		generateButton = new LffButton("Generera");
+		generateButton.setEnabled(false);
 
 		setLayout(new BorderLayout());
 
@@ -87,13 +88,12 @@ public class SettingsPanel
 		gbc.gridx = 0;
 		center.add(teamNamesLabel, gbc);
 
-		gbc.insets = new Insets(0, 10, 10, 10);
+		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.gridwidth = 2;
 		gbc.gridy = 3;
 		gbc.gridx = 0;
 		center.add(teamNamesTextArea, gbc);
 
-		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridy = 5;
@@ -122,7 +122,14 @@ public class SettingsPanel
 
 	public int getNbrOfTeams()
 	{
-		return Integer.parseInt(nbrOfTeamsTextField.getText());
+		try
+		{
+			return Integer.parseInt(nbrOfTeamsTextField.getText());
+		}
+		catch (NumberFormatException | NullPointerException e)
+		{
+			return 0;
+		}
 	}
 
 	public void setNbrOfTeams(int nbrOfTeams)
@@ -130,8 +137,35 @@ public class SettingsPanel
 		nbrOfTeamsTextField.setText(Integer.toString(nbrOfTeams));
 	}
 
+	public List<String> getTeamNames()
+	{
+		String[] lines = teamNamesTextArea.getText().split("\n");
+
+		return Arrays.stream(lines)
+			.filter(l -> l.length() > 0)
+			.collect(Collectors.toList());
+	}
+
+	public int getNbrOfTeamNames()
+	{
+		return getTeamNames().size();
+	}
+
 	public void addGenerateButtonActionListener(ActionListener listener)
 	{
 		generateButton.addActionListener(listener);
+	}
+
+	private boolean isFormValid()
+	{
+		int nbrOfTeams = getNbrOfTeams();
+		int nbrOfTeamNames = getNbrOfTeamNames();
+
+		return nbrOfTeams > 1 && nbrOfTeamNames >= nbrOfTeams;
+	}
+
+	private void onTextChange()
+	{
+		generateButton.setEnabled(isFormValid());
 	}
 }

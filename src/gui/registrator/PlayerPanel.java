@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import org.junit.platform.commons.util.StringUtils;
 
+import gui.Util;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
 import gui.components.LffTextField;
@@ -64,7 +65,7 @@ public class PlayerPanel
 	{
 		return StringUtils.isNotBlank(nameTextField.getText())
 				&& StringUtils.isNotBlank(ageTextField.getText())
-				&& isNumeric(ageTextField.getText());
+				&& Util.isNumeric(ageTextField.getText());
 	}
 
 	public void clear()
@@ -77,19 +78,5 @@ public class PlayerPanel
 	{
 		nameTextField.addTextListener(listener);
 		ageTextField.addTextListener(listener);
-	}
-
-	private static boolean isNumeric(String strNum)
-	{
-		try
-		{
-			Double.parseDouble(strNum);
-		}
-		catch (NumberFormatException | NullPointerException nfe)
-		{
-			return false;
-		}
-
-		return true;
 	}
 }
