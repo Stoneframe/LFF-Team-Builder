@@ -1,6 +1,7 @@
 package gui.generator;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,17 +29,22 @@ public class GeneratorFrame
 	private final LundsFFPanel lundsFFPanel;
 	private final UnitListPanel unitListPanel;
 	private final SettingsPanel settingsPanel;
+	private final TeamListPanel teamListPanel;
 
 	public GeneratorFrame()
 	{
 		lundsFFPanel = new LundsFFPanel();
 
 		unitListPanel = new UnitListPanel("Spelare");
-		unitListPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		unitListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 		unitListPanel.setRemoveButtonVisible(false);
 
 		settingsPanel = new SettingsPanel();
 		settingsPanel.addGenerateButtonActionListener(l -> onGenerate());
+
+		teamListPanel = new TeamListPanel();
+		teamListPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		teamListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 
 		LffPanel centerPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -51,6 +57,7 @@ public class GeneratorFrame
 		add(lundsFFPanel, BorderLayout.NORTH);
 		add(unitListPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
+		add(teamListPanel, BorderLayout.EAST);
 
 		pack();
 		setLocationRelativeTo(null);
@@ -92,6 +99,8 @@ public class GeneratorFrame
 		List<Team> teams = builder.createTeams(
 			unitListPanel.getUnits(),
 			settingsPanel.getNbrOfTeams());
+
+		teamListPanel.showTeams(teams);
 
 		for (Team team : teams)
 		{

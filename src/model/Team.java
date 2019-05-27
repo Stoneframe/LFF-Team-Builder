@@ -1,12 +1,14 @@
 package model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
 public class Team
 	implements
-		Unit
+		Unit,
+		Iterable<Player>
 {
 	private List<Player> players = new LinkedList<>();
 
@@ -52,6 +54,12 @@ public class Team
 	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
 		return players.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
+	}
+
+	@Override
+	public Iterator<Player> iterator()
+	{
+		return players.iterator();
 	}
 
 	@Override

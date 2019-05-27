@@ -1,5 +1,6 @@
 package gui.generator;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -51,53 +52,53 @@ public class SettingsPanel
 
 		generateButton = new LffButton("Generera");
 
-		setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
+
+		LffPanel center = new LffPanel(new GridBagLayout());
 
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 
-		gbc.gridwidth = 2;
+		gbc.gridwidth = 1;
 		gbc.gridy = 0;
 		gbc.gridx = 0;
-		add(titleLabel, gbc);
+		center.add(nbrOfPlayersLabel, gbc);
+
+		gbc.gridwidth = 1;
+		gbc.gridy = 0;
+		gbc.gridx = 1;
+		center.add(nbrOfPlayersTextField, gbc);
 
 		gbc.gridwidth = 1;
 		gbc.gridy = 1;
 		gbc.gridx = 0;
-		add(nbrOfPlayersLabel, gbc);
+		center.add(nbrOfTeamsLabel, gbc);
 
 		gbc.gridwidth = 1;
 		gbc.gridy = 1;
 		gbc.gridx = 1;
-		add(nbrOfPlayersTextField, gbc);
+		center.add(nbrOfTeamsTextField, gbc);
 
 		gbc.gridwidth = 1;
 		gbc.gridy = 2;
 		gbc.gridx = 0;
-		add(nbrOfTeamsLabel, gbc);
-
-		gbc.gridwidth = 1;
-		gbc.gridy = 2;
-		gbc.gridx = 1;
-		add(nbrOfTeamsTextField, gbc);
-
-		gbc.gridwidth = 1;
-		gbc.gridy = 3;
-		gbc.gridx = 0;
-		add(teamNamesLabel, gbc);
+		center.add(teamNamesLabel, gbc);
 
 		gbc.gridwidth = 2;
-		gbc.gridy = 4;
+		gbc.gridy = 3;
 		gbc.gridx = 0;
-		add(teamNamesTextArea, gbc);
+		center.add(teamNamesTextArea, gbc);
 
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
-		gbc.gridy = 6;
+		gbc.gridy = 5;
 		gbc.gridx = 1;
-		add(generateButton, gbc);
+		center.add(generateButton, gbc);
+
+		add(titleLabel, BorderLayout.NORTH);
+		add(center, BorderLayout.CENTER);
 	}
 
 	public int getNbrOfPlayers()
