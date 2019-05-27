@@ -16,6 +16,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import model.Team;
 import model.Unit;
 
 public class FileHandler
@@ -77,6 +78,22 @@ public class FileHandler
 		}
 
 		return units;
+	}
+
+	public static void printTeams(File file, List<Team> teams)
+	{
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
+		{
+			for (Team team : teams)
+			{
+				writer.write(team.toString());
+				writer.write(System.lineSeparator());
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private static String getUniqueId()
