@@ -1,3 +1,0 @@
-{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Richard Bibby","age":60},{"name":"Olivia Bibby","age":13},{"name":"Julia Bibby","age":11}],"isLocked":false}}
-{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Paul Bibby","age":29},{"name":"Christina Schmidt","age":31}],"isLocked":false}}
-{"CLASSNAME":"model.Player","INSTANCE":{"name":"Samuel Nyström","age":29}}

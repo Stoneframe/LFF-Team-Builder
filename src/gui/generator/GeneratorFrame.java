@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -73,9 +72,9 @@ public class GeneratorFrame
 
 	private void windowOpened()
 	{
-		List<Unit> units = FileHandler.readFromFile(new File("units"));
+		List<Unit> allUnits = FileHandler.readFromDirectory();
 
-		unitListPanel.setUnits(units);
+		unitListPanel.setUnits(allUnits);
 
 		settingsPanel.setNbrOfPlayers(unitListPanel.getNbrOfPlayers());
 	}

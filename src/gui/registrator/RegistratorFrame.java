@@ -70,7 +70,7 @@ public class RegistratorFrame
 
 	private void windowOpened()
 	{
-		List<Unit> units = FileHandler.readFromFile(new File("units"));
+		List<Unit> units = FileHandler.readFromFile(new File(FileHandler.getFileName()));
 
 		unitListPanel.setUnits(units);
 	}
@@ -79,7 +79,7 @@ public class RegistratorFrame
 	{
 		List<Unit> units = unitListPanel.getUnits();
 
-		FileHandler.writeToFile(new File("units"), units);
+		FileHandler.writeToFile(new File(FileHandler.getFileName()), units);
 	}
 
 	private void addUnit()
