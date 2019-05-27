@@ -2,7 +2,6 @@ package gui.generator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -36,7 +35,7 @@ public class GeneratorFrame
 		lundsFFPanel = new LundsFFPanel();
 
 		unitListPanel = new UnitListPanel("Spelare");
-		unitListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+		unitListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
 		unitListPanel.setRemoveButtonVisible(false);
 
 		settingsPanel = new SettingsPanel();
@@ -46,9 +45,10 @@ public class GeneratorFrame
 		teamListPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		teamListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 
-		LffPanel centerPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
+		LffPanel centerPanel = new LffPanel(new BorderLayout());
 
-		centerPanel.add(settingsPanel);
+		centerPanel.add(settingsPanel, BorderLayout.WEST);
+		centerPanel.add(teamListPanel, BorderLayout.CENTER);
 
 		setTitle("Generering");
 
@@ -57,7 +57,6 @@ public class GeneratorFrame
 		add(lundsFFPanel, BorderLayout.NORTH);
 		add(unitListPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
-		add(teamListPanel, BorderLayout.EAST);
 
 		pack();
 		setLocationRelativeTo(null);

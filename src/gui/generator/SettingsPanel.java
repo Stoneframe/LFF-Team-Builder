@@ -81,21 +81,30 @@ public class SettingsPanel
 		gbc.gridx = 1;
 		center.add(nbrOfTeamsTextField, gbc);
 
+		gbc.insets = new Insets(10, 10, 0, 10);
 		gbc.gridwidth = 1;
 		gbc.gridy = 2;
 		gbc.gridx = 0;
 		center.add(teamNamesLabel, gbc);
 
+		gbc.insets = new Insets(0, 10, 10, 10);
 		gbc.gridwidth = 2;
 		gbc.gridy = 3;
 		gbc.gridx = 0;
 		center.add(teamNamesTextArea, gbc);
 
+		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridy = 5;
 		gbc.gridx = 1;
 		center.add(generateButton, gbc);
+
+		gbc.gridwidth = 2;
+		gbc.weighty = 1.0;
+		gbc.gridy = 6;
+		gbc.gridx = 0;
+		center.add(new LffPanel(), gbc);
 
 		add(titleLabel, BorderLayout.NORTH);
 		add(center, BorderLayout.CENTER);
