@@ -1,5 +1,6 @@
 package gui.generator;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.LinkedList;
@@ -30,13 +31,18 @@ public class TeamPanel
 
 		for (Player player : team)
 		{
-			playerNameLabels.add(new LffLabel(player.getName(), Font.PLAIN, 20));
+			playerNameLabels.add(
+				new LffLabel(
+						player.getName() + " (" + player.getAge() + ")",
+						Font.PLAIN,
+						20));
 		}
 
 		setBorder(
 			BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Util.FOREGROUND),
 				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		setPreferredSize(new Dimension(200, 35 + team.numberOfPlayers() * 30));
 
 		setLayout(new GridLayout(1 + team.numberOfPlayers(), 1));
 

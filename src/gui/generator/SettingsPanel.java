@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
 import gui.components.LffButton;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
@@ -92,7 +95,12 @@ public class SettingsPanel
 		gbc.gridwidth = 2;
 		gbc.gridy = 3;
 		gbc.gridx = 0;
-		center.add(teamNamesTextArea, gbc);
+		center.add(
+			new JScrollPane(
+					teamNamesTextArea,
+					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER),
+			gbc);
 
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
