@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.Group;
+import model.Group.GroupSplit;
 import model.Team;
 import model.Unit;
 
@@ -59,13 +60,10 @@ public class GroupSplitterLayer
 			{
 				Group group = (Group)unit;
 
-				Group group1 = new Group();
-				Group group2 = new Group();
+				GroupSplit groupSplit = group.split();
 
-				group.split(group1, group2);
-
-				modifiedUnits.add(group1);
-				modifiedUnits.add(group2);
+				modifiedUnits.add(groupSplit.getUnit1());
+				modifiedUnits.add(groupSplit.getUnit2());
 
 				groupIsSplit = true;
 			}

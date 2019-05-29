@@ -28,9 +28,14 @@ public class Group
 		this.players.addAll(Arrays.asList(units));
 	}
 
-	public Group(Player... units)
+	public Group(List<Player> players)
 	{
-		this(false, units);
+		this(false, players);
+	}
+
+	public Group(Player... players)
+	{
+		this(false, players);
 	}
 
 	public boolean isLocked()
@@ -48,19 +53,34 @@ public class Group
 		players.add(player);
 	}
 
-	public void split(Group group1, Group group2)
+	public GroupSplit split()
 	{
+		List<Player> players1 = new LinkedList<>();
+		List<Player> players2 = new LinkedList<>();
+
 		for (int i = 0; i < players.size(); i++)
 		{
 			if (i % 2 == 0)
 			{
-				group1.add(players.get(i));
+				players1.add(players.get(i));
 			}
 			else
 			{
-				group2.add(players.get(i));
+				players2.add(players.get(i));
 			}
 		}
+
+		Function<List<Player>, Unit> converter = (players) ->
+			{
+				return players.size() == 1
+						? players.get(0)
+						: new Group(players);
+			};
+
+		Unit unit1 = converter.apply(players1);
+		Unit unit2 = converter.apply(players2);
+
+		return new GroupSplit(unit1, unit2);
 	}
 
 	@Override
@@ -102,5 +122,27 @@ public class Group
 		}
 
 		return builder.toString();
+	}
+
+	public class GroupSplit
+	{
+		private final Unit unit1;
+		private final Unit unit2;
+
+		public GroupSplit(Unit unit1, Unit unit2)
+		{
+			this.unit1 = unit1;
+			this.unit2 = unit2;
+		}
+
+		public Unit getUnit1()
+		{
+			return unit1;
+		}
+
+		public Unit getUnit2()
+		{
+			return unit2;
+		}
 	}
 }
