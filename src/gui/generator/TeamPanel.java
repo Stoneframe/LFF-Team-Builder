@@ -1,7 +1,6 @@
 package gui.generator;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,7 +11,6 @@ import java.util.function.Function;
 import javax.swing.BorderFactory;
 
 import gui.Util;
-import gui.components.LffLabel;
 import gui.components.LffPanel;
 import model.Group;
 import model.Player;
@@ -24,16 +22,18 @@ public class TeamPanel
 {
 	private static final long serialVersionUID = 7793336757251311168L;
 
-	private final LffLabel teamNameLabel;
+	private final TeamNamePanel teamNameLabel;
 
 	private final List<LffPanel> unitPanels;
 
 	public TeamPanel(Team team, Function<Integer, Boolean> scoringRule, int height)
 	{
-		teamNameLabel = new LffLabel(
-				team.getName() + " (" + team.numberOfScoreablePlayers(scoringRule) + ")",
-				Font.BOLD,
-				20);
+		teamNameLabel = new TeamNamePanel(team, scoringRule);
+		// new LffLabel(
+		// team.getName() + " (" + team.numberOfScoreablePlayers(scoringRule) +
+		// ")",
+		// Font.BOLD,
+		// 20);
 
 		unitPanels = new LinkedList<>();
 
