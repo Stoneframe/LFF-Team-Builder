@@ -82,17 +82,13 @@ public class GeneratorFrame
 
 	private void onGenerate()
 	{
-		TeamsBuilder builder = new TeamsBuilder(
-				age -> age < 15 || 50 < age,
-				settingsPanel.getTeamNames());
-
-		builder.setSplitNonLockedGroups(true);
+		TeamsBuilder builder = settingsPanel.getTeamsBuilder();
 
 		List<Team> teams = builder.createTeams(
 			unitListPanel.getUnits(),
 			settingsPanel.getNbrOfTeams());
 
-		teamListPanel.showTeams(teams);
+		teamListPanel.showTeams(teams, builder.getScoringRule());
 
 		FileHandler.printTeams(new File("Lag\\lag.txt"), teams);
 	}

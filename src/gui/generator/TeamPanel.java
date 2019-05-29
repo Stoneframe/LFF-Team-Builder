@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 
@@ -23,9 +24,12 @@ public class TeamPanel
 
 	private final List<LffLabel> playerNameLabels;
 
-	public TeamPanel(Team team)
+	public TeamPanel(Team team, Function<Integer, Boolean> scoringRule, int height)
 	{
-		teamNameLabel = new LffLabel(team.getName(), Font.BOLD, 20);
+		teamNameLabel = new LffLabel(
+				team.getName() + " (" + team.numberOfScoreablePlayers(scoringRule) + ")",
+				Font.BOLD,
+				20);
 
 		playerNameLabels = new LinkedList<>();
 
@@ -42,7 +46,7 @@ public class TeamPanel
 			BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Util.FOREGROUND),
 				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-		setPreferredSize(new Dimension(200, 35 + team.numberOfPlayers() * 30));
+		setPreferredSize(new Dimension(200, height));
 
 		setLayout(new GridLayout(1 + team.numberOfPlayers(), 1));
 

@@ -6,8 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
 
 import gui.Util;
 import gui.components.LffLabel;
@@ -23,6 +25,8 @@ public class TeamListPanel
 
 	private final LffPanel teamsPanel;
 
+	private final JScrollPane scrollPane;
+
 	public TeamListPanel()
 	{
 		titleLabel = new LffLabel("Lag", Font.BOLD, 40);
@@ -30,6 +34,8 @@ public class TeamListPanel
 		teamsPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
 		teamsPanel.setPreferredSize(new Dimension(500, 0));
 		teamsPanel.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
+
+		scrollPane = new JScrollPane(teamsPanel);
 
 		setLayout(new BorderLayout());
 
@@ -45,18 +51,21 @@ public class TeamListPanel
 		gbc.gridy = 1;
 		gbc.gridx = 0;
 		gbc.weighty = 100;
-		add(teamsPanel, BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void showTeams(List<Team> teams)
+	public void showTeams(List<Team> teams, Function<Integer, Boolean> scoringRule)
 	{
+		int height = 35 + 30 * teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
+
 		for (Team team : teams)
 		{
-			TeamPanel teamPanel = new TeamPanel(team);
+			TeamPanel teamPanel = new TeamPanel(team, scoringRule, height);
 
 			teamsPanel.add(teamPanel);
 		}
 
 		teamsPanel.revalidate();
+		scrollPane.revalidate();
 	}
 }

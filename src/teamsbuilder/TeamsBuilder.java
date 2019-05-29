@@ -25,6 +25,11 @@ public class TeamsBuilder
 		this.teamNames = teamNames;
 	}
 
+	public Function<Integer, Boolean> getScoringRule()
+	{
+		return scoringRule;
+	}
+
 	public boolean isSplitNonLockedGroups()
 	{
 		return splitNonLockedGroups;

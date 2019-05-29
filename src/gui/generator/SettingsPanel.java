@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import gui.components.LffButton;
@@ -18,6 +19,7 @@ import gui.components.LffLabel;
 import gui.components.LffPanel;
 import gui.components.LffTextArea;
 import gui.components.LffTextField;
+import teamsbuilder.TeamsBuilder;
 
 public class SettingsPanel
 	extends LffPanel
@@ -31,6 +33,12 @@ public class SettingsPanel
 
 	private final LffLabel nbrOfTeamsLabel;
 	private final LffTextField nbrOfTeamsTextField;
+
+	private final LffLabel playersPerTeamLabel;
+	private final LffLabel minPlayersPerTeamLabel;
+	private final LffTextField minPlayersPerTeamTextField;
+	private final LffLabel maxPlayersPerTeamLabel;
+	private final LffTextField maxPlayersPerTeamTextField;
 
 	private final LffLabel teamNamesLabel;
 	private final LffTextArea teamNamesTextArea;
@@ -49,8 +57,16 @@ public class SettingsPanel
 		nbrOfTeamsTextField = new LffTextField(5);
 		nbrOfTeamsTextField.addTextListener(l -> onTextChange());
 
+		playersPerTeamLabel = new LffLabel("Spelare per lag:");
+
+		minPlayersPerTeamLabel = new LffLabel("    Min:");
+		minPlayersPerTeamTextField = new LffTextField(5);
+
+		maxPlayersPerTeamLabel = new LffLabel("    Max:");
+		maxPlayersPerTeamTextField = new LffTextField(5);
+
 		teamNamesLabel = new LffLabel("Lagnamn:");
-		teamNamesTextArea = new LffTextArea(15, 15);
+		teamNamesTextArea = new LffTextArea(10, 15);
 		teamNamesTextArea.addTextListener(l -> onTextChange());
 
 		generateButton = new LffButton("Generera");
@@ -86,14 +102,40 @@ public class SettingsPanel
 		center.add(nbrOfTeamsTextField, gbc);
 
 		gbc.insets = new Insets(10, 10, 0, 10);
-		gbc.gridwidth = 1;
+		gbc.gridwidth = 2;
 		gbc.gridy = 2;
+		gbc.gridx = 0;
+		center.add(playersPerTeamLabel, gbc);
+
+		gbc.gridwidth = 1;
+		gbc.gridy = 3;
+		gbc.gridx = 0;
+		center.add(minPlayersPerTeamLabel, gbc);
+
+		gbc.gridwidth = 1;
+		gbc.gridy = 3;
+		gbc.gridx = 1;
+		center.add(minPlayersPerTeamTextField, gbc);
+
+		gbc.gridwidth = 1;
+		gbc.gridy = 4;
+		gbc.gridx = 0;
+		center.add(maxPlayersPerTeamLabel, gbc);
+
+		gbc.gridwidth = 1;
+		gbc.gridy = 4;
+		gbc.gridx = 1;
+		center.add(maxPlayersPerTeamTextField, gbc);
+
+		gbc.insets = new Insets(20, 10, 0, 10);
+		gbc.gridwidth = 1;
+		gbc.gridy = 5;
 		gbc.gridx = 0;
 		center.add(teamNamesLabel, gbc);
 
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.gridwidth = 2;
-		gbc.gridy = 3;
+		gbc.gridy = 6;
 		gbc.gridx = 0;
 		center.add(
 			new JScrollPane(
@@ -104,13 +146,13 @@ public class SettingsPanel
 
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
-		gbc.gridy = 5;
+		gbc.gridy = 8;
 		gbc.gridx = 1;
 		center.add(generateButton, gbc);
 
 		gbc.gridwidth = 2;
 		gbc.weighty = 1.0;
-		gbc.gridy = 6;
+		gbc.gridy = 9;
 		gbc.gridx = 0;
 		center.add(new LffPanel(), gbc);
 
@@ -120,7 +162,7 @@ public class SettingsPanel
 
 	public int getNbrOfPlayers()
 	{
-		return Integer.parseInt(nbrOfPlayersTextField.getText());
+		return getInteger(nbrOfPlayersTextField);
 	}
 
 	public void setNbrOfPlayers(int nbrOfPlayers)
@@ -130,14 +172,7 @@ public class SettingsPanel
 
 	public int getNbrOfTeams()
 	{
-		try
-		{
-			return Integer.parseInt(nbrOfTeamsTextField.getText());
-		}
-		catch (NumberFormatException | NullPointerException e)
-		{
-			return 0;
-		}
+		return getInteger(nbrOfTeamsTextField);
 	}
 
 	public void setNbrOfTeams(int nbrOfTeams)
@@ -145,18 +180,21 @@ public class SettingsPanel
 		nbrOfTeamsTextField.setText(Integer.toString(nbrOfTeams));
 	}
 
-	public List<String> getTeamNames()
-	{
-		String[] lines = teamNamesTextArea.getText().split("\n");
-
-		return Arrays.stream(lines)
-			.filter(l -> l.length() > 0)
-			.collect(Collectors.toList());
-	}
-
 	public int getNbrOfTeamNames()
 	{
 		return getTeamNames().size();
+	}
+
+	public TeamsBuilder getTeamsBuilder()
+	{
+		TeamsBuilder builder = new TeamsBuilder(age -> age < 15 || 50 < age, getTeamNames());
+
+		builder.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
+		builder.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
+
+		builder.setSplitNonLockedGroups(true);
+
+		return builder;
 	}
 
 	public void addGenerateButtonActionListener(ActionListener listener)
@@ -172,8 +210,29 @@ public class SettingsPanel
 		return nbrOfTeams > 1 && nbrOfTeamNames >= nbrOfTeams;
 	}
 
+	private List<String> getTeamNames()
+	{
+		String[] lines = teamNamesTextArea.getText().split("\n");
+
+		return Arrays.stream(lines)
+			.filter(l -> l.length() > 0)
+			.collect(Collectors.toList());
+	}
+
 	private void onTextChange()
 	{
 		generateButton.setEnabled(isFormValid());
+	}
+
+	private static int getInteger(JTextField textField)
+	{
+		try
+		{
+			return Integer.parseInt(textField.getText());
+		}
+		catch (NumberFormatException | NullPointerException e)
+		{
+			return 0;
+		}
 	}
 }
