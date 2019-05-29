@@ -12,6 +12,7 @@ import model.Unit;
 import teamsbuilder.Algorithm;
 import teamsbuilder.GroupSplitterLayer;
 import teamsbuilder.TeamsValidator;
+import util.UnitsUtil;
 
 public class GroupSplitterLayerTest
 {

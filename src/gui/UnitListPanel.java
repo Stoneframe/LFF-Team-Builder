@@ -5,15 +5,19 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
@@ -22,6 +26,7 @@ import gui.components.LffLabel;
 import gui.components.LffList;
 import gui.components.LffPanel;
 import model.Unit;
+import util.UnitsUtil;
 
 public class UnitListPanel
 	extends LffPanel
@@ -96,6 +101,18 @@ public class UnitListPanel
 		add(titleLabel, BorderLayout.NORTH);
 		add(scrollPane, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
+
+		KeyStroke mock = KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK, false);
+
+		registerKeyboardAction(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				List<Unit> units = UnitsUtil.createRandomUnitList(true);
+
+				units.forEach(u -> addUnit(u));
+			}
+		}, "Mock", mock, JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	public List<Unit> getUnits()
