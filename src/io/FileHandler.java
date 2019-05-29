@@ -27,7 +27,7 @@ public class FileHandler
 
 	public static String getFileName()
 	{
-		return String.format("Spelare\\%s", getUniqueId());
+		return String.format("Spelare\\%s.txt", getUniqueId());
 	}
 
 	public static void writeToFile(File file, List<Unit> units)
