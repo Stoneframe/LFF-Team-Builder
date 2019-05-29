@@ -11,6 +11,11 @@ public class LffLabel
 {
 	private static final long serialVersionUID = 6543797572089446210L;
 
+	public LffLabel()
+	{
+		this("");
+	}
+
 	public LffLabel(String text)
 	{
 		this(text, Font.BOLD, 20);

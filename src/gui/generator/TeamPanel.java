@@ -22,7 +22,7 @@ public class TeamPanel
 
 	private final LffLabel teamNameLabel;
 
-	private final List<LffLabel> playerNameLabels;
+	private final List<PlayerPanel> playerPanels;
 
 	public TeamPanel(Team team, Function<Integer, Boolean> scoringRule, int height)
 	{
@@ -31,15 +31,11 @@ public class TeamPanel
 				Font.BOLD,
 				20);
 
-		playerNameLabels = new LinkedList<>();
+		playerPanels = new LinkedList<>();
 
 		for (Player player : team)
 		{
-			playerNameLabels.add(
-				new LffLabel(
-						player.getName() + " (" + player.getAge() + ")",
-						Font.PLAIN,
-						20));
+			playerPanels.add(new PlayerPanel(player, scoringRule));
 		}
 
 		setBorder(
@@ -52,9 +48,9 @@ public class TeamPanel
 
 		add(teamNameLabel);
 
-		for (LffLabel playerNameLabel : playerNameLabels)
+		for (PlayerPanel playerPanel : playerPanels)
 		{
-			add(playerNameLabel);
+			add(playerPanel);
 		}
 	}
 }

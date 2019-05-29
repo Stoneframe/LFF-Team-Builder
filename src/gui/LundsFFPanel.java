@@ -18,9 +18,7 @@ public class LundsFFPanel
 	{
 		setLayout(new FlowLayout(FlowLayout.LEFT, 50, 20));
 
-		
-		
-		add(new JLabel(new LffIcon()));
+		add(new JLabel(LffIcon.getLffLogo()));
 		add(new LffLabel("Lunds FF", Font.BOLD, 84));
 	}
 }
