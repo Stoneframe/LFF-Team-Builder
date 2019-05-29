@@ -63,6 +63,7 @@ public class TeamsBuilder
 		{
 			algorithm = new GroupSplitterLayer(
 					algorithm,
+					scoringRule,
 					new TeamsValidator(
 							scoringRule,
 							minimumNumberOfPlayers,

@@ -46,7 +46,7 @@ public class SettingsPanel
 		nbrOfTeamsTextField = new LffTextField(5);
 		nbrOfTeamsTextField.addTextListener(l -> onTextChange());
 
-		teamNamesLabel = new LffLabel("Lag namn:");
+		teamNamesLabel = new LffLabel("Lagnamn:");
 		teamNamesTextArea = new LffTextArea(15, 15);
 		teamNamesTextArea.addTextListener(l -> onTextChange());
 

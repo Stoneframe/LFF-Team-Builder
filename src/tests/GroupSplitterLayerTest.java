@@ -24,6 +24,7 @@ public class GroupSplitterLayerTest
 
 		groupSplitterLayer = new GroupSplitterLayer(
 				new Algorithm(scoringRule, Arrays.asList("Team")),
+				scoringRule,
 				new TeamsValidator(scoringRule, 3, 4));
 	}
 

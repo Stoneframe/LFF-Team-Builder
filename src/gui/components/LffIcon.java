@@ -14,7 +14,12 @@ public class LffIcon
 
 	public LffIcon()
 	{
-		super(getScaledImage(new ImageIcon("images/LffLogo.jpg").getImage(), 146, 168));
+		Image image = getScaledImage(
+			new ImageIcon(getClass().getResource("/LffLogo.jpg")).getImage(),
+			146,
+			168);
+		
+		setImage(image);
 	}
 
 	private static Image getScaledImage(Image srcImg, int w, int h)

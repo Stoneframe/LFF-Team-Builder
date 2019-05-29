@@ -3,6 +3,7 @@ package teamsbuilder;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.Group;
@@ -14,12 +15,16 @@ public class GroupSplitterLayer
 		Layer
 {
 	private Layer subLayer;
-
+	private Function<Integer, Boolean> scoringRule;
 	private TeamsValidator teamsValidator;
 
-	public GroupSplitterLayer(Layer subLayer, TeamsValidator teamsValidator)
+	public GroupSplitterLayer(
+			Layer subLayer,
+			Function<Integer, Boolean> scoringRule,
+			TeamsValidator teamsValidator)
 	{
 		this.subLayer = subLayer;
+		this.scoringRule = scoringRule;
 		this.teamsValidator = teamsValidator;
 	}
 
@@ -39,7 +44,7 @@ public class GroupSplitterLayer
 
 	private List<Unit> splitLargestGroup(List<Unit> units)
 	{
-		List<Unit> sortedUnits = sortUnitsByNumberOfPlayersDescending(units);
+		List<Unit> sortedUnits = sortUnitsByNumberOfScoreablePlayersDescending(units);
 
 		boolean groupIsSplit = false;
 
@@ -70,11 +75,23 @@ public class GroupSplitterLayer
 		return groupIsSplit ? modifiedUnits : null;
 	}
 
-	private List<Unit> sortUnitsByNumberOfPlayersDescending(List<Unit> units)
+	// private List<Unit> sortUnitsByNumberOfPlayersDescending(List<Unit> units)
+	// {
+	// return units
+	// .stream()
+	// .sorted(Comparator.comparingInt((Unit u) ->
+	// u.numberOfPlayers()).reversed())
+	// .collect(Collectors.toList());
+	// }
+
+	private List<Unit> sortUnitsByNumberOfScoreablePlayersDescending(List<Unit> units)
 	{
 		return units
 			.stream()
-			.sorted(Comparator.comparingInt((Unit u) -> u.numberOfPlayers()).reversed())
+			.sorted(
+				Comparator
+					.comparingInt((Unit u) -> u.numberOfScoreablePlayers(scoringRule))
+					.reversed())
 			.collect(Collectors.toList());
 	}
 }
