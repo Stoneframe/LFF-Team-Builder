@@ -32,10 +32,11 @@ public class TeamListPanel
 		titleLabel = new LffLabel("Lag", Font.BOLD, 40);
 
 		teamsPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
-		teamsPanel.setPreferredSize(new Dimension(500, 0));
-		teamsPanel.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
 
 		scrollPane = new JScrollPane(teamsPanel);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
+
+		setPreferredSize(new Dimension(500, 0));
 
 		setLayout(new BorderLayout());
 
@@ -66,6 +67,5 @@ public class TeamListPanel
 		}
 
 		teamsPanel.revalidate();
-		scrollPane.revalidate();
 	}
 }
