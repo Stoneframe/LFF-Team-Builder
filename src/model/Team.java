@@ -8,9 +8,9 @@ import java.util.function.Function;
 public class Team
 	implements
 		Unit,
-		Iterable<Player>
+		Iterable<Unit>
 {
-	private List<Player> players = new LinkedList<>();
+	private List<Unit> units = new LinkedList<>();
 
 	private String name;
 
@@ -26,40 +26,30 @@ public class Team
 
 	public void add(Player player)
 	{
-		players.add(player);
+		units.add(player);
 	}
 
 	public void add(Unit unit)
 	{
-		if (unit instanceof Player)
-		{
-			add((Player)unit);
-		}
-		else
-		{
-			for (Unit subUnit : (Group)unit)
-			{
-				add(subUnit);
-			}
-		}
+		units.add(unit);
 	}
 
 	@Override
 	public int numberOfPlayers()
 	{
-		return players.size();
+		return units.stream().mapToInt(p -> p.numberOfPlayers()).sum();
 	}
 
 	@Override
 	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
-		return players.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
+		return units.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
 	}
 
 	@Override
-	public Iterator<Player> iterator()
+	public Iterator<Unit> iterator()
 	{
-		return players.iterator();
+		return units.iterator();
 	}
 
 	@Override
@@ -70,9 +60,9 @@ public class Team
 		builder.append(name + ":");
 		builder.append(System.lineSeparator());
 
-		for (Player player : players)
+		for (Unit unit : units)
 		{
-			builder.append(player);
+			builder.append(unit);
 			builder.append(System.lineSeparator());
 		}
 

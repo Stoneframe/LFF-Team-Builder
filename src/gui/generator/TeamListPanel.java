@@ -57,7 +57,7 @@ public class TeamListPanel
 
 	public void showTeams(List<Team> teams, Function<Integer, Boolean> scoringRule)
 	{
-		int height = 35 + 30 * teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
+		int height = 35 + 50 * teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
 
 		for (Team team : teams)
 		{

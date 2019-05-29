@@ -1,7 +1,6 @@
 package gui.generator;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -41,7 +40,6 @@ public class GeneratorFrame
 		settingsPanel.addGenerateButtonActionListener(l -> onGenerate());
 
 		teamListPanel = new TeamListPanel();
-		teamListPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		teamListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 
 		LffPanel centerPanel = new LffPanel(new BorderLayout());
