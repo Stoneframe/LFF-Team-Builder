@@ -49,7 +49,7 @@ public class UnitsUtil
 	{
 		Random random = new Random();
 
-		int numberOfPlayers = random.nextInt(5) + 1;
+		int numberOfPlayers = random.nextInt(4) + 2;
 
 		Group group = new Group(includeLockedGroups && random.nextInt(4) == 1);
 

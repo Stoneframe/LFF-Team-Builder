@@ -33,13 +33,13 @@ public class GroupPanel
 			playerPanels.add(playerPanel);
 		}
 
-		Border outerBorder = group.isLocked()
+		Border border = group.isLocked()
 				? BorderFactory.createLineBorder(Util.FOREGROUND)
 				: BorderFactory.createDashedBorder(Util.FOREGROUND);
 
-		setBorder(outerBorder);
+		setBorder(border);
 
-		setLayout(new GridLayout(group.numberOfPlayers(), 1, 0, 3));
+		setLayout(new GridLayout(group.numberOfPlayers(), 1, 0, 4));
 
 		for (PlayerPanel playerPanel : playerPanels)
 		{
