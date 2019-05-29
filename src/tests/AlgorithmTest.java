@@ -70,6 +70,31 @@ public class AlgorithmTest
 	}
 
 	@Test
+	public void test3()
+	{
+		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
+
+		List<Unit> units = Arrays.asList(
+			new Player("Player_1_0", 60),
+			new Player("Player_2_0", 11),
+			new Player("Player_3_0", 13),
+			new Group(
+					new Player("Player_4_1", 29),
+					new Player("Player_5_1", 31)),
+			new Player("Player_6_0", 26),
+			new Player("Player_7_0", 29),
+			new Group(
+					new Player("Player_8_2", 40),
+					new Player("Player_9_2", 26)));
+
+		int numberOfTeams = 3;
+
+		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
+
+		UnitsUtil.print(units, teams);
+	}
+
+	@Test
 	public void testNoAssert()
 	{
 		final int playersPerTeam = 5;

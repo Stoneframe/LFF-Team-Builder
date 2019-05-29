@@ -37,11 +37,21 @@ public class TeamsValidator
 
 	private boolean noTeamsHaveTooFewPlayers(List<Team> teams)
 	{
+		if (minimumNumberOfPlayers == 0)
+		{
+			return true;
+		}
+
 		return teams.stream().allMatch(t -> t.numberOfPlayers() >= minimumNumberOfPlayers);
 	}
 
 	private boolean noTeamsHaveTooManyPlayers(List<Team> teams)
 	{
+		if (maximumNumberOfPlayers == 0)
+		{
+			return true;
+		}
+
 		return teams.stream().allMatch(t -> t.numberOfPlayers() <= maximumNumberOfPlayers);
 	}
 }

@@ -83,7 +83,7 @@ public class GeneratorFrame
 	private void onGenerate()
 	{
 		TeamsBuilder builder = new TeamsBuilder(
-				age -> age < 15 && 50 < age,
+				age -> age < 15 || 50 < age,
 				settingsPanel.getTeamNames());
 
 		builder.setSplitNonLockedGroups(true);

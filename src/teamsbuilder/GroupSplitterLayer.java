@@ -52,7 +52,10 @@ public class GroupSplitterLayer
 
 		for (Unit unit : sortedUnits)
 		{
-			if (unit instanceof Group && unit.numberOfPlayers() > 1 && !((Group)unit).isLocked())
+			if (!groupIsSplit
+					&& unit instanceof Group
+					&& unit.numberOfPlayers() > 1
+					&& !((Group)unit).isLocked())
 			{
 				Group group = (Group)unit;
 
