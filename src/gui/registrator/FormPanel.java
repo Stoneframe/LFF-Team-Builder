@@ -172,6 +172,8 @@ public class FormPanel
 		{
 			playerPanels.get(i).setVisible(i < nbrOfPlayers);
 		}
+
+		updateAddButtonEnabled();
 	}
 
 	private boolean isFormValid()
@@ -183,6 +185,11 @@ public class FormPanel
 	}
 
 	private void onTextChanged()
+	{
+		updateAddButtonEnabled();
+	}
+
+	private void updateAddButtonEnabled()
 	{
 		addButton.setEnabled(isFormValid());
 	}
