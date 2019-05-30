@@ -1,6 +1,5 @@
 package gui.generator;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -26,14 +25,9 @@ public class TeamPanel
 
 	private final List<LffPanel> unitPanels;
 
-	public TeamPanel(Team team, Function<Integer, Boolean> scoringRule, int height)
+	public TeamPanel(Team team, Function<Integer, Boolean> scoringRule)
 	{
 		teamNameLabel = new TeamNamePanel(team, scoringRule);
-		// new LffLabel(
-		// team.getName() + " (" + team.numberOfScoreablePlayers(scoringRule) +
-		// ")",
-		// Font.BOLD,
-		// 20);
 
 		unitPanels = new LinkedList<>();
 
@@ -57,7 +51,6 @@ public class TeamPanel
 			BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Util.FOREGROUND),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		setPreferredSize(new Dimension(300, height));
 
 		setLayout(new GridBagLayout());
 

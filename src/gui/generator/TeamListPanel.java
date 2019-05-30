@@ -2,9 +2,11 @@ package gui.generator;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.List;
 import java.util.function.Function;
 
@@ -31,9 +33,28 @@ public class TeamListPanel
 	{
 		titleLabel = new LffLabel("Lag", Font.BOLD, 40);
 
-		teamsPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
+		teamsPanel = new LffPanel();
 
-		scrollPane = new JScrollPane(teamsPanel);
+		LffPanel teamsWrapperPanel = new LffPanel(new GridBagLayout());
+
+		teamsWrapperPanel.setLayout(new GridBagLayout());
+		teamsWrapperPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		teamsWrapperPanel.add(
+			teamsPanel,
+			new GridBagConstraints(
+					0,
+					0,
+					0,
+					0,
+					1,
+					1,
+					GridBagConstraints.NORTHWEST,
+					GridBagConstraints.NONE,
+					new Insets(0, 0, 0, 0),
+					0,
+					0));
+
+		scrollPane = new JScrollPane(teamsWrapperPanel);
 		scrollPane.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
 
 		setPreferredSize(new Dimension(500, 0));
@@ -51,19 +72,39 @@ public class TeamListPanel
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridy = 1;
 		gbc.gridx = 0;
-		gbc.weighty = 100;
+		gbc.weighty = 1;
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
 	public void showTeams(List<Team> teams, Function<Integer, Boolean> scoringRule)
 	{
-		int height = 35 + 50 * teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
+		int nbrOfPlayersInLargestTeam = teams.stream()
+			.mapToInt(t -> t.numberOfPlayers())
+			.max()
+			.getAsInt();
+
+		int rows;
+
+		if (nbrOfPlayersInLargestTeam <= 3)
+		{
+			rows = 3;
+		}
+		else if (nbrOfPlayersInLargestTeam <= 7)
+		{
+			rows = 2;
+		}
+		else
+		{
+			rows = 1;
+		}
+
+		int cols = teams.size() / rows + 1;
+
+		teamsPanel.setLayout(new GridLayout(rows, cols, 10, 10));
 
 		for (Team team : teams)
 		{
-			TeamPanel teamPanel = new TeamPanel(team, scoringRule, height);
-
-			teamsPanel.add(teamPanel);
+			teamsPanel.add(new TeamPanel(team, scoringRule));
 		}
 
 		teamsPanel.revalidate();
