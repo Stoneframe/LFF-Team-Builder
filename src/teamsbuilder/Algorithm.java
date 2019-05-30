@@ -15,11 +15,17 @@ public class Algorithm
 {
 	private Function<Integer, Boolean> scoringRule;
 
-	private Comparator<Unit> NUMBER_OF_SCOREABLE_PLAYERS =
+	private Comparator<Unit> LEAST_NUMBER_OF_SCOREABLE_PLAYERS =
 			Comparator.comparing((Unit u) -> u.numberOfScoreablePlayers(scoringRule));
 
-	private Comparator<Unit> NUMBER_OF_PLAYERS =
+	private Comparator<Unit> LEAST_NUMBER_OF_PLAYERS =
 			Comparator.comparing((Unit u) -> u.numberOfPlayers());
+
+	private Comparator<Unit> MOST_NUMBER_OF_SCOREABLE_PLAYERS =
+			LEAST_NUMBER_OF_SCOREABLE_PLAYERS.reversed();
+
+	private Comparator<Unit> MOST_NUMBER_OF_PLAYERS =
+			LEAST_NUMBER_OF_PLAYERS.reversed();
 
 	private List<String> teamNames;
 
@@ -32,6 +38,8 @@ public class Algorithm
 	@Override
 	public List<Team> createTeams(List<Unit> units, int numberOfTeams)
 	{
+		System.out.println("Creation of teams started");
+
 		List<Unit> scoreableUnits = new LinkedList<>();
 		List<Unit> remainingUnits = new LinkedList<>();
 
@@ -39,19 +47,35 @@ public class Algorithm
 
 		List<Team> teams = createEmptyTeams(numberOfTeams);
 
-		for (Unit unit : sortUnitsBy(scoreableUnits, NUMBER_OF_SCOREABLE_PLAYERS.reversed()))
+		System.out.println("Distributing scorable players");
+
+		for (Unit unit : sortUnitsBy(
+			scoreableUnits,
+			MOST_NUMBER_OF_SCOREABLE_PLAYERS,
+			LEAST_NUMBER_OF_PLAYERS))
 		{
-			Team team = getTeamWithLowest(teams, NUMBER_OF_SCOREABLE_PLAYERS);
+			Team team = getTeamWith(
+				teams,
+				LEAST_NUMBER_OF_SCOREABLE_PLAYERS,
+				LEAST_NUMBER_OF_PLAYERS);
+
+			System.out.printf("Adding\n%s\nto\n%s\n", unit, team);
 
 			team.add(unit);
 		}
 
-		for (Unit unit : sortUnitsBy(remainingUnits, NUMBER_OF_PLAYERS.reversed()))
+		System.out.println("Distributing remaining players");
+
+		for (Unit unit : sortUnitsBy(remainingUnits, MOST_NUMBER_OF_PLAYERS))
 		{
-			Team team = getTeamWithLowest(teams, NUMBER_OF_PLAYERS);
+			Team team = getTeamWith(teams, LEAST_NUMBER_OF_PLAYERS);
+
+			System.out.printf("Adding\n%s\nto\n%s\n", unit, team);
 
 			team.add(unit);
 		}
+
+		System.out.println("Creation of teams finished");
 
 		return teams;
 	}
@@ -88,20 +112,40 @@ public class Algorithm
 		return teams;
 	}
 
-	private List<Unit> sortUnitsBy(List<Unit> units, Comparator<Unit> comparator)
+	@SafeVarargs
+	private final List<Unit> sortUnitsBy(List<Unit> units, Comparator<Unit>... comparators)
 	{
+		Comparator<Unit> comparator = buildComparator(comparators);
+
 		return units
 			.stream()
 			.sorted(comparator)
 			.collect(Collectors.toList());
 	}
 
-	private Team getTeamWithLowest(List<Team> teams, Comparator<Unit> comparator)
+	@SafeVarargs
+	private final Team getTeamWith(List<Team> teams, Comparator<Unit>... comparators)
 	{
+		Comparator<Unit> comparator = buildComparator(comparators);
+
 		return teams
 			.stream()
 			.sorted(comparator)
 			.findFirst()
 			.get();
 	}
+
+	@SafeVarargs
+	private final Comparator<Unit> buildComparator(Comparator<Unit>... comparators)
+	{
+		Comparator<Unit> comparator = comparators[0];
+
+		for (int i = 1; i < comparators.length; i++)
+		{
+			comparator = comparator.thenComparing(comparators[i]);
+		}
+
+		return comparator;
+	}
+
 }

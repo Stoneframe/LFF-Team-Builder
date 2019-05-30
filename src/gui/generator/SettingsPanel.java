@@ -185,7 +185,7 @@ public class SettingsPanel
 
 	public TeamsBuilder getTeamsBuilder()
 	{
-		TeamsBuilder builder = new TeamsBuilder(age -> age < 15 || 50 < age, getTeamNames());
+		TeamsBuilder builder = new TeamsBuilder(age -> age < 13 || 50 < age, getTeamNames());
 
 		builder.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
 		builder.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
