@@ -1,13 +1,18 @@
 package gui.generator;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import gui.LundsFFPanel;
@@ -17,6 +22,7 @@ import io.FileHandler;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamsBuilder;
+import util.UnitsUtil;
 
 public class GeneratorFrame
 	extends JFrame
@@ -67,6 +73,20 @@ public class GeneratorFrame
 				GeneratorFrame.this.windowOpened();
 			};
 		});
+
+		KeyStroke mock = KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK, false);
+
+		unitListPanel.registerKeyboardAction(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				List<Unit> units = UnitsUtil.createRandomUnitList(true);
+
+				units.forEach(u -> unitListPanel.addUnit(u));
+
+				settingsPanel.setNbrOfPlayers(unitListPanel.getNbrOfPlayers());
+			}
+		}, "Mock", mock, JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	private void windowOpened()

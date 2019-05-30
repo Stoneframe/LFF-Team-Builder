@@ -2,13 +2,18 @@ package gui.registrator;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import gui.LundsFFPanel;
@@ -16,6 +21,7 @@ import gui.UnitListPanel;
 import gui.components.LffPanel;
 import io.FileHandler;
 import model.Unit;
+import util.UnitsUtil;
 
 public class RegistratorFrame
 	extends JFrame
@@ -66,6 +72,18 @@ public class RegistratorFrame
 				RegistratorFrame.this.windowClosed();
 			};
 		});
+
+		KeyStroke mock = KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK, false);
+
+		unitListPanel.registerKeyboardAction(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				List<Unit> units = UnitsUtil.createRandomUnitList(true);
+
+				units.forEach(u -> unitListPanel.addUnit(u));
+			}
+		}, "Mock", mock, JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	private void windowOpened()
