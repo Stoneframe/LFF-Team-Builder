@@ -50,23 +50,23 @@ public class SettingsPanel
 		titleLabel = new LffLabel("Inställningar", Font.BOLD, 40);
 
 		nbrOfPlayersLabel = new LffLabel("Antal spelare:");
-		nbrOfPlayersTextField = new LffTextField(5);
+		nbrOfPlayersTextField = new LffTextField();
 		nbrOfPlayersTextField.setEditable(false);
 
 		nbrOfTeamsLabel = new LffLabel("Antal lag:");
-		nbrOfTeamsTextField = new LffTextField(5);
+		nbrOfTeamsTextField = new LffTextField();
 		nbrOfTeamsTextField.addTextListener(l -> onTextChange());
 
 		playersPerTeamLabel = new LffLabel("Spelare per lag:");
 
 		minPlayersPerTeamLabel = new LffLabel("    Min:");
-		minPlayersPerTeamTextField = new LffTextField(5);
+		minPlayersPerTeamTextField = new LffTextField();
 
 		maxPlayersPerTeamLabel = new LffLabel("    Max:");
-		maxPlayersPerTeamTextField = new LffTextField(5);
+		maxPlayersPerTeamTextField = new LffTextField();
 
 		teamNamesLabel = new LffLabel("Lagnamn:");
-		teamNamesTextArea = new LffTextArea(10, 15);
+		teamNamesTextArea = new LffTextArea();
 		teamNamesTextArea.addTextListener(l -> onTextChange());
 
 		generateButton = new LffButton("Generera");
@@ -80,6 +80,7 @@ public class SettingsPanel
 
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.BOTH;
 
 		gbc.gridwidth = 1;
 		gbc.gridy = 0;
@@ -134,6 +135,7 @@ public class SettingsPanel
 		center.add(teamNamesLabel, gbc);
 
 		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.weighty = 1;
 		gbc.gridwidth = 2;
 		gbc.gridy = 6;
 		gbc.gridx = 0;
@@ -144,17 +146,13 @@ public class SettingsPanel
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER),
 			gbc);
 
+		gbc.insets = new Insets(10, 10, 20, 10);
+		gbc.weighty = 0;
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridy = 8;
 		gbc.gridx = 1;
 		center.add(generateButton, gbc);
-
-		gbc.gridwidth = 2;
-		gbc.weighty = 1.0;
-		gbc.gridy = 9;
-		gbc.gridx = 0;
-		center.add(new LffPanel(), gbc);
 
 		add(titleLabel, BorderLayout.NORTH);
 		add(center, BorderLayout.CENTER);

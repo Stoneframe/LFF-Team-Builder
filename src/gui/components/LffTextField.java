@@ -20,10 +20,22 @@ public class LffTextField
 
 	private List<ActionListener> textListeners = new LinkedList<>();
 
+	public LffTextField()
+	{
+		super();
+
+		initialize();
+	}
+
 	public LffTextField(int columns)
 	{
 		super(columns);
 
+		initialize();
+	}
+
+	private void initialize()
+	{
 		setForeground(Util.FOREGROUND);
 		setBackground(Util.BACKGROUND);
 

@@ -32,6 +32,16 @@ public class LffIcon
 		return new LffIcon("/GreenFootball.png", 15, 15);
 	}
 
+	public static LffIcon getRegisterLogo()
+	{
+		return new LffIcon("/RegisterLogo.png", 40, 40);
+	}
+
+	public static LffIcon getGenerateLogo()
+	{
+		return new LffIcon("/GenerateLogo.png", 40, 40);
+	}
+
 	private static Image getScaledImage(Image srcImg, int w, int h)
 	{
 		BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

@@ -20,10 +20,22 @@ public class LffTextArea
 
 	private List<ActionListener> textListeners = new LinkedList<>();
 
+	public LffTextArea()
+	{
+		super();
+
+		initialize();
+	}
+
 	public LffTextArea(int rows, int columns)
 	{
 		super(rows, columns);
 
+		initialize();
+	}
+
+	private void initialize()
+	{
 		setForeground(Util.FOREGROUND);
 		setBackground(Util.BACKGROUND);
 
