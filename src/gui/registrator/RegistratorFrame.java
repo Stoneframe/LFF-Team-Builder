@@ -30,7 +30,7 @@ public class RegistratorFrame
 {
 	private static final long serialVersionUID = -2805169661270719140L;
 
-	private final Logger logger = LoggerFactory.createLogger(this);
+	private final Logger logger = LoggerFactory.createLogger(RegistratorFrame.class.getName());
 
 	private final LundsFFPanel lundsFFPanel;
 	private final UnitListPanel unitListPanel;
@@ -96,6 +96,8 @@ public class RegistratorFrame
 	{
 		String fileName = FileHandler.getFileName();
 
+		logger.info("Reading from file: " + fileName);
+
 		List<Unit> units = FileHandler.readFromFile(new File(fileName));
 
 		unitListPanel.setUnits(units);
@@ -104,6 +106,8 @@ public class RegistratorFrame
 	private void windowClosed()
 	{
 		String fileName = FileHandler.getFileName();
+
+		logger.info("Writing to file: " + fileName);
 
 		List<Unit> units = unitListPanel.getUnits();
 

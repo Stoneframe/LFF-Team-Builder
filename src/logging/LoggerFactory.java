@@ -8,9 +8,9 @@ import java.util.logging.SimpleFormatter;
 
 public class LoggerFactory
 {
-	public static Logger createLogger(Object object)
+	public static Logger createLogger(String name)
 	{
-		Logger logger = Logger.getLogger(object.getClass().getName());
+		Logger logger = Logger.getLogger(name);
 
 		try
 		{

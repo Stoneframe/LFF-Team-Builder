@@ -31,7 +31,7 @@ public class GeneratorFrame
 {
 	private static final long serialVersionUID = 1932555429400080599L;
 
-	private final Logger logger = LoggerFactory.createLogger(this);
+	private final Logger logger = LoggerFactory.createLogger(GeneratorFrame.class.getName());
 
 	private final LundsFFPanel lundsFFPanel;
 	private final UnitListPanel unitListPanel;
@@ -97,7 +97,7 @@ public class GeneratorFrame
 
 	private void windowOpened()
 	{
-		List<Unit> allUnits = FileHandler.readFromDirectory();
+		List<Unit> allUnits = FileHandler.readFromDirectory(new File("Spelare"));
 
 		unitListPanel.setUnits(allUnits);
 

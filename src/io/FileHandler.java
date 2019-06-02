@@ -13,15 +13,19 @@ import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import logging.LoggerFactory;
 import model.Team;
 import model.Unit;
 
 public class FileHandler
 {
+	private static Logger logger = LoggerFactory.createLogger(FileHandler.class.getName());
+
 	private static Gson gson = new GsonBuilder()
 		.registerTypeAdapter(Unit.class, new UnitAdapter())
 		.create();
@@ -44,7 +48,7 @@ public class FileHandler
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			logger.severe(e.toString());
 		}
 	}
 
@@ -62,16 +66,15 @@ public class FileHandler
 		}
 		catch (IOException e)
 		{
+			logger.severe(e.toString());
 		}
 
 		return units;
 	}
 
-	public static List<Unit> readFromDirectory()
+	public static List<Unit> readFromDirectory(File folder)
 	{
 		List<Unit> units = new LinkedList<>();
-
-		File folder = new File("Spelare");
 
 		for (File file : folder.listFiles())
 		{
@@ -93,7 +96,7 @@ public class FileHandler
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			logger.severe(e.toString());
 		}
 	}
 
