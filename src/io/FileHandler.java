@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FileHandler
 
 	public static String getFileName()
 	{
-		return String.format("Spelare\\%s.txt", getUniqueId());
+		return Paths.get("Spelare", getUniqueId() + ".txt").toString();
 	}
 
 	public static void writeToFile(File file, List<Unit> units)

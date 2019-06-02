@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import gui.Util;
 import gui.components.LffButton;
 import gui.components.LffCheckBox;
 import gui.components.LffLabel;
@@ -53,8 +52,6 @@ public class FormPanel
 		playerPanels.forEach(pp -> pp.addTextLister(l -> onTextChanged()));
 
 		lockCheckBox = new LffCheckBox("Lås");
-		lockCheckBox.setForeground(Util.FOREGROUND);
-		lockCheckBox.setBackground(Util.BACKGROUND);
 
 		plusButton = new LffButton("+", 20);
 		plusButton.setPreferredSize(new Dimension(50, 30));

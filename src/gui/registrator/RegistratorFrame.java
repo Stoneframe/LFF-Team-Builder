@@ -88,16 +88,20 @@ public class RegistratorFrame
 
 	private void windowOpened()
 	{
-		List<Unit> units = FileHandler.readFromFile(new File(FileHandler.getFileName()));
+		String fileName = FileHandler.getFileName();
+
+		List<Unit> units = FileHandler.readFromFile(new File(fileName));
 
 		unitListPanel.setUnits(units);
 	}
 
 	private void windowClosed()
 	{
+		String fileName = FileHandler.getFileName();
+
 		List<Unit> units = unitListPanel.getUnits();
 
-		FileHandler.writeToFile(new File(FileHandler.getFileName()), units);
+		FileHandler.writeToFile(new File(fileName), units);
 	}
 
 	private void addUnit()
