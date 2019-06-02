@@ -53,5 +53,6 @@
 		</jar>
 		<mkdir dir="${dir.jarfile}/Spelare" />
 		<mkdir dir="${dir.jarfile}/Lag" />
+		<mkdir dir="${dir.jarfile}/Loggar" />
 	</target>
 </project>
