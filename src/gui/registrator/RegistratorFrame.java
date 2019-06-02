@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -20,6 +21,7 @@ import gui.LundsFFPanel;
 import gui.UnitListPanel;
 import gui.components.LffPanel;
 import io.FileHandler;
+import logging.LoggerFactory;
 import model.Unit;
 import util.UnitsUtil;
 
@@ -28,12 +30,16 @@ public class RegistratorFrame
 {
 	private static final long serialVersionUID = -2805169661270719140L;
 
+	private final Logger logger = LoggerFactory.createLogger(this);
+
 	private final LundsFFPanel lundsFFPanel;
 	private final UnitListPanel unitListPanel;
 	private final FormPanel formPanel;
 
 	public RegistratorFrame()
 	{
+		logger.info("Starting Registrator");
+
 		lundsFFPanel = new LundsFFPanel();
 
 		unitListPanel = new UnitListPanel("Spelare");

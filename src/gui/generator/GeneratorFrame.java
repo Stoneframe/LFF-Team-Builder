@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -19,6 +20,7 @@ import gui.LundsFFPanel;
 import gui.UnitListPanel;
 import gui.components.LffPanel;
 import io.FileHandler;
+import logging.LoggerFactory;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamsBuilder;
@@ -29,6 +31,8 @@ public class GeneratorFrame
 {
 	private static final long serialVersionUID = 1932555429400080599L;
 
+	private final Logger logger = LoggerFactory.createLogger(this);
+
 	private final LundsFFPanel lundsFFPanel;
 	private final UnitListPanel unitListPanel;
 	private final SettingsPanel settingsPanel;
@@ -36,6 +40,8 @@ public class GeneratorFrame
 
 	public GeneratorFrame()
 	{
+		logger.info("Starting Generator");
+
 		lundsFFPanel = new LundsFFPanel();
 
 		unitListPanel = new UnitListPanel("Spelare");
