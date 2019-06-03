@@ -2,7 +2,8 @@ package gui.registrator;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -49,9 +50,10 @@ public class RegistratorFrame
 	{
 		String fileName = FileHandler.getFileName();
 
-		logger.info("Reading from file: " + fileName);
+		Path filePath = Paths.get(PLAYER_FOLDER, fileName);
+		logger.info("Reading from file: " + filePath.toAbsolutePath());
 
-		List<Unit> units = FileHandler.readFromFile(new File(fileName));
+		List<Unit> units = FileHandler.readFromFile(filePath);
 
 		unitListPanel.setUnits(units);
 	}
@@ -61,11 +63,13 @@ public class RegistratorFrame
 	{
 		String fileName = FileHandler.getFileName();
 
-		logger.info("Writing to file: " + fileName);
+		Path filePath = Paths.get(PLAYER_FOLDER, fileName);
+		logger.info("Writing to file: " + filePath.toAbsolutePath());
 
 		List<Unit> units = unitListPanel.getUnits();
+		logger.info("Read " + units.size() + " units");
 
-		FileHandler.writeToFile(new File(fileName), units);
+		FileHandler.writeToFile(filePath, units);
 	}
 
 	private void onAddUnit()

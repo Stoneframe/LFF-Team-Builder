@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +32,12 @@ public class FileHandler
 
 	public static String getFileName()
 	{
-		return Paths.get("Spelare", getUniqueId() + ".txt").toString();
+		return getUniqueId() + ".txt";
+	}
+
+	public static void writeToFile(Path filePath, List<Unit> units)
+	{
+		writeToFile(filePath.toFile(), units);
 	}
 
 	public static void writeToFile(File file, List<Unit> units)
@@ -42,6 +47,7 @@ public class FileHandler
 			for (Unit unit : units)
 			{
 				String json = gson.toJson(unit, Unit.class);
+
 				writer.write(json);
 				writer.write(System.lineSeparator());
 			}
@@ -50,6 +56,11 @@ public class FileHandler
 		{
 			logger.severe(e.toString());
 		}
+	}
+
+	public static List<Unit> readFromFile(Path filePath)
+	{
+		return readFromFile(filePath.toFile());
 	}
 
 	public static List<Unit> readFromFile(File file)
@@ -72,6 +83,11 @@ public class FileHandler
 		return units;
 	}
 
+	public static List<Unit> readFromDirectory(Path folderPath)
+	{
+		return readFromDirectory(folderPath.toFile());
+	}
+
 	public static List<Unit> readFromDirectory(File folder)
 	{
 		List<Unit> units = new LinkedList<>();
@@ -82,6 +98,11 @@ public class FileHandler
 		}
 
 		return units;
+	}
+
+	public static void printTeams(Path filePath, List<Team> teams)
+	{
+		printTeams(filePath.toFile(), teams);
 	}
 
 	public static void printTeams(File file, List<Team> teams)

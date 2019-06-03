@@ -1,7 +1,8 @@
 package gui.generator;
 
 import java.awt.BorderLayout;
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,6 +21,9 @@ public class GeneratorFrame
 	extends LffFrameBase
 {
 	private static final long serialVersionUID = 1932555429400080599L;
+
+	protected static final String TEAM_FOLDER = "Lag";
+	protected static final String TEAM_FILE = "Lag.txt";
 
 	private final Logger logger = LoggerFactory.createLogger(GeneratorFrame.class.getName());
 
@@ -53,10 +57,13 @@ public class GeneratorFrame
 	@Override
 	protected void onWindowOpened()
 	{
-		List<Unit> allUnits = FileHandler.readFromDirectory(new File("Spelare"));
+		Path folderPath = Paths.get(PLAYER_FOLDER);
+		logger.info("Reading from folder: " + folderPath.toAbsolutePath());
+
+		List<Unit> allUnits = FileHandler.readFromDirectory(folderPath);
+		logger.info("Read " + allUnits.size() + " units");
 
 		unitListPanel.setUnits(allUnits);
-
 		settingsPanel.setNbrOfPlayers(unitListPanel.getNbrOfPlayers());
 	}
 
@@ -84,7 +91,11 @@ public class GeneratorFrame
 
 		teamListPanel.showTeams(teams, builder.getScoringRule());
 
-		FileHandler.printTeams(new File("Lag\\lag.txt"), teams);
+		Path filePath = Paths.get(TEAM_FOLDER, TEAM_FILE);
+
+		logger.info("Writing teams to file: " + filePath.toAbsolutePath());
+
+		FileHandler.printTeams(filePath, teams);
 	}
 
 	public static void main(String[] args)

@@ -20,6 +20,8 @@ public abstract class LffFrameBase
 {
 	private static final long serialVersionUID = 4706616327895328641L;
 
+	protected static final String PLAYER_FOLDER = "Spelare";
+
 	protected final LundsFFPanel lundsFFPanel;
 	protected final UnitListPanel unitListPanel;
 
