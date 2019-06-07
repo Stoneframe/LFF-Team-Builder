@@ -36,6 +36,7 @@ public class GeneratorFrame
 
 		logger.info("Starting Generator");
 
+		unitListPanel.setEditButtonVisible(false);
 		unitListPanel.setRemoveButtonVisible(false);
 
 		settingsPanel = new SettingsPanel();
