@@ -6,10 +6,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 import gui.components.LffButton;
 import gui.components.LffCheckBox;
@@ -39,6 +44,13 @@ public class FormPanel
 
 	public FormPanel()
 	{
+		KeyStroke lock = KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK, true);
+		KeyStroke add = KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ActionEvent.CTRL_MASK, true);
+		KeyStroke sub = KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, ActionEvent.CTRL_MASK, true);
+		KeyStroke plus = KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, ActionEvent.CTRL_MASK, true);
+		KeyStroke minus = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK, true);
+		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.CTRL_MASK, true);
+
 		titleLabel = new LffLabel("Registrering", Font.BOLD, 40);
 
 		playerPanels = Arrays.asList(
@@ -52,18 +64,43 @@ public class FormPanel
 		playerPanels.forEach(pp -> pp.addTextLister(l -> onTextChanged()));
 
 		lockCheckBox = new LffCheckBox("Lås");
+		lockCheckBox.registerKeyboardAction(
+			l -> lockCheckBox.doClick(),
+			lock,
+			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		plusButton = new LffButton("+", 20);
 		plusButton.setPreferredSize(new Dimension(50, 30));
 		plusButton.addActionListener(l -> plusClicked());
 		plusButton.setFocusable(false);
+		plusButton.registerKeyboardAction(
+			e -> plusClicked(),
+			add,
+			JComponent.WHEN_IN_FOCUSED_WINDOW);
+		plusButton.registerKeyboardAction(
+			e -> plusClicked(),
+			plus,
+			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		minusButton = new LffButton("-", 20);
 		minusButton.setPreferredSize(new Dimension(50, 30));
 		minusButton.addActionListener(l -> minusClicked());
 		minusButton.setFocusable(false);
+		minusButton.registerKeyboardAction(
+			e -> minusClicked(),
+			sub,
+			JComponent.WHEN_IN_FOCUSED_WINDOW);
+		minusButton.registerKeyboardAction(
+			e -> minusClicked(),
+			minus,
+			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		addButton = new LffButton("Lägg till", false);
+		addButton.addActionListener(l -> requestFocus());
+		addButton.registerKeyboardAction(
+			l -> addButton.doClick(),
+			enter,
+			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		setLayout(new GridBagLayout());
 
@@ -144,6 +181,12 @@ public class FormPanel
 
 			return new Group(lockCheckBox.isSelected(), players);
 		}
+	}
+
+	@Override
+	public void requestFocus()
+	{
+		playerPanels.get(0).requestFocus();
 	}
 
 	private void plusClicked()

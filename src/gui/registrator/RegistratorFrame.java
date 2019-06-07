@@ -43,6 +43,8 @@ public class RegistratorFrame
 		add(centerPanel, BorderLayout.CENTER);
 
 		pack();
+
+		formPanel.requestFocus();
 	}
 
 	@Override

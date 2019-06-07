@@ -79,4 +79,10 @@ public class PlayerPanel
 		nameTextField.addTextListener(listener);
 		ageTextField.addTextListener(listener);
 	}
+
+	@Override
+	public void requestFocus()
+	{
+		nameTextField.requestFocus();
+	}
 }
