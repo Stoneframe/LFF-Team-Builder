@@ -61,6 +61,12 @@ public class PlayerPanel
 		return new Player(nameTextField.getText(), Integer.parseInt(ageTextField.getText()));
 	}
 
+	public void setPlayer(Player player)
+	{
+		nameTextField.setText(player.getName());
+		ageTextField.setText(Integer.toString(player.getAge()));
+	}
+
 	public boolean isFormValid()
 	{
 		return StringUtils.isNotBlank(nameTextField.getText())

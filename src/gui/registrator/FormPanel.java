@@ -183,6 +183,31 @@ public class FormPanel
 		}
 	}
 
+	public void setUnit(Unit unit)
+	{
+		nbrOfPlayers = unit.numberOfPlayers();
+
+		if (unit instanceof Player)
+		{
+			playerPanels.get(0).setPlayer((Player)unit);
+		}
+		else
+		{
+			Group group = (Group)unit;
+
+			int i = 0;
+			for (Player player : group)
+			{
+				playerPanels.get(i).setPlayer(player);
+				i++;
+			}
+
+			lockCheckBox.setSelected(group.isLocked());
+		}
+
+		update();
+	}
+
 	@Override
 	public void requestFocus()
 	{

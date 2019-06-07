@@ -33,6 +33,7 @@ public class UnitListPanel
 	private final DefaultListModel<Unit> unitListModel;
 	private final LffList<Unit> unitList;
 
+	private final LffButton editButton;
 	private final LffButton removeButton;
 
 	public UnitListPanel(String titel)
@@ -81,6 +82,7 @@ public class UnitListPanel
 			}
 		});
 
+		editButton = new LffButton("Redigera...", false);
 		removeButton = new LffButton("Ta bort", false);
 
 		JScrollPane scrollPane = new JScrollPane(unitList);
@@ -89,6 +91,7 @@ public class UnitListPanel
 
 		LffPanel buttonPanel = new LffPanel(new FlowLayout(FlowLayout.RIGHT));
 
+		buttonPanel.add(editButton);
 		buttonPanel.add(removeButton);
 
 		setLayout(new BorderLayout());
@@ -123,14 +126,32 @@ public class UnitListPanel
 		unitListModel.removeElement(unit);
 	}
 
+	public void replaceUnit(Unit unitToRemove, Unit unitToAdd)
+	{
+		int index = unitListModel.indexOf(unitToRemove);
+
+		unitListModel.remove(index);
+		unitListModel.add(index, unitToAdd);
+	}
+
 	public int getNbrOfPlayers()
 	{
 		return getUnits().stream().mapToInt(u -> u.numberOfPlayers()).sum();
 	}
 
+	public void addEditButtonActionListener(ActionListener listener)
+	{
+		editButton.addActionListener(listener);
+	}
+
 	public void addRemoveButtonActionListener(ActionListener listener)
 	{
 		removeButton.addActionListener(listener);
+	}
+
+	public void setEditButtonVisible(boolean isEnabled)
+	{
+		editButton.setVisible(isEnabled);
 	}
 
 	public void setRemoveButtonVisible(boolean isEnabled)
@@ -140,6 +161,7 @@ public class UnitListPanel
 
 	private void onSelectionChanged()
 	{
+		editButton.setEnabled(!unitList.isSelectionEmpty());
 		removeButton.setEnabled(!unitList.isSelectionEmpty());
 	}
 }

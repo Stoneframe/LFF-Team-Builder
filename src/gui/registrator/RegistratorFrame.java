@@ -2,11 +2,14 @@ package gui.registrator;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import gui.LffFrameBase;
@@ -31,6 +34,7 @@ public class RegistratorFrame
 		logger.info("Starting Registrator");
 
 		unitListPanel.setRemoveButtonVisible(true);
+		unitListPanel.addEditButtonActionListener(l -> onEditUnit());
 		unitListPanel.addRemoveButtonActionListener(l -> onRemoveUnit());
 
 		formPanel = new FormPanel();
@@ -78,6 +82,33 @@ public class RegistratorFrame
 	{
 		unitListPanel.addUnit(formPanel.getUnit());
 		formPanel.reset();
+	}
+
+	private void onEditUnit()
+	{
+		Unit selectedUnit = unitListPanel.getSelectedUnit();
+
+		JFrame frame = new JFrame("Redigera");
+
+		FormPanel formPanel = new FormPanel();
+		formPanel.setUnit(selectedUnit);
+		formPanel.addAddButtonActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				unitListPanel.replaceUnit(selectedUnit, formPanel.getUnit());
+				frame.dispose();
+			}
+		});
+
+		LffPanel centerPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
+		centerPanel.add(formPanel);
+
+		frame.setLayout(new BorderLayout());
+		frame.add(centerPanel, BorderLayout.CENTER);
+		frame.setSize(600, 520);
+		frame.setLocationRelativeTo(this);
+		frame.setVisible(true);
 	}
 
 	private void onRemoveUnit()
