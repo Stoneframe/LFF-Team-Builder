@@ -12,7 +12,7 @@ import model.Group;
 import model.Player;
 import model.Team;
 import model.Unit;
-import teamsbuilder.Algorithm;
+import teamsbuilder.scorableonly.UnitDividerLayer;
 import util.UnitsUtil;
 
 public class AlgorithmTest
@@ -24,7 +24,7 @@ public class AlgorithmTest
 	@Test
 	public void test1()
 	{
-		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
+		UnitDividerLayer algorithm = new UnitDividerLayer(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Player("Player 1", 10),
@@ -42,7 +42,7 @@ public class AlgorithmTest
 	@Test
 	public void test2()
 	{
-		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
+		UnitDividerLayer algorithm = new UnitDividerLayer(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Group(
@@ -72,7 +72,7 @@ public class AlgorithmTest
 	@Test
 	public void test3()
 	{
-		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
+		UnitDividerLayer algorithm = new UnitDividerLayer(scoringRule, teamNames);
 
 		List<Unit> units = Arrays.asList(
 			new Player("Player_1_0", 60),
@@ -104,7 +104,7 @@ public class AlgorithmTest
 		int numberOfPlayers = UnitsUtil.countNumberOfPlayers(units);
 		int numberOfTeams = numberOfPlayers / playersPerTeam - 1;
 
-		Algorithm algorithm = new Algorithm(scoringRule, teamNames);
+		UnitDividerLayer algorithm = new UnitDividerLayer(scoringRule, teamNames);
 
 		List<Team> teams = algorithm.createTeams(units, numberOfTeams);
 

@@ -19,7 +19,7 @@ import gui.components.LffLabel;
 import gui.components.LffPanel;
 import gui.components.LffTextArea;
 import gui.components.LffTextField;
-import teamsbuilder.TeamsBuilder;
+import teamsbuilder.TeamSettings;
 
 public class SettingsPanel
 	extends LffPanel
@@ -183,16 +183,17 @@ public class SettingsPanel
 		return getTeamNames().size();
 	}
 
-	public TeamsBuilder getTeamsBuilder()
+	public TeamSettings getTeamSettings()
 	{
-		TeamsBuilder builder = new TeamsBuilder(age -> age <= 12 || 50 <= age, getTeamNames());
+		TeamSettings settings = new TeamSettings(age -> age <= 12 || 50 <= age, getTeamNames());
 
-		builder.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
-		builder.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
+		settings.setNumberOfTeams(getInteger(nbrOfTeamsTextField));
+		settings.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
+		settings.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
 
-		builder.setSplitNonLockedGroups(true);
+		settings.setSplitNonLockedGroups(true);
 
-		return builder;
+		return settings;
 	}
 
 	public void addGenerateButtonActionListener(ActionListener listener)

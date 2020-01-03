@@ -15,7 +15,8 @@ import io.FileHandler;
 import logging.LoggerFactory;
 import model.Team;
 import model.Unit;
-import teamsbuilder.TeamsBuilder;
+import teamsbuilder.TeamSettings;
+import teamsbuilder.scorableonly.ScorableOnlyAlgorithm;
 
 public class GeneratorFrame
 	extends LffFrameBase
@@ -84,14 +85,18 @@ public class GeneratorFrame
 
 	private void onGenerate()
 	{
-		TeamsBuilder builder = settingsPanel.getTeamsBuilder();
+		TeamSettings settings = settingsPanel.getTeamSettings();
 
-		List<Team> teams = builder.createTeams(
-			unitListPanel.getUnits(),
-			settingsPanel.getNbrOfTeams());
+		List<Team> teams = new ScorableOnlyAlgorithm()
+			.createTeams(unitListPanel.getUnits(), settings);
 
-		teamListPanel.showTeams(teams, builder.getScoringRule());
+		teamListPanel.showTeams(teams, settings.getScoringRule());
 
+		printTeamsToFile(teams);
+	}
+
+	private void printTeamsToFile(List<Team> teams)
+	{
 		Path filePath = Paths.get(TEAM_FOLDER, TEAM_FILE);
 
 		logger.info("Writing teams to file: " + filePath.toAbsolutePath());

@@ -1,4 +1,4 @@
-package teamsbuilder;
+package teamsbuilder.scorableonly;
 
 import java.util.List;
 import java.util.function.Function;
@@ -13,9 +13,9 @@ public class TeamsValidator
 	private int maximumNumberOfPlayers;
 
 	public TeamsValidator(
-			Function<Integer, Boolean> scoringRule,
-			int minimumNumberOfPlayers,
-			int maximumNumberOfPlayers)
+		Function<Integer, Boolean> scoringRule,
+		int minimumNumberOfPlayers,
+		int maximumNumberOfPlayers)
 	{
 		this.scoringRule = scoringRule;
 
@@ -26,8 +26,8 @@ public class TeamsValidator
 	public boolean areValid(List<Team> teams)
 	{
 		return allTeamsHaveScoreablePlayers(teams)
-				&& noTeamsHaveTooFewPlayers(teams)
-				&& noTeamsHaveTooManyPlayers(teams);
+			&& noTeamsHaveTooFewPlayers(teams)
+			&& noTeamsHaveTooManyPlayers(teams);
 	}
 
 	private boolean allTeamsHaveScoreablePlayers(List<Team> teams)

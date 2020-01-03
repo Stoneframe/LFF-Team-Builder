@@ -11,9 +11,9 @@ import model.Group;
 import model.Player;
 import model.Team;
 import model.Unit;
-import teamsbuilder.Algorithm;
-import teamsbuilder.GroupSplitterLayer;
-import teamsbuilder.TeamsValidator;
+import teamsbuilder.scorableonly.GroupSplitterLayer;
+import teamsbuilder.scorableonly.UnitDividerLayer;
+import teamsbuilder.scorableonly.TeamsValidator;
 import util.UnitsUtil;
 
 public class GroupSplitterLayerTest
@@ -26,7 +26,7 @@ public class GroupSplitterLayerTest
 		Function<Integer, Boolean> scoringRule = age -> age < 15 || 50 < age;
 
 		groupSplitterLayer = new GroupSplitterLayer(
-				new Algorithm(
+				new UnitDividerLayer(
 						scoringRule,
 						Arrays.asList("Team1", "Team2", "Team3", "Team4", "Team5")),
 				scoringRule,

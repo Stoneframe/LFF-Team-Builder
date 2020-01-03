@@ -1,4 +1,4 @@
-package teamsbuilder;
+package teamsbuilder.scorableonly;
 
 import java.util.List;
 

@@ -3,23 +3,21 @@ package teamsbuilder;
 import java.util.List;
 import java.util.function.Function;
 
-import model.Team;
-import model.Unit;
-
-public class TeamsBuilder
+public class TeamSettings
 {
 	private boolean splitNonLockedGroups = false;
 
 	private Function<Integer, Boolean> scoringRule;
 
+	private int numberOfTeams;
 	private int minimumNumberOfPlayers;
 	private int maximumNumberOfPlayers;
 
 	private List<String> teamNames;
 
-	public TeamsBuilder(
-			Function<Integer, Boolean> scoringRule,
-			List<String> teamNames)
+	public TeamSettings(
+		Function<Integer, Boolean> scoringRule,
+		List<String> teamNames)
 	{
 		this.scoringRule = scoringRule;
 		this.teamNames = teamNames;
@@ -30,6 +28,11 @@ public class TeamsBuilder
 		return scoringRule;
 	}
 
+	public List<String> getTeamNames()
+	{
+		return teamNames;
+	}
+
 	public boolean isSplitNonLockedGroups()
 	{
 		return splitNonLockedGroups;
@@ -38,6 +41,16 @@ public class TeamsBuilder
 	public void setSplitNonLockedGroups(boolean splitNonLockedGroups)
 	{
 		this.splitNonLockedGroups = splitNonLockedGroups;
+	}
+
+	public int getNumberOfTeams()
+	{
+		return numberOfTeams;
+	}
+
+	public void setNumberOfTeams(int numberOfTeams)
+	{
+		this.numberOfTeams = numberOfTeams;
 	}
 
 	public int getMinimumNumberOfPlayers()
@@ -58,23 +71,5 @@ public class TeamsBuilder
 	public void setMaximumNumberOfPlayers(int maximumNumberOfPlayers)
 	{
 		this.maximumNumberOfPlayers = maximumNumberOfPlayers;
-	}
-
-	public List<Team> createTeams(List<Unit> units, int numberOfTeams)
-	{
-		Layer algorithm = new Algorithm(scoringRule, teamNames);
-
-		if (splitNonLockedGroups)
-		{
-			algorithm = new GroupSplitterLayer(
-					algorithm,
-					scoringRule,
-					new TeamsValidator(
-							scoringRule,
-							minimumNumberOfPlayers,
-							maximumNumberOfPlayers));
-		}
-
-		return algorithm.createTeams(units, numberOfTeams);
 	}
 }

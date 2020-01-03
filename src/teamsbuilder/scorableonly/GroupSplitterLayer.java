@@ -1,4 +1,4 @@
-package teamsbuilder;
+package teamsbuilder.scorableonly;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -20,9 +20,9 @@ public class GroupSplitterLayer
 	private TeamsValidator teamsValidator;
 
 	public GroupSplitterLayer(
-			Layer subLayer,
-			Function<Integer, Boolean> scoringRule,
-			TeamsValidator teamsValidator)
+		Layer subLayer,
+		Function<Integer, Boolean> scoringRule,
+		TeamsValidator teamsValidator)
 	{
 		this.subLayer = subLayer;
 		this.scoringRule = scoringRule;
@@ -53,10 +53,7 @@ public class GroupSplitterLayer
 
 		for (Unit unit : sortedUnits)
 		{
-			if (!groupIsSplit
-					&& unit instanceof Group
-					&& unit.numberOfPlayers() > 1
-					&& !((Group)unit).isLocked())
+			if (!groupIsSplit && canSplitUnit(unit))
 			{
 				Group group = (Group)unit;
 
@@ -76,14 +73,12 @@ public class GroupSplitterLayer
 		return groupIsSplit ? modifiedUnits : null;
 	}
 
-	// private List<Unit> sortUnitsByNumberOfPlayersDescending(List<Unit> units)
-	// {
-	// return units
-	// .stream()
-	// .sorted(Comparator.comparingInt((Unit u) ->
-	// u.numberOfPlayers()).reversed())
-	// .collect(Collectors.toList());
-	// }
+	private boolean canSplitUnit(Unit unit)
+	{
+		return unit instanceof Group
+			&& unit.numberOfPlayers() > 1
+			&& !((Group)unit).isLocked();
+	}
 
 	private List<Unit> sortUnitsByNumberOfScoreablePlayersDescending(List<Unit> units)
 	{
