@@ -19,11 +19,11 @@ public class FileHandlerTest
 		File file = new File("units");
 
 		List<Unit> writtenUnits = UnitsUtil.createRandomUnitList();
-		
+
 		FileHandler.writeToFile(file, writtenUnits);
-		
+
 		List<Unit> readUnits = FileHandler.readFromFile(file);
-		
+
 		assertEquals(writtenUnits.size(), readUnits.size());
 	}
 }

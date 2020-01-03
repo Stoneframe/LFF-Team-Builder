@@ -25,7 +25,7 @@ public class TeamNamePanel
 	{
 		teamNameLabel = new LffLabel(team.getName());
 		nbrScoreablePlayersLabel = new LffLabel(
-				Integer.toString(team.numberOfScoreablePlayers(scoringRule)));
+			Integer.toString(team.numberOfScoreablePlayers(scoringRule)));
 		iconLabel = new LffLabel();
 		iconLabel.setIcon(LffIcon.getGreenFootball());
 
@@ -38,7 +38,7 @@ public class TeamNamePanel
 
 		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
 		separator.setForeground(Util.FOREGROUND);
-		
+
 		add(teamNameLabel, BorderLayout.CENTER);
 		add(east, BorderLayout.EAST);
 		add(separator, BorderLayout.SOUTH);

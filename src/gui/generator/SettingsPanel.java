@@ -141,9 +141,9 @@ public class SettingsPanel
 		gbc.gridx = 0;
 		center.add(
 			new JScrollPane(
-					teamNamesTextArea,
-					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER),
+				teamNamesTextArea,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER),
 			gbc);
 
 		gbc.insets = new Insets(10, 10, 20, 10);

@@ -26,11 +26,11 @@ public class GroupSplitterLayerTest
 		Function<Integer, Boolean> scoringRule = age -> age < 15 || 50 < age;
 
 		groupSplitterLayer = new GroupSplitterLayer(
-				new UnitDividerLayer(
-						scoringRule,
-						Arrays.asList("Team1", "Team2", "Team3", "Team4", "Team5")),
+			new UnitDividerLayer(
 				scoringRule,
-				new TeamsValidator(scoringRule, 3, 4));
+				Arrays.asList("Team1", "Team2", "Team3", "Team4", "Team5")),
+			scoringRule,
+			new TeamsValidator(scoringRule, 3, 4));
 	}
 
 	@Test
@@ -56,13 +56,13 @@ public class GroupSplitterLayerTest
 			new Player("Player_2_0", 11),
 			new Player("Player_3_0", 13),
 			new Group(
-					new Player("Player_4_1", 29),
-					new Player("Player_5_1", 31)),
+				new Player("Player_4_1", 29),
+				new Player("Player_5_1", 31)),
 			new Player("Player_6_0", 26),
 			new Player("Player_7_0", 29),
 			new Group(
-					new Player("Player_8_2", 40),
-					new Player("Player_9_2", 26)));
+				new Player("Player_8_2", 40),
+				new Player("Player_9_2", 26)));
 
 		int numberOfTeams = 3;
 

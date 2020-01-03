@@ -49,11 +49,11 @@ public class UnitListPanel
 		{
 			@Override
 			public Component getListCellRendererComponent(
-					JList<? extends Unit> list,
-					Unit value,
-					int index,
-					boolean isSelected,
-					boolean cellHasFocus)
+				JList<? extends Unit> list,
+				Unit value,
+				int index,
+				boolean isSelected,
+				boolean cellHasFocus)
 			{
 				JTextArea cell = new JTextArea(value.toString());
 

@@ -70,8 +70,8 @@ public class PlayerPanel
 	public boolean isFormValid()
 	{
 		return StringUtils.isNotBlank(nameTextField.getText())
-				&& StringUtils.isNotBlank(ageTextField.getText())
-				&& Util.isNumeric(ageTextField.getText());
+			&& StringUtils.isNotBlank(ageTextField.getText())
+			&& Util.isNumeric(ageTextField.getText());
 	}
 
 	public void clear()

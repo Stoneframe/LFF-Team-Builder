@@ -42,17 +42,17 @@ public class TeamListPanel
 		teamsWrapperPanel.add(
 			teamsPanel,
 			new GridBagConstraints(
-					0,
-					0,
-					0,
-					0,
-					1,
-					1,
-					GridBagConstraints.NORTHWEST,
-					GridBagConstraints.NONE,
-					new Insets(0, 0, 0, 0),
-					0,
-					0));
+				0,
+				0,
+				0,
+				0,
+				1,
+				1,
+				GridBagConstraints.NORTHWEST,
+				GridBagConstraints.NONE,
+				new Insets(0, 0, 0, 0),
+				0,
+				0));
 
 		scrollPane = new JScrollPane(teamsWrapperPanel);
 		scrollPane.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));

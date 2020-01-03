@@ -23,40 +23,47 @@ public class UnitAdapter
 
 	@Override
 	public JsonElement serialize(
-			Unit unit,
-			Type type,
-			JsonSerializationContext context)
+		Unit unit,
+		Type type,
+		JsonSerializationContext context)
 	{
 		JsonObject retValue = new JsonObject();
-		
+
 		retValue.addProperty(CLASSNAME, unit.getClass().getName());
 		retValue.add(INSTANCE, context.serialize(unit));
-		
+
 		return retValue;
 	}
 
 	@Override
 	public Unit deserialize(
-			JsonElement json,
-			Type type,
-			JsonDeserializationContext context)
+		JsonElement json,
+		Type type,
+		JsonDeserializationContext context)
 			throws JsonParseException
 	{
 		JsonObject jsonObject = json.getAsJsonObject();
-		JsonPrimitive prim = (JsonPrimitive)jsonObject.get(CLASSNAME);
-		String className = prim.getAsString();
 
-		Class<?> clazz = null;
+		return context.deserialize(jsonObject.get(INSTANCE), getClass(jsonObject));
+	}
+
+	private Class<?> getClass(JsonObject jsonObject)
+	{
 		try
 		{
-			clazz = Class.forName(className);
+			return Class.forName(getClassName(jsonObject));
 		}
 		catch (ClassNotFoundException e)
 		{
 			e.printStackTrace();
 			throw new JsonParseException(e.getMessage());
 		}
-		
-		return context.deserialize(jsonObject.get(INSTANCE), clazz);
+	}
+
+	private String getClassName(JsonObject jsonObject)
+	{
+		JsonPrimitive prim = (JsonPrimitive)jsonObject.get(CLASSNAME);
+
+		return prim.getAsString();
 	}
 }

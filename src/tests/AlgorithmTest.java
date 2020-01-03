@@ -46,17 +46,17 @@ public class AlgorithmTest
 
 		List<Unit> units = Arrays.asList(
 			new Group(
-					new Player("Player 1", 10),
-					new Player("Player 2", 20),
-					new Player("Player 3", 20)),
+				new Player("Player 1", 10),
+				new Player("Player 2", 20),
+				new Player("Player 3", 20)),
 			new Player("Player 4", 10),
 			new Player("Player 9", 20),
 			new Group(
-					new Player("Player 5", 20),
-					new Player("Player 6", 10),
-					new Player("Player 7", 20)),
+				new Player("Player 5", 20),
+				new Player("Player 6", 10),
+				new Player("Player 7", 20)),
 			new Group(
-					new Player("Player 8", 20)));
+				new Player("Player 8", 20)));
 
 		List<Team> teams = algorithm.createTeams(units, 3);
 
@@ -79,13 +79,13 @@ public class AlgorithmTest
 			new Player("Player_2_0", 11),
 			new Player("Player_3_0", 13),
 			new Group(
-					new Player("Player_4_1", 29),
-					new Player("Player_5_1", 31)),
+				new Player("Player_4_1", 29),
+				new Player("Player_5_1", 31)),
 			new Player("Player_6_0", 26),
 			new Player("Player_7_0", 29),
 			new Group(
-					new Player("Player_8_2", 40),
-					new Player("Player_9_2", 26)));
+				new Player("Player_8_2", 40),
+				new Player("Player_9_2", 26)));
 
 		int numberOfTeams = 3;
 

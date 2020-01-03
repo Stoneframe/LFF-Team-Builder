@@ -5,15 +5,14 @@ import java.util.function.Function;
 
 public class TeamSettings
 {
-	private boolean splitNonLockedGroups = false;
+	private final Function<Integer, Boolean> scoringRule;
+	private final List<String> teamNames;
 
-	private Function<Integer, Boolean> scoringRule;
+	private boolean splitNonLockedGroups = false;
 
 	private int numberOfTeams;
 	private int minimumNumberOfPlayers;
 	private int maximumNumberOfPlayers;
-
-	private List<String> teamNames;
 
 	public TeamSettings(
 		Function<Integer, Boolean> scoringRule,

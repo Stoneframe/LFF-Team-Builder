@@ -31,10 +31,10 @@ public class LoggerFactory
 	private static FileHandler createFileHandler() throws SecurityException, IOException
 	{
 		FileHandler fileHandler = new FileHandler(
-				Paths.get("Loggar", "log").toString(),
-				10 * 1024 * 1024,
-				5,
-				true);
+			Paths.get("Loggar", "log").toString(),
+			10 * 1024 * 1024,
+			5,
+			true);
 
 		fileHandler.setFormatter(new Formatter()
 		{
