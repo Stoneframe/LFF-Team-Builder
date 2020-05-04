@@ -161,7 +161,10 @@ public class RegistratorFrame
 
 	private void onRemoveUnit()
 	{
-		unitListPanel.removeUnit(unitListPanel.getSelectedUnit());
+		for (Unit unit : unitListPanel.getSelectedUnits())
+		{
+			unitListPanel.removeUnit(unit);
+		}
 	}
 
 	public static void main(String[] args)
