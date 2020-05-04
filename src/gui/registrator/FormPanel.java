@@ -27,6 +27,9 @@ import model.Unit;
 public class FormPanel
 	extends LffPanel
 {
+	public static final int ADD_MODE = 0;
+	public static final int SAVE_MODE = 1;
+
 	private static final long serialVersionUID = -8893769532503054139L;
 
 	private final LffLabel titleLabel;
@@ -38,11 +41,11 @@ public class FormPanel
 	private final LffButton plusButton;
 	private final LffButton minusButton;
 
-	private final LffButton addButton;
+	private final LffButton okButton;
 
 	private int nbrOfPlayers = 1;
 
-	public FormPanel()
+	public FormPanel(int mode)
 	{
 		KeyStroke lock = KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK, true);
 		KeyStroke add = KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ActionEvent.CTRL_MASK, true);
@@ -95,10 +98,10 @@ public class FormPanel
 			minus,
 			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-		addButton = new LffButton("Lägg till", false);
-		addButton.addActionListener(l -> requestFocus());
-		addButton.registerKeyboardAction(
-			l -> addButton.doClick(),
+		okButton = new LffButton(getText(mode), false);
+		okButton.addActionListener(l -> requestFocus());
+		okButton.registerKeyboardAction(
+			l -> okButton.doClick(),
 			enter,
 			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -123,7 +126,7 @@ public class FormPanel
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridy = playerPanels.size() + 2;
 		gbc.gridx = 0;
-		add(addButton, gbc);
+		add(okButton, gbc);
 
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 
@@ -163,7 +166,7 @@ public class FormPanel
 
 	public void addAddButtonActionListener(ActionListener listener)
 	{
-		addButton.addActionListener(listener);
+		okButton.addActionListener(listener);
 	}
 
 	public Unit getUnit()
@@ -256,6 +259,19 @@ public class FormPanel
 
 	private void updateAddButtonEnabled()
 	{
-		addButton.setEnabled(isFormValid());
+		okButton.setEnabled(isFormValid());
+	}
+
+	private String getText(int mode)
+	{
+		switch (mode)
+		{
+			case SAVE_MODE:
+				return "Spara";
+
+			case ADD_MODE:
+			default:
+				return "Lägg till";
+		}
 	}
 }

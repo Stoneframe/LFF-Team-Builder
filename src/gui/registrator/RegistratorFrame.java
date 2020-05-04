@@ -41,7 +41,7 @@ public class RegistratorFrame
 		unitListPanel.addMergeButtonActionListener(l -> onMergeUnits());
 		unitListPanel.addRemoveButtonActionListener(l -> onRemoveUnit());
 
-		formPanel = new FormPanel();
+		formPanel = new FormPanel(FormPanel.ADD_MODE);
 		formPanel.addAddButtonActionListener(l -> onAddUnit());
 
 		LffPanel centerPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
@@ -94,7 +94,7 @@ public class RegistratorFrame
 
 		JFrame frame = new JFrame("Redigera");
 
-		FormPanel formPanel = new FormPanel();
+		FormPanel formPanel = new FormPanel(FormPanel.SAVE_MODE);
 		formPanel.setUnit(selectedUnit);
 		formPanel.addAddButtonActionListener(new ActionListener()
 		{
