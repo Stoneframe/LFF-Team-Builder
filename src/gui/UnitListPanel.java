@@ -139,6 +139,11 @@ public class UnitListPanel
 		editButton.setVisible(isVisible);
 	}
 
+	public void setSplitButtonVisible(boolean isVisible)
+	{
+		splitButton.setVisible(isVisible);
+	}
+
 	public void setMergeButtonVisible(boolean isVisible)
 	{
 		mergeButton.setVisible(isVisible);
