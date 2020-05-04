@@ -8,6 +8,6 @@ public interface Unit
 	public int numberOfPlayers();
 
 	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule);
-	
+
 	public List<Player> getPlayers();
 }
