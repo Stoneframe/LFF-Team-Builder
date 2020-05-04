@@ -38,6 +38,7 @@ public class RegistratorFrame
 
 		unitListPanel.setRemoveButtonVisible(true);
 		unitListPanel.addEditButtonActionListener(l -> onEditUnit());
+		unitListPanel.addSplitButtonActionListener(l -> onSplitUnit());
 		unitListPanel.addMergeButtonActionListener(l -> onMergeUnits());
 		unitListPanel.addRemoveButtonActionListener(l -> onRemoveUnit());
 
@@ -112,6 +113,33 @@ public class RegistratorFrame
 		frame.add(centerPanel, BorderLayout.CENTER);
 		frame.setSize(600, 520);
 		frame.setLocationRelativeTo(this);
+		frame.setVisible(true);
+	}
+
+	private void onSplitUnit()
+	{
+		JFrame frame = new JFrame("Dela");
+
+		Unit selectedUnit = unitListPanel.getSelectedUnit();
+
+		SplitPanel splitPanel = new SplitPanel(selectedUnit);
+		splitPanel.addOkButtonActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				Unit unit1 = splitPanel.getUnit1();
+				Unit unit2 = splitPanel.getUnit2();
+
+				unitListPanel.replaceUnit(selectedUnit, unit1, unit2);
+
+				frame.dispose();
+			}
+		});
+
+		frame.setLayout(new BorderLayout());
+		frame.add(splitPanel, BorderLayout.CENTER);
+		frame.setLocationRelativeTo(this);
+		frame.pack();
 		frame.setVisible(true);
 	}
 

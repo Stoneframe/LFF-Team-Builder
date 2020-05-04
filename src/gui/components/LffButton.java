@@ -19,17 +19,25 @@ public class LffButton
 		setBackground(Util.FOREGROUND);
 	}
 
-	public LffButton(String text, boolean enabled)
+	public LffButton(String text, boolean isEnabled)
 	{
 		this(text);
 
-		setEnabled(enabled);
+		setEnabled(isEnabled);
 	}
 
 	public LffButton(String text, int size)
 	{
 		this(text);
 
+		setFont(new Font("Dialog", Font.PLAIN, size));
+	}
+
+	public LffButton(String text, int size, boolean isEnabled)
+	{
+		this(text);
+
+		setEnabled(isEnabled);
 		setFont(new Font("Dialog", Font.PLAIN, size));
 	}
 }

@@ -1,26 +1,22 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
 import gui.components.LffButton;
 import gui.components.LffLabel;
 import gui.components.LffList;
 import gui.components.LffPanel;
+import gui.components.LffScrollPane;
 import model.Unit;
 
 public class UnitListPanel
@@ -34,6 +30,7 @@ public class UnitListPanel
 	private final LffList<Unit> unitList;
 
 	private final LffButton editButton;
+	private final LffButton splitButton;
 	private final LffButton mergeButton;
 	private final LffButton removeButton;
 
@@ -46,54 +43,18 @@ public class UnitListPanel
 		unitList = new LffList<>(unitListModel);
 		unitList.addListSelectionListener(l -> onSelectionChanged());
 		unitList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		unitList.setCellRenderer(new ListCellRenderer<Unit>()
-		{
-			@Override
-			public Component getListCellRendererComponent(
-				JList<? extends Unit> list,
-				Unit value,
-				int index,
-				boolean isSelected,
-				boolean cellHasFocus)
-			{
-				JTextArea cell = new JTextArea(value.toString());
-
-				cell.setFont(new Font("Dialog", Font.BOLD, 20));
-
-				if (isSelected)
-				{
-					cell.setForeground(Util.BACKGROUND);
-					cell.setBackground(Util.FOREGROUND);
-				}
-				else
-				{
-					cell.setForeground(Util.FOREGROUND);
-
-					if (index % 2 == 1)
-					{
-						cell.setBackground(Util.MILD_BACKGROUND);
-					}
-					else
-					{
-						cell.setBackground(Util.BACKGROUND);
-					}
-				}
-
-				return cell;
-			}
-		});
 
 		editButton = new LffButton("Redigera...", false);
+		splitButton = new LffButton("Dela...", false);
 		mergeButton = new LffButton("Slå ihop", false);
 		removeButton = new LffButton("Ta bort", false);
 
-		JScrollPane scrollPane = new JScrollPane(unitList);
-		scrollPane.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
-		scrollPane.setPreferredSize(new Dimension(300, 500));
+		LffScrollPane scrollPane = new LffScrollPane(unitList, new Dimension(300, 500));
 
 		LffPanel buttonPanel = new LffPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanel.add(editButton);
+		buttonPanel.add(splitButton);
 		buttonPanel.add(mergeButton);
 		buttonPanel.add(removeButton);
 
@@ -134,14 +95,29 @@ public class UnitListPanel
 		unitListModel.removeElement(unit);
 	}
 
-	public void replaceUnit(Unit unitToRemove, Unit unitToAdd)
+	// public void replaceUnit(Unit unitToRemove, Unit unitToAdd)
+	// {
+	// int index = unitListModel.indexOf(unitToRemove);
+	//
+	// unitListModel.remove(index);
+	// unitListModel.add(index, unitToAdd);
+	//
+	// unitList.setSelectedValue(unitToAdd, true);
+	// }
+
+	public void replaceUnit(Unit unitToRemove, Unit... unitsToAdd)
 	{
 		int index = unitListModel.indexOf(unitToRemove);
 
 		unitListModel.remove(index);
-		unitListModel.add(index, unitToAdd);
 
-		unitList.setSelectedValue(unitToAdd, true);
+		for (int i = 0; i < unitsToAdd.length; i++)
+		{
+			unitListModel.add(index + i, unitsToAdd[i]);
+		}
+
+		unitList.setSelectedIndices(IntStream.range(index, index + unitsToAdd.length).toArray());
+		unitList.ensureIndexIsVisible(index);
 	}
 
 	public int getNbrOfPlayers()
@@ -152,6 +128,11 @@ public class UnitListPanel
 	public void addEditButtonActionListener(ActionListener listener)
 	{
 		editButton.addActionListener(listener);
+	}
+
+	public void addSplitButtonActionListener(ActionListener listener)
+	{
+		splitButton.addActionListener(listener);
 	}
 
 	public void addMergeButtonActionListener(ActionListener listener)
@@ -182,6 +163,7 @@ public class UnitListPanel
 	private void onSelectionChanged()
 	{
 		editButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
+		splitButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
 		mergeButton.setEnabled(unitList.getSelectedValuesList().size() > 1);
 		removeButton.setEnabled(!unitList.isSelectionEmpty());
 	}
