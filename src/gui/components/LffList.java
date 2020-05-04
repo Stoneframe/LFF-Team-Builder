@@ -2,6 +2,9 @@ package gui.components;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.swing.JList;
 import javax.swing.JTextArea;
@@ -60,5 +63,22 @@ public class LffList<T>
 				return cell;
 			}
 		});
+	}
+
+	public T getElementAt(int index)
+	{
+		return getModel().getElementAt(index);
+	}
+
+	public int nbrOfElemets()
+	{
+		return getModel().getSize();
+	}
+
+	public List<T> getAllElements()
+	{
+		return IntStream.range(0, getModel().getSize())
+			.mapToObj(getModel()::getElementAt)
+			.collect(Collectors.toList());
 	}
 }

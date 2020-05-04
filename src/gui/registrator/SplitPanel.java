@@ -3,14 +3,14 @@ package gui.registrator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 
 import gui.components.LffButton;
+import gui.components.LffLabel;
 import gui.components.LffList;
 import gui.components.LffPanel;
 import gui.components.LffScrollPane;
@@ -22,6 +22,8 @@ public class SplitPanel
 	extends LffPanel
 {
 	private static final long serialVersionUID = 507340582182135976L;
+
+	private final LffLabel titleLabel;
 
 	private final DefaultListModel<Player> leftListModel;
 	private final DefaultListModel<Player> rightListModel;
@@ -36,7 +38,7 @@ public class SplitPanel
 
 	public SplitPanel(Unit unit)
 	{
-		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		titleLabel = new LffLabel("Dela", Font.BOLD, 40);
 
 		leftListModel = new DefaultListModel<>();
 		rightListModel = new DefaultListModel<>();
@@ -70,8 +72,10 @@ public class SplitPanel
 
 		unit.getPlayers().forEach(p -> leftListModel.addElement(p));
 
+		setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 		setLayout(new BorderLayout());
 
+		add(titleLabel, BorderLayout.NORTH);
 		add(centerButtonPanel, BorderLayout.CENTER);
 		add(new LffScrollPane(leftList, new Dimension(300, 400)), BorderLayout.WEST);
 		add(new LffScrollPane(rightList, new Dimension(300, 400)), BorderLayout.EAST);
@@ -80,12 +84,12 @@ public class SplitPanel
 
 	public Unit getUnit1()
 	{
-		return getUnit(leftListModel);
+		return getUnit(leftList);
 	}
 
 	public Unit getUnit2()
 	{
-		return getUnit(rightListModel);
+		return getUnit(rightList);
 	}
 
 	public void addOkButtonActionListener(ActionListener listener)
@@ -122,13 +126,10 @@ public class SplitPanel
 		onSelectionChanged();
 	}
 
-	private static Unit getUnit(DefaultListModel<Player> leftListModel)
+	private static Unit getUnit(LffList<Player> list)
 	{
-		return leftListModel.size() == 1
-				? leftListModel.get(0)
-				: new Group(
-					IntStream.range(0, leftListModel.size())
-						.mapToObj(leftListModel::get)
-						.collect(Collectors.toList()));
+		return list.nbrOfElemets() == 1
+				? list.getElementAt(0)
+				: new Group(list.getAllElements());
 	}
 }

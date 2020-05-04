@@ -43,7 +43,7 @@ public class RegistratorFrame
 		unitListPanel.addRemoveButtonActionListener(l -> onRemoveUnit());
 
 		formPanel = new FormPanel(FormPanel.ADD_MODE);
-		formPanel.addAddButtonActionListener(l -> onAddUnit());
+		formPanel.addOkButtonActionListener(l -> onAddUnit());
 
 		LffPanel centerPanel = new LffPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -97,7 +97,7 @@ public class RegistratorFrame
 
 		FormPanel formPanel = new FormPanel(FormPanel.SAVE_MODE);
 		formPanel.setUnit(selectedUnit);
-		formPanel.addAddButtonActionListener(new ActionListener()
+		formPanel.addOkButtonActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{

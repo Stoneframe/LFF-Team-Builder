@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -67,7 +66,7 @@ public class UnitListPanel
 
 	public List<Unit> getUnits()
 	{
-		return Collections.list(unitListModel.elements());
+		return unitList.getAllElements();
 	}
 
 	public Unit getSelectedUnit()
@@ -94,16 +93,6 @@ public class UnitListPanel
 	{
 		unitListModel.removeElement(unit);
 	}
-
-	// public void replaceUnit(Unit unitToRemove, Unit unitToAdd)
-	// {
-	// int index = unitListModel.indexOf(unitToRemove);
-	//
-	// unitListModel.remove(index);
-	// unitListModel.add(index, unitToAdd);
-	//
-	// unitList.setSelectedValue(unitToAdd, true);
-	// }
 
 	public void replaceUnit(Unit unitToRemove, Unit... unitsToAdd)
 	{

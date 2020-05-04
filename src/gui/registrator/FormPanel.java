@@ -54,7 +54,7 @@ public class FormPanel
 		KeyStroke minus = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK, true);
 		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.CTRL_MASK, true);
 
-		titleLabel = new LffLabel("Registrering", Font.BOLD, 40);
+		titleLabel = new LffLabel(getTitleText(mode), Font.BOLD, 40);
 
 		playerPanels = Arrays.asList(
 			new PlayerPanel(),
@@ -98,7 +98,7 @@ public class FormPanel
 			minus,
 			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-		okButton = new LffButton(getText(mode), false);
+		okButton = new LffButton(getOkButtonText(mode), false);
 		okButton.addActionListener(l -> requestFocus());
 		okButton.registerKeyboardAction(
 			l -> okButton.doClick(),
@@ -164,7 +164,7 @@ public class FormPanel
 		update();
 	}
 
-	public void addAddButtonActionListener(ActionListener listener)
+	public void addOkButtonActionListener(ActionListener listener)
 	{
 		okButton.addActionListener(listener);
 	}
@@ -241,7 +241,7 @@ public class FormPanel
 			playerPanels.get(i).setVisible(i < nbrOfPlayers);
 		}
 
-		updateAddButtonEnabled();
+		updateOkButtonEnabled();
 	}
 
 	private boolean isFormValid()
@@ -254,15 +254,28 @@ public class FormPanel
 
 	private void onTextChanged()
 	{
-		updateAddButtonEnabled();
+		updateOkButtonEnabled();
 	}
 
-	private void updateAddButtonEnabled()
+	private void updateOkButtonEnabled()
 	{
 		okButton.setEnabled(isFormValid());
 	}
 
-	private String getText(int mode)
+	private String getTitleText(int mode)
+	{
+		switch (mode)
+		{
+			case SAVE_MODE:
+				return "Redigera";
+
+			case ADD_MODE:
+			default:
+				return "Registrering";
+		}
+	}
+
+	private String getOkButtonText(int mode)
 	{
 		switch (mode)
 		{
