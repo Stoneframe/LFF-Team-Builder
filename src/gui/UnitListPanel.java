@@ -44,7 +44,7 @@ public class UnitListPanel
 
 		unitList = new LffList<>(unitListModel);
 		unitList.addListSelectionListener(l -> onSelectionChanged());
-		unitList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		unitList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		unitList.setCellRenderer(new ListCellRenderer<Unit>()
 		{
 			@Override
@@ -149,19 +149,19 @@ public class UnitListPanel
 		removeButton.addActionListener(listener);
 	}
 
-	public void setEditButtonVisible(boolean isEnabled)
+	public void setEditButtonVisible(boolean isVisible)
 	{
-		editButton.setVisible(isEnabled);
+		editButton.setVisible(isVisible);
 	}
 
-	public void setRemoveButtonVisible(boolean isEnabled)
+	public void setRemoveButtonVisible(boolean isVisible)
 	{
-		removeButton.setVisible(isEnabled);
+		removeButton.setVisible(isVisible);
 	}
 
 	private void onSelectionChanged()
 	{
-		editButton.setEnabled(!unitList.isSelectionEmpty());
+		editButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
 		removeButton.setEnabled(!unitList.isSelectionEmpty());
 	}
 }
