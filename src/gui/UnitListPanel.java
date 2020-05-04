@@ -34,6 +34,7 @@ public class UnitListPanel
 	private final LffList<Unit> unitList;
 
 	private final LffButton editButton;
+	private final LffButton mergeButton;
 	private final LffButton removeButton;
 
 	public UnitListPanel(String titel)
@@ -83,6 +84,7 @@ public class UnitListPanel
 		});
 
 		editButton = new LffButton("Redigera...", false);
+		mergeButton = new LffButton("Slå ihop", false);
 		removeButton = new LffButton("Ta bort", false);
 
 		JScrollPane scrollPane = new JScrollPane(unitList);
@@ -92,6 +94,7 @@ public class UnitListPanel
 		LffPanel buttonPanel = new LffPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanel.add(editButton);
+		buttonPanel.add(mergeButton);
 		buttonPanel.add(removeButton);
 
 		setLayout(new BorderLayout());
@@ -109,6 +112,11 @@ public class UnitListPanel
 	public Unit getSelectedUnit()
 	{
 		return unitList.getSelectedValue();
+	}
+
+	public List<Unit> getSelectedUnits()
+	{
+		return unitList.getSelectedValuesList();
 	}
 
 	public void setUnits(List<Unit> units)
@@ -132,6 +140,8 @@ public class UnitListPanel
 
 		unitListModel.remove(index);
 		unitListModel.add(index, unitToAdd);
+
+		unitList.setSelectedValue(unitToAdd, true);
 	}
 
 	public int getNbrOfPlayers()
@@ -144,6 +154,11 @@ public class UnitListPanel
 		editButton.addActionListener(listener);
 	}
 
+	public void addMergeButtonActionListener(ActionListener listener)
+	{
+		mergeButton.addActionListener(listener);
+	}
+
 	public void addRemoveButtonActionListener(ActionListener listener)
 	{
 		removeButton.addActionListener(listener);
@@ -154,6 +169,11 @@ public class UnitListPanel
 		editButton.setVisible(isVisible);
 	}
 
+	public void setMergeButtonVisible(boolean isVisible)
+	{
+		mergeButton.setVisible(isVisible);
+	}
+
 	public void setRemoveButtonVisible(boolean isVisible)
 	{
 		removeButton.setVisible(isVisible);
@@ -162,6 +182,7 @@ public class UnitListPanel
 	private void onSelectionChanged()
 	{
 		editButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
+		mergeButton.setEnabled(unitList.getSelectedValuesList().size() > 1);
 		removeButton.setEnabled(!unitList.isSelectionEmpty());
 	}
 }

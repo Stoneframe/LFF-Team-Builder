@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Team
 	implements
@@ -44,6 +45,12 @@ public class Team
 	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
 		return units.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
+	}
+
+	@Override
+	public List<Player> getPlayers()
+	{
+		return units.stream().flatMap(u -> u.getPlayers().stream()).collect(Collectors.toList());
 	}
 
 	@Override

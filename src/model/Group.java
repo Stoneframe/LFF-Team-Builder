@@ -96,6 +96,12 @@ public class Group
 	}
 
 	@Override
+	public List<Player> getPlayers()
+	{
+		return players;
+	}
+
+	@Override
 	public Iterator<Player> iterator()
 	{
 		return players.iterator();

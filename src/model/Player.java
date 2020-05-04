@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 public class Player
@@ -35,6 +37,12 @@ public class Player
 	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
 	{
 		return scoringRule.apply(age) ? 1 : 0;
+	}
+
+	@Override
+	public List<Player> getPlayers()
+	{
+		return Arrays.asList(this);
 	}
 
 	@Override

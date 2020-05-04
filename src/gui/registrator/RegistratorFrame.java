@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -16,6 +17,8 @@ import gui.LffFrameBase;
 import gui.components.LffPanel;
 import io.FileHandler;
 import logging.LoggerFactory;
+import model.Group;
+import model.Player;
 import model.Unit;
 
 public class RegistratorFrame
@@ -35,6 +38,7 @@ public class RegistratorFrame
 
 		unitListPanel.setRemoveButtonVisible(true);
 		unitListPanel.addEditButtonActionListener(l -> onEditUnit());
+		unitListPanel.addMergeButtonActionListener(l -> onMergeUnits());
 		unitListPanel.addRemoveButtonActionListener(l -> onRemoveUnit());
 
 		formPanel = new FormPanel();
@@ -109,6 +113,22 @@ public class RegistratorFrame
 		frame.setSize(600, 520);
 		frame.setLocationRelativeTo(this);
 		frame.setVisible(true);
+	}
+
+	private void onMergeUnits()
+	{
+		List<Unit> units = unitListPanel.getSelectedUnits();
+
+		List<Player> allPlayers = units.stream()
+			.flatMap(u -> u.getPlayers().stream())
+			.collect(Collectors.toList());
+
+		unitListPanel.replaceUnit(units.get(0), new Group(allPlayers));
+
+		for (int i = 1; i < units.size(); i++)
+		{
+			unitListPanel.removeUnit(units.get(i));
+		}
 	}
 
 	private void onRemoveUnit()
