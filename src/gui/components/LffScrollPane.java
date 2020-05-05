@@ -15,12 +15,11 @@ public class LffScrollPane
 {
 	private static final long serialVersionUID = -3450087759986457841L;
 
-	public LffScrollPane(JList<?> list, Dimension dimension)
+	public LffScrollPane(JList<?> list)
 	{
 		super(list);
 
 		setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
-		setPreferredSize(dimension);
 		setBackground(Util.BACKGROUND);
 
 		getVerticalScrollBar().setBackground(Util.BACKGROUND);
@@ -56,5 +55,12 @@ public class LffScrollPane
 				return button;
 			}
 		});
+	}
+
+	public LffScrollPane(JList<?> list, Dimension dimension)
+	{
+		this(list);
+
+		setPreferredSize(dimension);
 	}
 }
