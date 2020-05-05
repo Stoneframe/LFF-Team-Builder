@@ -20,4 +20,11 @@ public class LffCheckBox
 		setForeground(Util.FOREGROUND);
 		setBackground(Util.BACKGROUND);
 	}
+
+	public LffCheckBox(String text, boolean isEnabled)
+	{
+		this(text);
+
+		setEnabled(isEnabled);
+	}
 }
