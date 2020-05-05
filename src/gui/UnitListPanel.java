@@ -157,7 +157,9 @@ public class UnitListPanel
 	private void onSelectionChanged()
 	{
 		editButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
-		splitButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
+		splitButton.setEnabled(
+			unitList.getSelectedValuesList().size() == 1
+				&& unitList.getSelectedValue().numberOfPlayers() > 1);
 		mergeButton.setEnabled(unitList.getSelectedValuesList().size() > 1);
 		removeButton.setEnabled(!unitList.isSelectionEmpty());
 	}
