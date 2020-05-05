@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import gui.LffFrameBase;
@@ -151,7 +152,25 @@ public class RegistratorFrame
 			.flatMap(u -> u.getPlayers().stream())
 			.collect(Collectors.toList());
 
-		unitListPanel.replaceUnit(units.get(0), new Group(allPlayers));
+		Group group = new Group(getIsLocked(), allPlayers);
+
+		replace(units, group);
+	}
+
+	private boolean getIsLocked()
+	{
+		int choice = JOptionPane.showConfirmDialog(
+			this,
+			"Vill du Låsa den nya gruppen?",
+			"Låsa grupp?",
+			JOptionPane.YES_NO_OPTION);
+
+		return choice == JOptionPane.YES_OPTION;
+	}
+
+	private void replace(List<Unit> units, Group group)
+	{
+		unitListPanel.replaceUnit(units.get(0), group);
 
 		for (int i = 1; i < units.size(); i++)
 		{
