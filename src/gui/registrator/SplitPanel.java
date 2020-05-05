@@ -1,15 +1,19 @@
 package gui.registrator;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 
 import gui.components.LffButton;
+import gui.components.LffCheckBox;
 import gui.components.LffLabel;
 import gui.components.LffList;
 import gui.components.LffPanel;
@@ -25,6 +29,9 @@ public class SplitPanel
 
 	private final LffLabel titleLabel;
 
+	private final LffCheckBox leftLockCheckBox;
+	private final LffCheckBox rightLockCheckBox;
+
 	private final DefaultListModel<Player> leftListModel;
 	private final DefaultListModel<Player> rightListModel;
 
@@ -39,6 +46,9 @@ public class SplitPanel
 	public SplitPanel(Unit unit)
 	{
 		titleLabel = new LffLabel("Dela", Font.BOLD, 40);
+
+		leftLockCheckBox = new LffCheckBox("Lås");
+		rightLockCheckBox = new LffCheckBox("Lås");
 
 		leftListModel = new DefaultListModel<>();
 		rightListModel = new DefaultListModel<>();
@@ -59,42 +69,81 @@ public class SplitPanel
 
 		okButton = new LffButton("Spara", false);
 
-		LffPanel centerButtonPanel = new LffPanel(new BorderLayout());
+		LffScrollPane leftScollPane = new LffScrollPane(leftList, new Dimension(270, 300));
+		LffScrollPane rightScrollPane = new LffScrollPane(rightList, new Dimension(270, 300));
 
-		centerButtonPanel.setBorder(BorderFactory.createEmptyBorder(160, 20, 160, 20));
-		centerButtonPanel.add(moveRightButton, BorderLayout.NORTH);
-		centerButtonPanel.add(moveLeftButton, BorderLayout.SOUTH);
+		LffPanel buttonPanel = new LffPanel(new GridLayout(2, 1, 10, 10));
+		buttonPanel.add(moveRightButton);
+		buttonPanel.add(moveLeftButton);
 
-		LffPanel bottomButtonPanel = new LffPanel(new FlowLayout(FlowLayout.RIGHT));
+		LffPanel leftListPanel = new LffPanel(new BorderLayout());
+		leftListPanel.add(leftLockCheckBox, BorderLayout.NORTH);
+		leftListPanel.add(leftScollPane, BorderLayout.CENTER);
 
-		bottomButtonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-		bottomButtonPanel.add(okButton);
+		LffPanel rightListPanel = new LffPanel(new BorderLayout());
+		rightListPanel.add(rightLockCheckBox, BorderLayout.NORTH);
+		rightListPanel.add(rightScrollPane, BorderLayout.CENTER);
+
+		setLayout(new GridBagLayout());
+
+		add(0, 0, 3, 1, GridBagConstraints.FIRST_LINE_START, titleLabel);
+		add(0, 1, 1, 3, GridBagConstraints.CENTER, leftListPanel, GridBagConstraints.BOTH);
+		add(2, 1, 1, 3, GridBagConstraints.CENTER, rightListPanel, GridBagConstraints.BOTH);
+		add(1, 2, 1, 1, GridBagConstraints.CENTER, buttonPanel);
+		add(2, 5, 1, 1, GridBagConstraints.LAST_LINE_END, okButton);
 
 		unit.getPlayers().forEach(p -> leftListModel.addElement(p));
-
-		setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
-		setLayout(new BorderLayout());
-
-		add(titleLabel, BorderLayout.NORTH);
-		add(centerButtonPanel, BorderLayout.CENTER);
-		add(new LffScrollPane(leftList, new Dimension(300, 400)), BorderLayout.WEST);
-		add(new LffScrollPane(rightList, new Dimension(300, 400)), BorderLayout.EAST);
-		add(bottomButtonPanel, BorderLayout.SOUTH);
 	}
 
 	public Unit getUnit1()
 	{
-		return getUnit(leftList);
+		return getUnit(leftList, leftLockCheckBox);
 	}
 
 	public Unit getUnit2()
 	{
-		return getUnit(rightList);
+		return getUnit(rightList, rightLockCheckBox);
 	}
 
 	public void addOkButtonActionListener(ActionListener listener)
 	{
 		okButton.addActionListener(listener);
+	}
+
+	private void add(
+		int gridx,
+		int gridy,
+		int gridwidth,
+		int gridheight,
+		int anchor,
+		Component component)
+	{
+		add(gridx, gridy, gridwidth, gridheight, anchor, component, GridBagConstraints.NONE);
+	}
+
+	private void add(
+		int gridx,
+		int gridy,
+		int gridwidth,
+		int gridheight,
+		int anchor,
+		Component component,
+		int fill)
+	{
+		add(
+			component,
+			new GridBagConstraints(
+				gridx,
+				gridy,
+				gridwidth,
+				gridheight,
+				1,
+				1,
+				anchor,
+				fill,
+				new Insets(10, 10, 10, 10),
+				0,
+				0));
 	}
 
 	private void onSelectionChanged()
@@ -126,10 +175,10 @@ public class SplitPanel
 		onSelectionChanged();
 	}
 
-	private static Unit getUnit(LffList<Player> list)
+	private static Unit getUnit(LffList<Player> list, LffCheckBox lockCheckBox)
 	{
 		return list.nbrOfElemets() == 1
 				? list.getElementAt(0)
-				: new Group(list.getAllElements());
+				: new Group(lockCheckBox.isEnabled(), list.getAllElements());
 	}
 }
