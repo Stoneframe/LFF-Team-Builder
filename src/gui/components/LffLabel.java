@@ -4,7 +4,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffLabel
 	extends JLabel

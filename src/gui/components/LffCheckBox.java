@@ -4,7 +4,7 @@ import java.awt.Font;
 
 import javax.swing.JCheckBox;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffCheckBox
 	extends JCheckBox

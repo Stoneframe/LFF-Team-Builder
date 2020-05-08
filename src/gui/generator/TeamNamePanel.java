@@ -6,10 +6,10 @@ import java.util.function.Function;
 
 import javax.swing.JSeparator;
 
-import gui.Util;
 import gui.components.LffIcon;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
+import gui.util.Util;
 import model.Team;
 
 public class TeamNamePanel

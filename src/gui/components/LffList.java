@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffList<T>
 	extends JList<T>

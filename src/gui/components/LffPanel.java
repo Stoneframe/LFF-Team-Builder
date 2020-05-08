@@ -4,7 +4,7 @@ import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffPanel
 	extends JPanel

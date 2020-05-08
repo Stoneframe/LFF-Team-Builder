@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffScrollPane
 	extends JScrollPane

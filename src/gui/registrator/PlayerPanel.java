@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 
 import org.junit.platform.commons.util.StringUtils;
 
-import gui.Util;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
 import gui.components.LffTextField;
+import gui.util.Util;
 import model.Player;
 
 public class PlayerPanel

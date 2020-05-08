@@ -13,9 +13,9 @@ import java.util.function.Function;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 
-import gui.Util;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
+import gui.util.Util;
 import model.Team;
 
 public class TeamListPanel

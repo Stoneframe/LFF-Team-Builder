@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 
-import gui.Util;
 import gui.components.LffPanel;
+import gui.util.Util;
 import model.Group;
 import model.Player;
 import model.Team;

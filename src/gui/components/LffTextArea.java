@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffTextArea
 	extends JTextArea

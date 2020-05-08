@@ -4,7 +4,7 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
-import gui.Util;
+import gui.util.Util;
 
 public class LffButton
 	extends JButton
