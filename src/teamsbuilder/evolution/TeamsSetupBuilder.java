@@ -3,10 +3,8 @@ package teamsbuilder.evolution;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import model.NumberOf;
-import model.Player;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
@@ -18,16 +16,12 @@ public class TeamsSetupBuilder
 	private final List<Unit> units;
 	private final TeamSettings settings;
 
-	private final OptimalTeam optimalteam;
-
 	private final List<TeamsSetup> setups = new LinkedList<>();
 
 	public TeamsSetupBuilder(List<Unit> units, TeamSettings settings)
 	{
 		this.units = units;
 		this.settings = settings;
-
-		this.optimalteam = createOptimalTeam();
 	}
 
 	public List<Team> createTeams()
@@ -78,10 +72,11 @@ public class TeamsSetupBuilder
 
 	private FitnessCalculator getFitnessCalculator()
 	{
-		return new TotalFitnessCalculator(
-			new TeamSizeFitnessCalculator(optimalteam.numberOfPlayers()),
-			new ScoreAbleFitnessCalculator(optimalteam.numberOfScoreAblePlayers()),
-			new TeenAgersFitnessCalculator(optimalteam.numberOfTeenAgers()));
+		return new LffFitnessCalculator(
+			createOptimalTeam(),
+			NumberOf.PLAYERS,
+			NumberOf.SCORE_ABLE,
+			NumberOf.TEEN_AGERS);
 	}
 
 	private List<Team> createRandomTeams()
@@ -113,6 +108,8 @@ public class TeamsSetupBuilder
 	private void sortByFitness()
 	{
 		setups.sort(byHighestFitness());
+
+		System.out.println(setups.get(0));
 	}
 
 	private Comparator<? super TeamsSetup> byHighestFitness()
@@ -147,15 +144,6 @@ public class TeamsSetupBuilder
 
 	private OptimalTeam createOptimalTeam()
 	{
-		return new OptimalTeam(
-			getAverage(NumberOf.SCORE_ABLE),
-			getAverage(NumberOf.TEEN_AGERS),
-			getAverage(NumberOf.PLAYERS));
-	}
-
-	private double getAverage(Predicate<Player> relevantPlayers)
-	{
-		return units.stream().mapToDouble(u -> u.count(relevantPlayers)).sum()
-			/ settings.getNumberOfTeams();
+		return new OptimalTeam(units, settings.getNumberOfTeams());
 	}
 }

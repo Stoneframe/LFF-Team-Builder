@@ -1,30 +1,35 @@
 package teamsbuilder.evolution;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
+import model.Player;
+import model.Unit;
+
 public class OptimalTeam
 {
-	private final double nbrOfScoreAble;
-	private final double nbrOfTeenAgers;
-	private final double nbrOfPlayers;
+	private final Map<Predicate<Player>, Double> cache = new HashMap<>();
 
-	public OptimalTeam(double nbrOfScoreAble, double nbrOfTeenAgers, double nbrOfPlayers)
+	private final List<Unit> units;
+	private final int nbrOfTeams;
+
+	public OptimalTeam(List<Unit> units, int nbrOfTeams)
 	{
-		this.nbrOfScoreAble = nbrOfScoreAble;
-		this.nbrOfTeenAgers = nbrOfTeenAgers;
-		this.nbrOfPlayers = nbrOfPlayers;
+		this.units = units;
+		this.nbrOfTeams = nbrOfTeams;
 	}
 
-	public double numberOfScoreAblePlayers()
+	public double count(Predicate<Player> predicate)
 	{
-		return nbrOfScoreAble;
+		return cache.computeIfAbsent(predicate, p -> countValue(p));
 	}
 
-	public double numberOfTeenAgers()
+	private double countValue(Predicate<Player> predicate)
 	{
-		return nbrOfTeenAgers;
-	}
+		double total = units.stream().mapToDouble(u -> u.count(predicate)).sum();
 
-	public double numberOfPlayers()
-	{
-		return nbrOfPlayers;
+		return total / nbrOfTeams;
 	}
 }

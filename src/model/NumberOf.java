@@ -4,9 +4,25 @@ import java.util.function.Predicate;
 
 public class NumberOf
 {
-	public static final Predicate<Player> SCORE_ABLE = p -> p.getAge() < 13 || 50 <= p.getAge();
+	public static final Counter SCORE_ABLE = new Counter(p -> p.getAge() < 13 || 50 <= p.getAge());
+	public static final Counter TEEN_AGERS = new Counter(p -> 12 < p.getAge() && p.getAge() < 20);
+	public static final Counter PLAYERS = new Counter(p -> true);
 
-	public static final Predicate<Player> TEEN_AGERS = p -> 12 < p.getAge() && p.getAge() < 20;
+	public static class Counter
+		implements
+			Predicate<Player>
+	{
+		private final Predicate<Player> predicate;
 
-	public static final Predicate<Player> PLAYERS = p -> true;
+		public Counter(Predicate<Player> predicate)
+		{
+			this.predicate = predicate;
+		}
+
+		@Override
+		public boolean test(Player t)
+		{
+			return predicate.test(t);
+		}
+	}
 }
