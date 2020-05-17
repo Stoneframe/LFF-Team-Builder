@@ -72,8 +72,16 @@ public class TeamsSetupBuilder
 
 		return new TeamsSetup(
 			teams,
-			new LffFitnessCalculator(optimalteam),
+			getFitnessCalculator(),
 			settings);
+	}
+
+	private FitnessCalculator getFitnessCalculator()
+	{
+		return new TotalFitnessCalculator(
+			new TeamSizeFitnessCalculator(optimalteam.numberOfPlayers()),
+			new ScoreAbleFitnessCalculator(optimalteam.numberOfScoreAblePlayers()),
+			new TeenAgersFitnessCalculator(optimalteam.numberOfTeenAgers()));
 	}
 
 	private List<Team> createRandomTeams()
