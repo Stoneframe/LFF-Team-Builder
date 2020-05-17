@@ -9,7 +9,7 @@ public class LffFitnessCalculator
 	implements
 		FitnessCalculator
 {
-	private static final double FACTOR = 1;
+	private static final double FACTOR = 10;
 
 	private final OptimalTeam optimalTeam;
 
@@ -22,7 +22,7 @@ public class LffFitnessCalculator
 	public double calculate(List<Team> teams)
 	{
 		return (teams.stream().mapToDouble(t -> calculate(t)).average().getAsDouble()
-			* teamSize(teams)) / 2;
+			* teamSize(teams));
 	}
 
 	private double calculate(Team team)
