@@ -9,7 +9,7 @@ public class LffFitnessCalculator
 	implements
 		FitnessCalculator
 {
-	private static final int FACTOR = 1;
+	private static final double FACTOR = 1;
 
 	private final Function<Integer, Boolean> scoringRule;
 	private final OptimalTeam optimalTeam;
@@ -23,7 +23,8 @@ public class LffFitnessCalculator
 	@Override
 	public double calculate(List<Team> teams)
 	{
-		return teams.stream().mapToDouble(t -> calculate(t)).average().getAsDouble();
+		return (teams.stream().mapToDouble(t -> calculate(t)).average().getAsDouble()
+			* teamSize(teams)) / 2;
 	}
 
 	private double calculate(Team team)
@@ -58,5 +59,17 @@ public class LffFitnessCalculator
 	private double teamSize(Team team)
 	{
 		return FACTOR / (FACTOR + Math.abs(optimalTeam.numberOfPlayers() - team.numberOfPlayers()));
+	}
+
+	private double teamSize(List<Team> teams)
+	{
+		int largestTeamSize =
+				(int)teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
+		int smallestTeamSize =
+				(int)teams.stream().mapToInt(t -> t.numberOfPlayers()).min().getAsInt();
+
+		int diff = largestTeamSize - smallestTeamSize;
+
+		return FACTOR / (FACTOR + diff);
 	}
 }
