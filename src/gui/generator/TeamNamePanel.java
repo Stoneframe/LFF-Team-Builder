@@ -2,7 +2,6 @@ package gui.generator;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.function.Function;
 
 import javax.swing.JSeparator;
 
@@ -22,7 +21,7 @@ public class TeamNamePanel
 	private final LffLabel nbrScoreablePlayersLabel;
 	private final LffLabel iconLabel;
 
-	public TeamNamePanel(Team team, Function<Integer, Boolean> scoringRule)
+	public TeamNamePanel(Team team)
 	{
 		teamNameLabel = new LffLabel(team.getName());
 		nbrScoreablePlayersLabel = new LffLabel(

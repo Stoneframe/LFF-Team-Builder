@@ -3,7 +3,6 @@ package gui.generator;
 import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -21,13 +20,13 @@ public class GroupPanel
 
 	private final List<PlayerPanel> playerPanels;
 
-	public GroupPanel(Group group, Function<Integer, Boolean> scoringRule)
+	public GroupPanel(Group group)
 	{
 		playerPanels = new LinkedList<>();
 
 		for (Player player : group)
 		{
-			PlayerPanel playerPanel = new PlayerPanel(player, scoringRule);
+			PlayerPanel playerPanel = new PlayerPanel(player);
 
 			playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 

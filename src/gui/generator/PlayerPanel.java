@@ -3,12 +3,10 @@ package gui.generator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.function.Function;
 
 import gui.components.LffIcon;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
-import model.NumberOf;
 import model.Player;
 
 public class PlayerPanel
@@ -22,14 +20,14 @@ public class PlayerPanel
 	private final LffLabel nameLabel;
 	private final LffLabel ageLabel;
 
-	public PlayerPanel(Player player, Function<Integer, Boolean> scoringRule)
+	public PlayerPanel(Player player)
 	{
 		greenFootballIcon = LffIcon.getGreenFootball();
 
 		iconLabel = new LffLabel();
 		iconLabel.setPreferredSize(new Dimension(15, 15));
 
-		if (player.count(NumberOf.SCORE_ABLE) == 1)
+		if (player.isScoreAble())
 		{
 			iconLabel.setIcon(greenFootballIcon);
 		}

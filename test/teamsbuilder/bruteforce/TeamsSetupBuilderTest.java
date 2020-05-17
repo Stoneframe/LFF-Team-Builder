@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +20,6 @@ import teamsbuilder.evolution.TeamsSetupBuilder;
 
 public class TeamsSetupBuilderTest
 {
-	private static final Function<Integer, Boolean> SCORING_RULE = age -> age <= 12 || 50 <= age;
-
 	private static final List<String> TEAM_NAMES =
 			Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
 
@@ -135,7 +132,7 @@ public class TeamsSetupBuilderTest
 
 	private TeamSettings getTeamSettings(int numberOfTeams)
 	{
-		TeamSettings settings = new TeamSettings(SCORING_RULE, TEAM_NAMES);
+		TeamSettings settings = new TeamSettings(TEAM_NAMES);
 
 		settings.setNumberOfTeams(numberOfTeams);
 

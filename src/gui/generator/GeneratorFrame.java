@@ -148,7 +148,7 @@ public class GeneratorFrame
 		{
 			try
 			{
-				teamListPanel.showTeams(get(), settings.getScoringRule());
+				teamListPanel.showTeams(get());
 
 				printTeamsToFile(get());
 			}

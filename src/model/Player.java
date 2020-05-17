@@ -27,6 +27,11 @@ public class Player
 		return age;
 	}
 
+	public boolean isScoreAble()
+	{
+		return count(NumberOf.SCORE_ABLE) == 1;
+	}
+
 	@Override
 	public int count(Predicate<Player> predicate)
 	{

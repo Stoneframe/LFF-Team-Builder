@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
-import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 
@@ -77,7 +76,7 @@ public class TeamListPanel
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void showTeams(List<Team> teams, Function<Integer, Boolean> scoringRule)
+	public void showTeams(List<Team> teams)
 	{
 		teamsPanel.removeAll();
 
@@ -107,7 +106,7 @@ public class TeamListPanel
 
 		for (Team team : teams)
 		{
-			teamsPanel.add(new TeamPanel(team, scoringRule));
+			teamsPanel.add(new TeamPanel(team));
 		}
 
 		teamsPanel.revalidate();

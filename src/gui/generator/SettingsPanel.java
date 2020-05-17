@@ -154,7 +154,7 @@ public class SettingsPanel
 
 	public TeamSettings getTeamSettings()
 	{
-		TeamSettings settings = new TeamSettings(age -> age <= 12 || 50 <= age, getTeamNames());
+		TeamSettings settings = new TeamSettings(getTeamNames());
 
 		settings.setNumberOfTeams(getInteger(nbrOfTeamsTextField));
 		settings.setSplitNonLockedGroups(true);

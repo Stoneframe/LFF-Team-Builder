@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 
@@ -25,9 +24,9 @@ public class TeamPanel
 
 	private final List<LffPanel> unitPanels;
 
-	public TeamPanel(Team team, Function<Integer, Boolean> scoringRule)
+	public TeamPanel(Team team)
 	{
-		teamNameLabel = new TeamNamePanel(team, scoringRule);
+		teamNameLabel = new TeamNamePanel(team);
 
 		unitPanels = new LinkedList<>();
 
@@ -35,7 +34,7 @@ public class TeamPanel
 		{
 			if (unit instanceof Player)
 			{
-				PlayerPanel playerPanel = new PlayerPanel((Player)unit, scoringRule);
+				PlayerPanel playerPanel = new PlayerPanel((Player)unit);
 
 				playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 6));
 
@@ -43,7 +42,7 @@ public class TeamPanel
 			}
 			else
 			{
-				unitPanels.add(new GroupPanel((Group)unit, scoringRule));
+				unitPanels.add(new GroupPanel((Group)unit));
 			}
 		}
 
