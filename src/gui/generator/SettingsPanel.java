@@ -16,10 +16,10 @@ import javax.swing.JTextField;
 import gui.components.LffButton;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
+import gui.components.LffProgressBar;
 import gui.components.LffScrollPane;
 import gui.components.LffTextArea;
 import gui.components.LffTextField;
-import gui.util.Util;
 import teamsbuilder.TeamSettings;
 
 public class SettingsPanel
@@ -61,9 +61,7 @@ public class SettingsPanel
 		generateButton = new LffButton("Generera");
 		generateButton.setEnabled(false);
 
-		progressBar = new JProgressBar();
-		progressBar.setStringPainted(true);
-		progressBar.setForeground(Util.FOREGROUND);
+		progressBar = new LffProgressBar();
 		progressBar.setMinimumSize(progressBar.getPreferredSize());
 
 		setLayout(new BorderLayout());
