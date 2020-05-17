@@ -47,7 +47,7 @@ public class TeamsSetup
 	{
 		List<TeamsSetup> setups = new LinkedList<>();
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			setups.add(new TeamsSetup(teams, fitnessCalculator, settings));
 		}
@@ -98,7 +98,7 @@ public class TeamsSetup
 	{
 		do
 		{
-			int mutation = random.nextInt(4);
+			int mutation = random.nextInt(5);
 
 			switch (mutation)
 			{
@@ -113,11 +113,16 @@ public class TeamsSetup
 					break;
 
 				case 2:
+					selectTeamsWithHighestAndLowestNbrOfTeenAgers();
+					moveTeenAgersUnit();
+					break;
+
+				case 3:
 					selectRandomTeams();
 					splitAndMoveRandomGroup();
 					break;
 
-				case 3:
+				case 4:
 					selectRandomTeams();
 					moveRandomUnit();
 					break;
@@ -148,6 +153,12 @@ public class TeamsSetup
 		insertInto = teams.stream().sorted(byNbrOfPlayers()).findFirst().get();
 	}
 
+	private void selectTeamsWithHighestAndLowestNbrOfTeenAgers()
+	{
+		removeFrom = teams.stream().sorted(byNbrOfTeenAgers().reversed()).findFirst().get();
+		insertInto = teams.stream().sorted(byNbrOfTeenAgers()).findFirst().get();
+	}
+
 	private void moveRandomUnit()
 	{
 		List<Unit> units = removeFrom.getUnits();
@@ -173,6 +184,16 @@ public class TeamsSetup
 			.collect(Collectors.toList());
 
 		moveRandomUnit(nonScoreAbleUnits);
+	}
+
+	private void moveTeenAgersUnit()
+	{
+		List<Unit> teenAgersUnits = removeFrom.getUnits()
+			.stream()
+			.filter(u -> nbrOfTeenAgers(u) == 0)
+			.collect(Collectors.toList());
+
+		moveRandomUnit(teenAgersUnits);
 	}
 
 	private void splitAndMoveRandomGroup()
@@ -242,5 +263,18 @@ public class TeamsSetup
 	private Comparator<? super Unit> byNbrOfPlayers()
 	{
 		return (unit1, unit2) -> Integer.compare(unit1.numberOfPlayers(), unit2.numberOfPlayers());
+	}
+
+	private Comparator<? super Unit> byNbrOfTeenAgers()
+	{
+		return (unit1, unit2) -> Integer.compare(nbrOfTeenAgers(unit1), nbrOfTeenAgers(unit2));
+	}
+
+	private int nbrOfTeenAgers(Unit unit)
+	{
+		return (int)unit.getPlayers()
+			.stream()
+			.filter(p -> 12 < p.getAge() && p.getAge() < 20)
+			.count();
 	}
 }
