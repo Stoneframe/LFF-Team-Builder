@@ -2,7 +2,7 @@ package model;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Player
 	implements
@@ -28,15 +28,9 @@ public class Player
 	}
 
 	@Override
-	public int numberOfPlayers()
+	public int count(Predicate<Player> predicate)
 	{
-		return 1;
-	}
-
-	@Override
-	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
-	{
-		return scoringRule.apply(age) ? 1 : 0;
+		return predicate.test(this) ? 1 : 0;
 	}
 
 	@Override

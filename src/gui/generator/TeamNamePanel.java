@@ -10,6 +10,7 @@ import gui.components.LffIcon;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
 import gui.util.Util;
+import model.NumberOf;
 import model.Team;
 
 public class TeamNamePanel
@@ -25,7 +26,7 @@ public class TeamNamePanel
 	{
 		teamNameLabel = new LffLabel(team.getName());
 		nbrScoreablePlayersLabel = new LffLabel(
-			Integer.toString(team.numberOfScoreablePlayers(scoringRule)));
+			Integer.toString(team.count(NumberOf.SCORE_ABLE)));
 		iconLabel = new LffLabel();
 		iconLabel.setIcon(LffIcon.getGreenFootball());
 

@@ -4,7 +4,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
+import model.NumberOf;
+import model.Player;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
@@ -53,7 +56,7 @@ public class TeamsSetupBuilder
 
 		return new TeamsSetup(
 			teams,
-			new LffFitnessCalculator(settings.getScoringRule(), optimalteam),
+			new LffFitnessCalculator(optimalteam),
 			settings);
 	}
 
@@ -121,40 +124,14 @@ public class TeamsSetupBuilder
 	private OptimalTeam createOptimalTeam()
 	{
 		return new OptimalTeam(
-			getAverageNbrOfScoreAble(),
-			getAverageNbrOfTeenAgers(),
-			getAverageNbrOfPlayers());
+			getAverage(NumberOf.SCORE_ABLE),
+			getAverage(NumberOf.TEEN_AGERS),
+			getAverage(NumberOf.PLAYERS));
 	}
 
-	private double getAverageNbrOfScoreAble()
+	private double getAverage(Predicate<Player> relevantPlayers)
 	{
-		return units.stream()
-			.mapToDouble(u -> u.numberOfScoreablePlayers(settings.getScoringRule()))
-			.sum()
+		return units.stream().mapToDouble(u -> u.count(relevantPlayers)).sum()
 			/ settings.getNumberOfTeams();
-	}
-
-	private double getAverageNbrOfTeenAgers()
-	{
-		return units.stream()
-			.mapToDouble(u -> nbrOfTeenAgers(u))
-			.sum()
-			/ settings.getNumberOfTeams();
-	}
-
-	private double getAverageNbrOfPlayers()
-	{
-		return units.stream()
-			.mapToDouble(u -> u.numberOfPlayers())
-			.sum()
-			/ settings.getNumberOfTeams();
-	}
-
-	private int nbrOfTeenAgers(Unit unit)
-	{
-		return (int)unit.getPlayers()
-			.stream()
-			.filter(p -> 12 < p.getAge() && p.getAge() < 20)
-			.count();
 	}
 }

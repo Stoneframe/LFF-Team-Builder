@@ -11,6 +11,7 @@ import javax.swing.border.Border;
 import gui.components.LffPanel;
 import gui.util.Util;
 import model.Group;
+import model.NumberOf;
 import model.Player;
 
 public class GroupPanel
@@ -39,7 +40,7 @@ public class GroupPanel
 
 		setBorder(border);
 
-		setLayout(new GridLayout(group.numberOfPlayers(), 1, 0, 4));
+		setLayout(new GridLayout(group.count(NumberOf.PLAYERS), 1, 0, 4));
 
 		for (PlayerPanel playerPanel : playerPanels)
 		{

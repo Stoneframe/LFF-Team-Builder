@@ -21,6 +21,7 @@ import gui.components.LffCheckBox;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
 import model.Group;
+import model.NumberOf;
 import model.Player;
 import model.Unit;
 
@@ -188,7 +189,7 @@ public class FormPanel
 
 	public void setUnit(Unit unit)
 	{
-		nbrOfPlayers = unit.numberOfPlayers();
+		nbrOfPlayers = unit.count(NumberOf.PLAYERS);
 
 		if (unit instanceof Player)
 		{

@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
 import gui.util.Util;
+import model.NumberOf;
 import model.Team;
 
 public class TeamListPanel
@@ -81,7 +82,7 @@ public class TeamListPanel
 		teamsPanel.removeAll();
 
 		int nbrOfPlayersInLargestTeam = teams.stream()
-			.mapToInt(t -> t.numberOfPlayers())
+			.mapToInt(t -> t.count(NumberOf.PLAYERS))
 			.max()
 			.getAsInt();
 

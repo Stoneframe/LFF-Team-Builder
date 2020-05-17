@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import io.FileHandler;
 import model.Group;
+import model.NumberOf;
 import model.Player;
 import model.Team;
 import model.Unit;
@@ -155,8 +156,8 @@ public class TeamsSetupBuilderTest
 
 	private static void assertTeamSize(List<Team> teams)
 	{
-		int highest = teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
-		int lowest = teams.stream().mapToInt(t -> t.numberOfPlayers()).min().getAsInt();
+		int highest = teams.stream().mapToInt(t -> t.count(NumberOf.PLAYERS)).max().getAsInt();
+		int lowest = teams.stream().mapToInt(t -> t.count(NumberOf.PLAYERS)).min().getAsInt();
 
 		assertTrue(highest - lowest < 2);
 	}
@@ -164,11 +165,11 @@ public class TeamsSetupBuilderTest
 	private static void assertScoreAblePlayers(List<Team> teams)
 	{
 		int highest = teams.stream()
-			.mapToInt(t -> t.numberOfScoreablePlayers(SCORING_RULE))
+			.mapToInt(t -> t.count(NumberOf.SCORE_ABLE))
 			.max()
 			.getAsInt();
 		int lowest = teams.stream()
-			.mapToInt(t -> t.numberOfScoreablePlayers(SCORING_RULE))
+			.mapToInt(t -> t.count(NumberOf.SCORE_ABLE))
 			.min()
 			.getAsInt();
 

@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import model.Group;
+import model.NumberOf;
 import model.Player;
 import model.Team;
 import model.Unit;
@@ -47,7 +48,7 @@ public class TeamsSetup
 	{
 		List<TeamsSetup> setups = new LinkedList<>();
 
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 50; i++)
 		{
 			setups.add(new TeamsSetup(teams, fitnessCalculator, settings));
 		}
@@ -69,9 +70,9 @@ public class TeamsSetup
 				"Team "
 					+ team.getName()
 					+ " - "
-					+ team.numberOfPlayers()
+					+ team.count(NumberOf.PLAYERS)
 					+ "("
-					+ team.numberOfScoreablePlayers(settings.getScoringRule())
+					+ team.count(NumberOf.SCORE_ABLE)
 					+ "):");
 			builder.append(System.lineSeparator());
 
@@ -138,7 +139,7 @@ public class TeamsSetup
 			removeFrom = getRandomTeam();
 			insertInto = getRandomTeam();
 		}
-		while (removeFrom == insertInto && removeFrom.numberOfPlayers() == 0);
+		while (removeFrom == insertInto && removeFrom.count(NumberOf.PLAYERS) == 0);
 	}
 
 	private void selectTeamsWithHighestAndLowestNbrOfScoreAble()
@@ -170,7 +171,7 @@ public class TeamsSetup
 	{
 		List<Unit> scoreAbleUnits = removeFrom.getUnits()
 			.stream()
-			.filter(u -> u.numberOfScoreablePlayers(settings.getScoringRule()) > 0)
+			.filter(u -> u.count(NumberOf.SCORE_ABLE) > 0)
 			.collect(Collectors.toList());
 
 		moveRandomUnit(scoreAbleUnits);
@@ -180,7 +181,7 @@ public class TeamsSetup
 	{
 		List<Unit> nonScoreAbleUnits = removeFrom.getUnits()
 			.stream()
-			.filter(u -> u.numberOfScoreablePlayers(settings.getScoringRule()) == 0)
+			.filter(u -> u.count(NumberOf.SCORE_ABLE) == 0)
 			.collect(Collectors.toList());
 
 		moveRandomUnit(nonScoreAbleUnits);
@@ -256,13 +257,15 @@ public class TeamsSetup
 	private Comparator<? super Unit> byNbrOfScoreAble()
 	{
 		return (unit1, unit2) -> Integer.compare(
-			unit1.numberOfScoreablePlayers(settings.getScoringRule()),
-			unit2.numberOfScoreablePlayers(settings.getScoringRule()));
+			unit1.count(NumberOf.SCORE_ABLE),
+			unit2.count(NumberOf.SCORE_ABLE));
 	}
 
 	private Comparator<? super Unit> byNbrOfPlayers()
 	{
-		return (unit1, unit2) -> Integer.compare(unit1.numberOfPlayers(), unit2.numberOfPlayers());
+		return (unit1, unit2) -> Integer.compare(
+			unit1.count(NumberOf.PLAYERS),
+			unit2.count(NumberOf.PLAYERS));
 	}
 
 	private Comparator<? super Unit> byNbrOfTeenAgers()

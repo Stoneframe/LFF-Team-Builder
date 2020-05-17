@@ -83,9 +83,4 @@ public class UnitsUtil
 		System.out.println();
 		teams.forEach(t -> System.out.println(t));
 	}
-
-	public static int countNumberOfPlayers(List<Unit> units)
-	{
-		return units.stream().mapToInt(u -> u.numberOfPlayers()).sum();
-	}
 }

@@ -16,6 +16,7 @@ import gui.components.LffLabel;
 import gui.components.LffList;
 import gui.components.LffPanel;
 import gui.components.LffScrollPane;
+import model.NumberOf;
 import model.Unit;
 
 public class UnitListPanel
@@ -111,7 +112,7 @@ public class UnitListPanel
 
 	public int getNbrOfPlayers()
 	{
-		return getUnits().stream().mapToInt(u -> u.numberOfPlayers()).sum();
+		return getUnits().stream().mapToInt(u -> u.count(NumberOf.PLAYERS)).sum();
 	}
 
 	public void addEditButtonActionListener(ActionListener listener)
@@ -159,7 +160,7 @@ public class UnitListPanel
 		editButton.setEnabled(unitList.getSelectedValuesList().size() == 1);
 		splitButton.setEnabled(
 			unitList.getSelectedValuesList().size() == 1
-				&& unitList.getSelectedValue().numberOfPlayers() > 1);
+				&& unitList.getSelectedValue().count(NumberOf.PLAYERS) > 1);
 		mergeButton.setEnabled(unitList.getSelectedValuesList().size() > 1);
 		removeButton.setEnabled(!unitList.isSelectionEmpty());
 	}

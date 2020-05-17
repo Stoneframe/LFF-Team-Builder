@@ -3,7 +3,7 @@ package model;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Team
@@ -47,21 +47,15 @@ public class Team
 	}
 
 	@Override
-	public int numberOfPlayers()
-	{
-		return units.stream().mapToInt(p -> p.numberOfPlayers()).sum();
-	}
-
-	@Override
-	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
-	{
-		return units.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
-	}
-
-	@Override
 	public List<Player> getPlayers()
 	{
 		return units.stream().flatMap(u -> u.getPlayers().stream()).collect(Collectors.toList());
+	}
+
+	@Override
+	public int count(Predicate<Player> predicate)
+	{
+		return units.stream().mapToInt(u -> u.count(predicate)).sum();
 	}
 
 	public List<Unit> getUnits()

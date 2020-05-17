@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Group
@@ -84,15 +85,9 @@ public class Group
 	}
 
 	@Override
-	public int numberOfPlayers()
+	public int count(Predicate<Player> predicate)
 	{
-		return players.stream().mapToInt(p -> p.numberOfPlayers()).sum();
-	}
-
-	@Override
-	public int numberOfScoreablePlayers(Function<Integer, Boolean> scoringRule)
-	{
-		return players.stream().mapToInt(p -> p.numberOfScoreablePlayers(scoringRule)).sum();
+		return players.stream().mapToInt(p -> p.count(predicate)).sum();
 	}
 
 	@Override

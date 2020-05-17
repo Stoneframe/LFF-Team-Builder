@@ -8,6 +8,7 @@ import java.util.function.Function;
 import gui.components.LffIcon;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
+import model.NumberOf;
 import model.Player;
 
 public class PlayerPanel
@@ -28,7 +29,7 @@ public class PlayerPanel
 		iconLabel = new LffLabel();
 		iconLabel.setPreferredSize(new Dimension(15, 15));
 
-		if (player.numberOfScoreablePlayers(scoringRule) == 1)
+		if (player.count(NumberOf.SCORE_ABLE) == 1)
 		{
 			iconLabel.setIcon(greenFootballIcon);
 		}

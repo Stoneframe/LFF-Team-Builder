@@ -1,8 +1,8 @@
 package teamsbuilder.evolution;
 
 import java.util.List;
-import java.util.function.Function;
 
+import model.NumberOf;
 import model.Team;
 
 public class LffFitnessCalculator
@@ -11,12 +11,10 @@ public class LffFitnessCalculator
 {
 	private static final double FACTOR = 1;
 
-	private final Function<Integer, Boolean> scoringRule;
 	private final OptimalTeam optimalTeam;
 
-	public LffFitnessCalculator(Function<Integer, Boolean> scoringRule, OptimalTeam optimalTeam)
+	public LffFitnessCalculator(OptimalTeam optimalTeam)
 	{
-		this.scoringRule = scoringRule;
 		this.optimalTeam = optimalTeam;
 	}
 
@@ -35,7 +33,7 @@ public class LffFitnessCalculator
 	private double scoreAble(Team team)
 	{
 		double diff = Math.abs(
-			optimalTeam.numberOfScoreAblePlayers() - team.numberOfScoreablePlayers(scoringRule));
+			optimalTeam.numberOfScoreAblePlayers() - team.count(NumberOf.SCORE_ABLE));
 
 		return FACTOR / (FACTOR + diff);
 	}
@@ -43,30 +41,25 @@ public class LffFitnessCalculator
 	private double teenAgers(Team team)
 	{
 		double diff = Math.abs(
-			optimalTeam.numberOfScoreAblePlayers() - nbrOfTeenAgers(team));
+			optimalTeam.numberOfScoreAblePlayers() - team.count(NumberOf.TEEN_AGERS));
 
 		return FACTOR / (FACTOR + diff);
 	}
 
-	private int nbrOfTeenAgers(Team team)
-	{
-		return (int)team.getPlayers()
-			.stream()
-			.filter(p -> 12 < p.getAge() && p.getAge() < 20)
-			.count();
-	}
-
 	private double teamSize(Team team)
 	{
-		return FACTOR / (FACTOR + Math.abs(optimalTeam.numberOfPlayers() - team.numberOfPlayers()));
+		double diff = Math.abs(
+			optimalTeam.numberOfPlayers() - team.count(NumberOf.PLAYERS));
+
+		return FACTOR / (FACTOR + diff);
 	}
 
 	private double teamSize(List<Team> teams)
 	{
 		int largestTeamSize =
-				(int)teams.stream().mapToInt(t -> t.numberOfPlayers()).max().getAsInt();
+				(int)teams.stream().mapToInt(t -> t.count(NumberOf.PLAYERS)).max().getAsInt();
 		int smallestTeamSize =
-				(int)teams.stream().mapToInt(t -> t.numberOfPlayers()).min().getAsInt();
+				(int)teams.stream().mapToInt(t -> t.count(NumberOf.PLAYERS)).min().getAsInt();
 
 		int diff = largestTeamSize - smallestTeamSize;
 
