@@ -103,7 +103,6 @@ public class TeamsSetup
 				selectTeamsWithHighestAndLowestNbrOfPlayers();
 				moveNonScoreAbleUnit();
 			}
-
 			else if (random.nextBoolean())
 			{
 				selectTeamsWithHighestAndLowestNbrOfScoreAble();
@@ -111,6 +110,7 @@ public class TeamsSetup
 			}
 			else if (random.nextBoolean())
 			{
+				selectRandomTeams();
 				splitAndMoveRandomGroup();
 			}
 			else
@@ -173,19 +173,16 @@ public class TeamsSetup
 
 	private void splitAndMoveRandomGroup()
 	{
-		Team team1 = getRandomTeam();
-		Team team2 = getRandomTeam();
-
-		Group group = getLargestGroup(team1);
+		Group group = getLargestGroup(removeFrom);
 
 		if (group != null)
 		{
 			GroupSplit split = group.split();
 
-			team1.remove(group);
+			removeFrom.remove(group);
+			removeFrom.add(split.getUnit1());
 
-			team1.add(split.getUnit1());
-			team2.add(split.getUnit2());
+			insertInto.add(split.getUnit2());
 		}
 	}
 
