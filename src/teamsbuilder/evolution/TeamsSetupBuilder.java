@@ -13,6 +13,8 @@ import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
 {
+	private final List<ProgressListener> progressListeners = new LinkedList<>();
+
 	private final List<Unit> units;
 	private final TeamSettings settings;
 
@@ -34,12 +36,29 @@ public class TeamsSetupBuilder
 
 		for (int i = 0; i < 100; i++)
 		{
+			notifyProgress(i);
+
 			sortByFitness();
 			cullTheWeak();
 			reproduce();
 		}
 
+		notifyProgress(100);
+
 		return getTeams();
+	}
+
+	public void addProgressListener(ProgressListener listener)
+	{
+		progressListeners.add(listener);
+	}
+
+	private void notifyProgress(int percent)
+	{
+		for (ProgressListener listener : progressListeners)
+		{
+			listener.progressChanged(percent);
+		}
 	}
 
 	private boolean initalizeRandomSetup()

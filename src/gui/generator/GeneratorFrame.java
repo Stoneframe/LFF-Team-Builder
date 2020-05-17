@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import gui.LffFrameBase;
 import gui.components.LffPanel;
@@ -16,6 +17,7 @@ import logging.LoggerFactory;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
+import teamsbuilder.evolution.ProgressListener;
 import teamsbuilder.evolution.TeamsSetupBuilder;
 
 public class GeneratorFrame
@@ -89,11 +91,7 @@ public class GeneratorFrame
 	{
 		TeamSettings settings = settingsPanel.getTeamSettings();
 
-		List<Team> teams = new TeamsSetupBuilder(unitListPanel.getUnits(), settings).createTeams();
-
-		teamListPanel.showTeams(teams, settings.getScoringRule());
-
-		printTeamsToFile(teams);
+		new TeamsBuilderWorker(settings).execute();
 	}
 
 	private void printTeamsToFile(List<Team> teams)
@@ -114,5 +112,52 @@ public class GeneratorFrame
 				new GeneratorFrame();
 			}
 		});
+	}
+
+	private class TeamsBuilderWorker
+		extends SwingWorker<List<Team>, Object>
+	{
+		private final TeamSettings settings;
+
+		public TeamsBuilderWorker(TeamSettings settings)
+		{
+			this.settings = settings;
+		}
+
+		@Override
+		protected List<Team> doInBackground() throws Exception
+		{
+			settingsPanel.setEnabled(false);
+
+			TeamsSetupBuilder builder = new TeamsSetupBuilder(unitListPanel.getUnits(), settings);
+
+			builder.addProgressListener(new ProgressListener()
+			{
+				@Override
+				public void progressChanged(int percent)
+				{
+					settingsPanel.setProgress(percent);
+				}
+			});
+
+			return builder.createTeams();
+		}
+
+		@Override
+		protected void done()
+		{
+			try
+			{
+				teamListPanel.showTeams(get(), settings.getScoringRule());
+
+				printTeamsToFile(get());
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+
+			settingsPanel.setEnabled(true);
+		}
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import gui.components.LffButton;
@@ -18,6 +19,7 @@ import gui.components.LffPanel;
 import gui.components.LffScrollPane;
 import gui.components.LffTextArea;
 import gui.components.LffTextField;
+import gui.util.Util;
 import teamsbuilder.TeamSettings;
 
 public class SettingsPanel
@@ -38,6 +40,8 @@ public class SettingsPanel
 
 	private final LffButton generateButton;
 
+	private final JProgressBar progressBar;
+
 	public SettingsPanel()
 	{
 		titleLabel = new LffLabel("Inställningar", Font.BOLD, 40);
@@ -56,6 +60,11 @@ public class SettingsPanel
 
 		generateButton = new LffButton("Generera");
 		generateButton.setEnabled(false);
+
+		progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+		progressBar.setForeground(Util.FOREGROUND);
+		progressBar.setMinimumSize(progressBar.getPreferredSize());
 
 		setLayout(new BorderLayout());
 
@@ -103,10 +112,16 @@ public class SettingsPanel
 		gbc.insets = new Insets(10, 10, 20, 10);
 		gbc.weighty = 0;
 		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.EAST;
+		gbc.gridy = 4;
+		gbc.gridx = 0;
+		center.add(generateButton, gbc);
+
+		gbc.insets = new Insets(10, 10, 20, 10);
+		gbc.weighty = 0;
+		gbc.gridwidth = 1;
 		gbc.gridy = 4;
 		gbc.gridx = 1;
-		center.add(generateButton, gbc);
+		center.add(progressBar, gbc);
 
 		add(titleLabel, BorderLayout.NORTH);
 		add(center, BorderLayout.CENTER);
@@ -142,9 +157,6 @@ public class SettingsPanel
 		TeamSettings settings = new TeamSettings(age -> age <= 12 || 50 <= age, getTeamNames());
 
 		settings.setNumberOfTeams(getInteger(nbrOfTeamsTextField));
-		// settings.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
-		// settings.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
-
 		settings.setSplitNonLockedGroups(true);
 
 		return settings;
@@ -153,6 +165,19 @@ public class SettingsPanel
 	public void addGenerateButtonActionListener(ActionListener listener)
 	{
 		generateButton.addActionListener(listener);
+	}
+
+	public void setEnabled(boolean isEnabled)
+	{
+		nbrOfPlayersTextField.setEnabled(isEnabled);
+		nbrOfTeamsTextField.setEnabled(isEnabled);
+		teamNamesTextArea.setEnabled(isEnabled);
+		generateButton.setEnabled(isEnabled);
+	}
+
+	public void setProgress(int percent)
+	{
+		progressBar.setValue(percent);
 	}
 
 	private boolean isFormValid()
