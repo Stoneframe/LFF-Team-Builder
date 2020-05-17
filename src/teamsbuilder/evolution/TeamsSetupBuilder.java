@@ -3,7 +3,6 @@ package teamsbuilder.evolution;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 import model.NumberOf;
@@ -14,8 +13,6 @@ import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
 {
-	private final Random random = new Random();
-
 	private final List<Unit> units;
 	private final TeamSettings settings;
 
@@ -64,14 +61,14 @@ public class TeamsSetupBuilder
 	{
 		List<Team> teams = createEmptyTeams();
 
-		units.forEach(unit -> addUnitToRandomTeam(unit, teams));
+		for (int i = 0; i < units.size(); i++)
+		{
+			Team team = teams.get(i % teams.size());
+
+			team.add(units.get(i));
+		}
 
 		return teams;
-	}
-
-	private void addUnitToRandomTeam(Unit unit, List<Team> teams)
-	{
-		teams.get(random.nextInt(teams.size())).add(unit);
 	}
 
 	private List<Team> createEmptyTeams()

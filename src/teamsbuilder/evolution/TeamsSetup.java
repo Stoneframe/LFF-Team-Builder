@@ -24,6 +24,9 @@ public class TeamsSetup
 	private Team team1;
 	private Team team2;
 
+	private Unit unit1;
+	private Unit unit2;
+
 	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, TeamSettings settings)
 	{
 		this.teams = cloneTeams(teams);
@@ -111,106 +114,35 @@ public class TeamsSetup
 	{
 		do
 		{
-			int mutation = random.nextInt(6);
+			int mutation = random.nextInt(5);
 
 			switch (mutation)
 			{
 				case 0:
-					moveNonScoreAbleUnit();
+					nonScoreAbleMutation();
 					break;
 
 				case 1:
-					moveScoreAbleUnit();
+					scoreAbleMutation();
 					break;
 
 				case 2:
-					moveTeenAgersUnit();
+					teenAgersMutation();
 					break;
 
 				case 3:
-					splitAndMoveRandomGroup();
+					splitGroupMutation();
 					break;
 
 				case 4:
-					moveRandomUnit();
-					break;
-
-				case 5:
-					swapRandomUnits();
+					randomUnitMutation();
 					break;
 			}
 		}
 		while (random.nextBoolean());
 	}
 
-	private void selectRandomTeams()
-	{
-		do
-		{
-			team1 = getRandomTeam();
-			team2 = getRandomTeam();
-		}
-		while (team1 == team2 && team1.count(NumberOf.PLAYERS) == 0);
-	}
-
-	private void selectTeamsWithHighestAndLowestNbrOfScoreAble()
-	{
-		team1 = teams.stream().sorted(byNbrOfScoreAble().reversed()).findFirst().get();
-		team2 = teams.stream().sorted(byNbrOfScoreAble()).findFirst().get();
-	}
-
-	private void selectTeamsWithHighestAndLowestNbrOfPlayers()
-	{
-		team1 = teams.stream().sorted(byNbrOfPlayers().reversed()).findFirst().get();
-		team2 = teams.stream().sorted(byNbrOfPlayers()).findFirst().get();
-	}
-
-	private void selectTeamsWithHighestAndLowestNbrOfTeenAgers()
-	{
-		team1 = teams.stream().sorted(byNbrOfTeenAgers().reversed()).findFirst().get();
-		team2 = teams.stream().sorted(byNbrOfTeenAgers()).findFirst().get();
-	}
-
-	private void moveRandomUnit()
-	{
-		selectRandomTeams();
-
-		List<Unit> units = team1.getUnits();
-
-		moveRandomUnit(units);
-	}
-
-	private void swapRandomUnits()
-	{
-		do
-		{
-			selectRandomTeams();
-		}
-		while (team2.count(NumberOf.PLAYERS) == 0);
-
-		Unit unit1 = getRandomUnit(team1.getUnits());
-		Unit unit2 = getRandomUnit(team2.getUnits());
-
-		team1.remove(unit1);
-		team2.remove(unit2);
-
-		team1.add(unit2);
-		team2.add(unit1);
-	}
-
-	private void moveScoreAbleUnit()
-	{
-		selectTeamsWithHighestAndLowestNbrOfScoreAble();
-
-		List<Unit> scoreAbleUnits = team1.getUnits()
-			.stream()
-			.filter(u -> u.count(NumberOf.SCORE_ABLE) > 0)
-			.collect(Collectors.toList());
-
-		moveRandomUnit(scoreAbleUnits);
-	}
-
-	private void moveNonScoreAbleUnit()
+	private void nonScoreAbleMutation()
 	{
 		selectTeamsWithHighestAndLowestNbrOfPlayers();
 
@@ -219,10 +151,28 @@ public class TeamsSetup
 			.filter(u -> u.count(NumberOf.SCORE_ABLE) == 0)
 			.collect(Collectors.toList());
 
-		moveRandomUnit(nonScoreAbleUnits);
+		unit1 = getRandomUnit(nonScoreAbleUnits);
+		unit2 = getRandomUnit(team2.getUnits());
+
+		moveUnits();
 	}
 
-	private void moveTeenAgersUnit()
+	private void scoreAbleMutation()
+	{
+		selectTeamsWithHighestAndLowestNbrOfScoreAble();
+
+		List<Unit> scoreAbleUnits = team1.getUnits()
+			.stream()
+			.filter(u -> u.count(NumberOf.SCORE_ABLE) > 0)
+			.collect(Collectors.toList());
+
+		unit1 = getRandomUnit(scoreAbleUnits);
+		unit2 = getRandomUnit(team2.getUnits());
+
+		moveUnits();
+	}
+
+	private void teenAgersMutation()
 	{
 		selectTeamsWithHighestAndLowestNbrOfTeenAgers();
 
@@ -231,10 +181,13 @@ public class TeamsSetup
 			.filter(u -> nbrOfTeenAgers(u) == 0)
 			.collect(Collectors.toList());
 
-		moveRandomUnit(teenAgersUnits);
+		unit1 = getRandomUnit(teenAgersUnits);
+		unit2 = getRandomUnit(team2.getUnits());
+
+		moveUnits();
 	}
 
-	private void splitAndMoveRandomGroup()
+	private void splitGroupMutation()
 	{
 		selectRandomTeams();
 
@@ -246,9 +199,58 @@ public class TeamsSetup
 
 			team1.remove(group);
 			team1.add(split.getUnit1());
+			team1.add(split.getUnit2());
 
-			team2.add(split.getUnit2());
+			unit1 = split.getUnit2();
+			unit2 = getRandomUnit(team2.getUnits());
+
+			moveUnits();
 		}
+	}
+
+	private void randomUnitMutation()
+	{
+		selectRandomTeams();
+
+		unit1 = getRandomUnit(team1.getUnits());
+		unit2 = getRandomUnit(team2.getUnits());
+
+		moveUnits();
+	}
+
+	private void selectTeamsWithHighestAndLowestNbrOfPlayers()
+	{
+		team1 = teams.stream().sorted(byNbrOfPlayers().reversed()).findFirst().get();
+		team2 = teams.stream().sorted(byNbrOfPlayers()).findFirst().get();
+	}
+
+	private void selectTeamsWithHighestAndLowestNbrOfScoreAble()
+	{
+		team1 = teams.stream().sorted(byNbrOfScoreAble().reversed()).findFirst().get();
+		team2 = teams.stream().sorted(byNbrOfScoreAble()).findFirst().get();
+	}
+
+	private void selectTeamsWithHighestAndLowestNbrOfTeenAgers()
+	{
+		team1 = teams.stream().sorted(byNbrOfTeenAgers().reversed()).findFirst().get();
+		team2 = teams.stream().sorted(byNbrOfTeenAgers()).findFirst().get();
+	}
+
+	private void selectRandomTeams()
+	{
+		do
+		{
+			team1 = getRandomTeam();
+			team2 = getRandomTeam();
+		}
+		while (team1 == team2 || team1.count(NumberOf.PLAYERS) == 0);
+	}
+
+	private Team getRandomTeam()
+	{
+		int index = random.nextInt(teams.size());
+
+		return teams.get(index);
 	}
 
 	private Group getLargestGroup(Team team)
@@ -263,22 +265,19 @@ public class TeamsSetup
 			.orElse(null);
 	}
 
-	private void moveRandomUnit(List<Unit> units)
+	private void moveUnits()
 	{
-		Unit unit = getRandomUnit(units);
-
-		if (unit != null)
+		if (unit1 != null)
 		{
-			team1.remove(unit);
-			team2.add(unit);
+			team1.remove(unit1);
+			team2.add(unit1);
+
+			if (unit2 != null && random.nextBoolean())
+			{
+				team2.remove(unit2);
+				team1.add(unit2);
+			}
 		}
-	}
-
-	private Team getRandomTeam()
-	{
-		int index = random.nextInt(teams.size());
-
-		return teams.get(index);
 	}
 
 	private Unit getRandomUnit(List<Unit> units)
