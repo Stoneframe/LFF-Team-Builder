@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -40,7 +39,6 @@ public class LffTextArea
 		setBackground(Util.BACKGROUND);
 
 		setFont(new Font("Dialog", Font.PLAIN, 20));
-		setBorder(BorderFactory.createLineBorder(Util.FOREGROUND));
 
 		getDocument().addDocumentListener(new DocumentListener()
 		{

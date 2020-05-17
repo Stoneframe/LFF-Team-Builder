@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.function.Function;
 
 import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
 
 import gui.components.LffLabel;
 import gui.components.LffPanel;
+import gui.components.LffScrollPane;
 import gui.util.Util;
 import model.NumberOf;
 import model.Team;
@@ -28,7 +28,7 @@ public class TeamListPanel
 
 	private final LffPanel teamsPanel;
 
-	private final JScrollPane scrollPane;
+	private final LffScrollPane scrollPane;
 
 	public TeamListPanel()
 	{
@@ -55,7 +55,7 @@ public class TeamListPanel
 				0,
 				0));
 
-		scrollPane = new JScrollPane(teamsWrapperPanel);
+		scrollPane = new LffScrollPane(teamsWrapperPanel);
 		scrollPane.setBorder(BorderFactory.createLineBorder(Util.FOREGROUND, 2));
 
 		setPreferredSize(new Dimension(500, 0));
