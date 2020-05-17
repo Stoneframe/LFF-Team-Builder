@@ -57,10 +57,10 @@ public class TeamsSetupBuilder
 
 	private boolean initalizeRandomSetup()
 	{
-		return setups.add(createRandomTeamsSetup());
+		return setups.add(createInitialTeamsSetup());
 	}
 
-	private TeamsSetup createRandomTeamsSetup()
+	private TeamsSetup createInitialTeamsSetup()
 	{
 		List<Team> teams = createRandomTeams();
 
