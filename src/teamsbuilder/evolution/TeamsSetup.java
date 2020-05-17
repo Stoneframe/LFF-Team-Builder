@@ -98,25 +98,29 @@ public class TeamsSetup
 	{
 		do
 		{
-			if (random.nextBoolean())
+			int mutation = random.nextInt(4);
+
+			switch (mutation)
 			{
-				selectTeamsWithHighestAndLowestNbrOfPlayers();
-				moveNonScoreAbleUnit();
-			}
-			else if (random.nextBoolean())
-			{
-				selectTeamsWithHighestAndLowestNbrOfScoreAble();
-				moveScoreAbleUnit();
-			}
-			else if (random.nextBoolean())
-			{
-				selectRandomTeams();
-				splitAndMoveRandomGroup();
-			}
-			else
-			{
-				selectRandomTeams();
-				moveRandomUnit();
+				case 0:
+					selectTeamsWithHighestAndLowestNbrOfPlayers();
+					moveNonScoreAbleUnit();
+					break;
+
+				case 1:
+					selectTeamsWithHighestAndLowestNbrOfScoreAble();
+					moveScoreAbleUnit();
+					break;
+
+				case 2:
+					selectRandomTeams();
+					splitAndMoveRandomGroup();
+					break;
+
+				case 3:
+					selectRandomTeams();
+					moveRandomUnit();
+					break;
 			}
 		}
 		while (random.nextBoolean());
