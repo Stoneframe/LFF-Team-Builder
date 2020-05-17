@@ -76,7 +76,8 @@ public class TeamsSetupBuilder
 			createOptimalTeam(),
 			NumberOf.PLAYERS,
 			NumberOf.SCORE_ABLE,
-			NumberOf.TEEN_AGERS);
+			NumberOf.TEEN_AGERS,
+			NumberOf.YOUNGLINGS);
 	}
 
 	private List<Team> createRandomTeams()

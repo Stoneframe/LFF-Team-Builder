@@ -99,8 +99,17 @@ public class TeamsSetup
 		int nbrOfPlayers = team.count(NumberOf.PLAYERS);
 		int nbrOfScoreAble = team.count(NumberOf.SCORE_ABLE);
 		int nbrOfTeenAgers = team.count(NumberOf.TEEN_AGERS);
+		int nbrOfYounglings = team.count(NumberOf.YOUNGLINGS);
 
-		return "(" + nbrOfPlayers + ", " + nbrOfScoreAble + ", " + nbrOfTeenAgers + ")";
+		return "("
+			+ nbrOfPlayers
+			+ ", "
+			+ nbrOfScoreAble
+			+ ", "
+			+ nbrOfTeenAgers
+			+ ", "
+			+ nbrOfYounglings
+			+ ")";
 	}
 
 	private List<Team> cloneTeams(List<Team> teams)
