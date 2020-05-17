@@ -16,7 +16,7 @@ import logging.LoggerFactory;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
-import teamsbuilder.scorableonly.ScorableOnlyAlgorithm;
+import teamsbuilder.evolution.TeamsSetupBuilder;
 
 public class GeneratorFrame
 	extends LffFrameBase
@@ -89,8 +89,7 @@ public class GeneratorFrame
 	{
 		TeamSettings settings = settingsPanel.getTeamSettings();
 
-		List<Team> teams = new ScorableOnlyAlgorithm()
-			.createTeams(unitListPanel.getUnits(), settings);
+		List<Team> teams = new TeamsSetupBuilder(unitListPanel.getUnits(), settings).createTeams();
 
 		teamListPanel.showTeams(teams, settings.getScoringRule());
 

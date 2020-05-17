@@ -1,0 +1,47 @@
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 1_0","age":10}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 2_0","age":26}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 3_1","age":8},{"name":"Player 4_1","age":17}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 5_0","age":8}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 6_2","age":22},{"name":"Player 7_2","age":6}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 8_0","age":26}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 9_3","age":21},{"name":"Player 10_3","age":12},{"name":"Player 11_3","age":6},{"name":"Player 12_3","age":25}],"isLocked":false}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 13_4","age":11},{"name":"Player 14_4","age":12},{"name":"Player 15_4","age":28}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 16_0","age":18}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 17_5","age":7},{"name":"Player 18_5","age":29}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 19_0","age":28}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 20_6","age":27},{"name":"Player 21_6","age":22},{"name":"Player 22_6","age":10},{"name":"Player 23_6","age":18},{"name":"Player 24_6","age":5}],"isLocked":false}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 25_7","age":6},{"name":"Player 26_7","age":20},{"name":"Player 27_7","age":28},{"name":"Player 28_7","age":18},{"name":"Player 29_7","age":21}],"isLocked":false}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 30_8","age":23},{"name":"Player 31_8","age":9},{"name":"Player 32_8","age":8}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 33_0","age":24}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 34_0","age":16}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 35_0","age":6}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 36_0","age":26}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 37_0","age":13}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 38_9","age":13},{"name":"Player 39_9","age":12},{"name":"Player 40_9","age":27},{"name":"Player 41_9","age":11},{"name":"Player 42_9","age":22}],"isLocked":true}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 43_0","age":21}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 44_10","age":16},{"name":"Player 45_10","age":15},{"name":"Player 46_10","age":6},{"name":"Player 47_10","age":12}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 48_0","age":18}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 49_0","age":28}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 50_0","age":5}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 51_11","age":12},{"name":"Player 52_11","age":10}],"isLocked":true}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 53_0","age":27}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 54_12","age":14},{"name":"Player 55_12","age":16},{"name":"Player 56_12","age":21},{"name":"Player 57_12","age":24}],"isLocked":true}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 58_13","age":9},{"name":"Player 59_13","age":5},{"name":"Player 60_13","age":20},{"name":"Player 61_13","age":29}],"isLocked":false}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 62_14","age":23},{"name":"Player 63_14","age":18},{"name":"Player 64_14","age":29},{"name":"Player 65_14","age":23}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 66_0","age":10}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 67_0","age":17}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 68_0","age":9}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 69_15","age":27},{"name":"Player 70_15","age":26},{"name":"Player 71_15","age":14},{"name":"Player 72_15","age":5}],"isLocked":false}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 73_16","age":17},{"name":"Player 74_16","age":28},{"name":"Player 75_16","age":21},{"name":"Player 76_16","age":7}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 77_0","age":16}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 78_17","age":15},{"name":"Player 79_17","age":8},{"name":"Player 80_17","age":28},{"name":"Player 81_17","age":11}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 82_0","age":24}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 83_18","age":18},{"name":"Player 84_18","age":18},{"name":"Player 85_18","age":27},{"name":"Player 86_18","age":5}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 87_0","age":6}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 88_19","age":14},{"name":"Player 89_19","age":17},{"name":"Player 90_19","age":17},{"name":"Player 91_19","age":10},{"name":"Player 92_19","age":12}],"isLocked":true}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 93_20","age":17},{"name":"Player 94_20","age":13}],"isLocked":false}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 95_21","age":18},{"name":"Player 96_21","age":29},{"name":"Player 97_21","age":13}],"isLocked":false}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 98_0","age":25}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 99_0","age":22}}
+{"CLASSNAME":"model.Group","INSTANCE":{"players":[{"name":"Player 100_22","age":22},{"name":"Player 101_22","age":13},{"name":"Player 102_22","age":20},{"name":"Player 103_22","age":11},{"name":"Player 104_22","age":29}],"isLocked":true}}
+{"CLASSNAME":"model.Player","INSTANCE":{"name":"Player 105_0","age":26}}

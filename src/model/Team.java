@@ -20,6 +20,12 @@ public class Team
 		this.name = name;
 	}
 
+	public Team(String name, List<Unit> units)
+	{
+		this.name = name;
+		this.units.addAll(units);
+	}
+
 	public String getName()
 	{
 		return name;
@@ -33,6 +39,11 @@ public class Team
 	public void add(Unit unit)
 	{
 		units.add(unit);
+	}
+
+	public void remove(Unit unit)
+	{
+		units.remove(unit);
 	}
 
 	@Override
@@ -51,6 +62,11 @@ public class Team
 	public List<Player> getPlayers()
 	{
 		return units.stream().flatMap(u -> u.getPlayers().stream()).collect(Collectors.toList());
+	}
+
+	public List<Unit> getUnits()
+	{
+		return new LinkedList<>(units);
 	}
 
 	@Override

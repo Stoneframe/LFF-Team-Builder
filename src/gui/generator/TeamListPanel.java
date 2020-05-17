@@ -78,6 +78,8 @@ public class TeamListPanel
 
 	public void showTeams(List<Team> teams, Function<Integer, Boolean> scoringRule)
 	{
+		teamsPanel.removeAll();
+
 		int nbrOfPlayersInLargestTeam = teams.stream()
 			.mapToInt(t -> t.numberOfPlayers())
 			.max()
