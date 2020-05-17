@@ -1,12 +1,10 @@
 package teamsbuilder.evolution;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import model.Group;
-import model.Group.GroupSplit;
-import model.Player;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
@@ -20,61 +18,38 @@ public class TeamsSetupBuilder
 
 	private final OptimalTeam optimalteam;
 
+	private final List<TeamsSetup> setups = new LinkedList<>();
+
 	public TeamsSetupBuilder(List<Unit> units, TeamSettings settings)
 	{
 		this.units = units;
 		this.settings = settings;
 
-		double nbrOfScoreAble = units.stream()
-			.mapToDouble(u -> u.numberOfScoreablePlayers(settings.getScoringRule()))
-			.sum()
-			/ settings.getNumberOfTeams();
-
-		double nbrOfTeenAgers = units.stream()
-			.mapToDouble(u -> nbrOfTeenAgers(u))
-			.sum()
-			/ settings.getNumberOfTeams();
-
-		double nbrOfPlayers = units.stream()
-			.mapToDouble(u -> u.numberOfPlayers())
-			.sum()
-			/ settings.getNumberOfTeams();
-
-		this.optimalteam = new OptimalTeam(nbrOfScoreAble, nbrOfTeenAgers, nbrOfPlayers);
+		this.optimalteam = createOptimalTeam();
 	}
 
 	public List<Team> createTeams()
 	{
-		List<TeamsSetup> setups = new LinkedList<>();
-
-		for (int i = 0; i < 1; i++)
-		{
-			setups.add(createRandomTeamsSetup(units, settings));
-		}
+		initalizeRandomSetup();
 
 		for (int i = 0; i < 100; i++)
 		{
-			setups.sort((s1, s2) -> Double.compare(s2.getFitness(), s1.getFitness()));
-
-			int size1 = setups.size();
-			for (int j = 0; j < size1 - 5; j++)
-			{
-				setups.remove(5);
-			}
-
-			int size2 = setups.size();
-			for (int j = 0; j < size2; j++)
-			{
-				setups.addAll(setups.get(j).reproduce());
-			}
+			sortByFitness();
+			cullTheWeak();
+			reproduce();
 		}
 
-		return setups.get(0).getTeams();
+		return getTeams();
 	}
 
-	private TeamsSetup createRandomTeamsSetup(List<Unit> units, TeamSettings settings)
+	private boolean initalizeRandomSetup()
 	{
-		List<Team> teams = createRandomTeams(units, settings);
+		return setups.add(createRandomTeamsSetup());
+	}
+
+	private TeamsSetup createRandomTeamsSetup()
+	{
+		List<Team> teams = createRandomTeams();
 
 		return new TeamsSetup(
 			teams,
@@ -82,7 +57,21 @@ public class TeamsSetupBuilder
 			settings);
 	}
 
-	private List<Team> createEmptyTeams(TeamSettings settings)
+	private List<Team> createRandomTeams()
+	{
+		List<Team> teams = createEmptyTeams();
+
+		units.forEach(unit -> addUnitToRandomTeam(unit, teams));
+
+		return teams;
+	}
+
+	private void addUnitToRandomTeam(Unit unit, List<Team> teams)
+	{
+		teams.get(random.nextInt(teams.size())).add(unit);
+	}
+
+	private List<Team> createEmptyTeams()
 	{
 		List<Team> teams = new LinkedList<>();
 
@@ -94,49 +83,71 @@ public class TeamsSetupBuilder
 		return teams;
 	}
 
-	private List<Team> createRandomTeams(List<Unit> units, TeamSettings settings)
+	private void sortByFitness()
 	{
-		List<Team> teams = createEmptyTeams(settings);
-
-		units.forEach(unit -> addUnitToRandomTeam(unit, teams));
-
-		return teams;
+		setups.sort(byHighestFitness());
 	}
 
-	private void addUnitToRandomTeam(Unit unit, List<Team> teams)
+	private Comparator<? super TeamsSetup> byHighestFitness()
 	{
-		if (unit instanceof Group)
-		{
-			addGroupToRandomTeam((Group)unit, teams);
-		}
-		else
-		{
-			addPlayerToRandomTeam((Player)unit, teams);
-		}
+		return (s1, s2) -> Double.compare(s2.getFitness(), s1.getFitness());
 	}
 
-	private void addGroupToRandomTeam(Group group, List<Team> teams)
+	private void cullTheWeak()
 	{
-		if (!group.isLocked() && random.nextDouble() < 0.1)
-		{
-			GroupSplit split = group.split();
+		int size = setups.size();
 
-			addUnitToRandomTeam(split.getUnit1(), teams);
-			addUnitToRandomTeam(split.getUnit2(), teams);
-		}
-		else
+		for (int i = 0; i < size - 5; i++)
 		{
-			Team randomTeam = teams.get(random.nextInt(teams.size()));
-
-			randomTeam.add(group);
+			setups.remove(5);
 		}
 	}
 
-	private void addPlayerToRandomTeam(Player player, List<Team> teams)
+	private void reproduce()
 	{
-		Team randomTeam = teams.get(random.nextInt(teams.size()));
+		int size = setups.size();
 
-		randomTeam.add(player);
+		for (int i = 0; i < size; i++)
+		{
+			setups.addAll(setups.get(i).reproduce());
+		}
+	}
+
+	private List<Team> getTeams()
+	{
+		return setups.get(0).getTeams();
+	}
+
+	private OptimalTeam createOptimalTeam()
+	{
+		return new OptimalTeam(
+			getAverageNbrOfScoreAble(),
+			getAverageNbrOfTeenAgers(),
+			getAverageNbrOfPlayers());
+	}
+
+	private double getAverageNbrOfScoreAble()
+	{
+		return units.stream()
+			.mapToDouble(u -> u.numberOfScoreablePlayers(settings.getScoringRule()))
+			.sum()
+			/ settings.getNumberOfTeams();
+	}
+
+	private double getAverageNbrOfTeenAgers()
+	{
+		return units.stream()
+			.mapToDouble(u -> nbrOfTeenAgers(u))
+			.sum()
+			/ settings.getNumberOfTeams();
+	}
+
+	private double getAverageNbrOfPlayers()
+	{
+		return units.stream()
+			.mapToDouble(u -> u.numberOfPlayers())
+			.sum()
+			/ settings.getNumberOfTeams();
 	}
 
 	private int nbrOfTeenAgers(Unit unit)
