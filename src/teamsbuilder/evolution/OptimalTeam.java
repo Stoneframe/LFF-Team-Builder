@@ -18,7 +18,7 @@ public class OptimalTeam
 		return nbrOfScoreAble;
 	}
 
-	public double getNbrOfTeenAgers()
+	public double numberOfTeenAgers()
 	{
 		return nbrOfTeenAgers;
 	}

@@ -41,7 +41,7 @@ public class LffFitnessCalculator
 	private double teenAgers(Team team)
 	{
 		double diff = Math.abs(
-			optimalTeam.numberOfScoreAblePlayers() - team.count(NumberOf.TEEN_AGERS));
+			optimalTeam.numberOfTeenAgers() - team.count(NumberOf.TEEN_AGERS));
 
 		return FACTOR / (FACTOR + diff);
 	}
