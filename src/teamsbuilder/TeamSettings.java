@@ -11,8 +11,6 @@ public class TeamSettings
 	private boolean splitNonLockedGroups = false;
 
 	private int numberOfTeams;
-	private int minimumNumberOfPlayers;
-	private int maximumNumberOfPlayers;
 
 	public TeamSettings(
 		Function<Integer, Boolean> scoringRule,
@@ -50,25 +48,5 @@ public class TeamSettings
 	public void setNumberOfTeams(int numberOfTeams)
 	{
 		this.numberOfTeams = numberOfTeams;
-	}
-
-	public int getMinimumNumberOfPlayers()
-	{
-		return minimumNumberOfPlayers;
-	}
-
-	public void setMinimumNumberOfPlayers(int minimumNumberOfPlayers)
-	{
-		this.minimumNumberOfPlayers = minimumNumberOfPlayers;
-	}
-
-	public int getMaximumNumberOfPlayers()
-	{
-		return maximumNumberOfPlayers;
-	}
-
-	public void setMaximumNumberOfPlayers(int maximumNumberOfPlayers)
-	{
-		this.maximumNumberOfPlayers = maximumNumberOfPlayers;
 	}
 }

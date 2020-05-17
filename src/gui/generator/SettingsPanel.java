@@ -34,12 +34,6 @@ public class SettingsPanel
 	private final LffLabel nbrOfTeamsLabel;
 	private final LffTextField nbrOfTeamsTextField;
 
-	private final LffLabel playersPerTeamLabel;
-	private final LffLabel minPlayersPerTeamLabel;
-	private final LffTextField minPlayersPerTeamTextField;
-	private final LffLabel maxPlayersPerTeamLabel;
-	private final LffTextField maxPlayersPerTeamTextField;
-
 	private final LffLabel teamNamesLabel;
 	private final LffTextArea teamNamesTextArea;
 
@@ -56,14 +50,6 @@ public class SettingsPanel
 		nbrOfTeamsLabel = new LffLabel("Antal lag:");
 		nbrOfTeamsTextField = new LffTextField();
 		nbrOfTeamsTextField.addTextListener(l -> onTextChange());
-
-		playersPerTeamLabel = new LffLabel("Spelare per lag:");
-
-		minPlayersPerTeamLabel = new LffLabel("    Min:");
-		minPlayersPerTeamTextField = new LffTextField();
-
-		maxPlayersPerTeamLabel = new LffLabel("    Max:");
-		maxPlayersPerTeamTextField = new LffTextField();
 
 		teamNamesLabel = new LffLabel("Lagnamn:");
 		teamNamesTextArea = new LffTextArea();
@@ -102,42 +88,16 @@ public class SettingsPanel
 		gbc.gridx = 1;
 		center.add(nbrOfTeamsTextField, gbc);
 
-		gbc.insets = new Insets(10, 10, 0, 10);
-		gbc.gridwidth = 2;
-		gbc.gridy = 2;
-		gbc.gridx = 0;
-		center.add(playersPerTeamLabel, gbc);
-
-		gbc.gridwidth = 1;
-		gbc.gridy = 3;
-		gbc.gridx = 0;
-		center.add(minPlayersPerTeamLabel, gbc);
-
-		gbc.gridwidth = 1;
-		gbc.gridy = 3;
-		gbc.gridx = 1;
-		center.add(minPlayersPerTeamTextField, gbc);
-
-		gbc.gridwidth = 1;
-		gbc.gridy = 4;
-		gbc.gridx = 0;
-		center.add(maxPlayersPerTeamLabel, gbc);
-
-		gbc.gridwidth = 1;
-		gbc.gridy = 4;
-		gbc.gridx = 1;
-		center.add(maxPlayersPerTeamTextField, gbc);
-
 		gbc.insets = new Insets(20, 10, 0, 10);
 		gbc.gridwidth = 1;
-		gbc.gridy = 5;
+		gbc.gridy = 2;
 		gbc.gridx = 0;
 		center.add(teamNamesLabel, gbc);
 
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.weighty = 1;
 		gbc.gridwidth = 2;
-		gbc.gridy = 6;
+		gbc.gridy = 3;
 		gbc.gridx = 0;
 		center.add(
 			new JScrollPane(
@@ -150,7 +110,7 @@ public class SettingsPanel
 		gbc.weighty = 0;
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
-		gbc.gridy = 8;
+		gbc.gridy = 4;
 		gbc.gridx = 1;
 		center.add(generateButton, gbc);
 
@@ -188,8 +148,8 @@ public class SettingsPanel
 		TeamSettings settings = new TeamSettings(age -> age <= 12 || 50 <= age, getTeamNames());
 
 		settings.setNumberOfTeams(getInteger(nbrOfTeamsTextField));
-		settings.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
-		settings.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
+		// settings.setMinimumNumberOfPlayers(getInteger(minPlayersPerTeamTextField));
+		// settings.setMaximumNumberOfPlayers(getInteger(maxPlayersPerTeamTextField));
 
 		settings.setSplitNonLockedGroups(true);
 
