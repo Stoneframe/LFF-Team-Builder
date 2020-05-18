@@ -103,6 +103,12 @@ public class Group
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return Boolean.hashCode(isLocked) ^ players.hashCode();
+	}
+
+	@Override
 	public String toString()
 	{
 		return String.join(

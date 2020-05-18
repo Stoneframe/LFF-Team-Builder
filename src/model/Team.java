@@ -70,6 +70,12 @@ public class Team
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return name.hashCode() ^ units.hashCode();
+	}
+
+	@Override
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();

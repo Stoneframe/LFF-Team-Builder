@@ -45,6 +45,12 @@ public class Player
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return name.hashCode() ^ Integer.hashCode(age);
+	}
+
+	@Override
 	public String toString()
 	{
 		return String.format("%s (%d)", name, age);
