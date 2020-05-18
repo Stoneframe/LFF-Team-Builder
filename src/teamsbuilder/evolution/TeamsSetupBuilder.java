@@ -7,6 +7,7 @@ import java.util.List;
 import model.NumberOf;
 import model.Team;
 import model.Unit;
+import model.NumberOf.Counter;
 import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
@@ -16,12 +17,23 @@ public class TeamsSetupBuilder
 	private final List<Unit> units;
 	private final TeamSettings settings;
 
+	private final Counter[] categories;
+
 	private final List<TeamsSetup> setups = new LinkedList<>();
 
 	public TeamsSetupBuilder(List<Unit> units, TeamSettings settings)
 	{
 		this.units = units;
 		this.settings = settings;
+
+		categories = new Counter[]
+		{
+				NumberOf.PLAYERS,
+				NumberOf.SCORE_ABLE,
+				NumberOf.NON_SCORE_ABLE,
+				NumberOf.TEEN_AGERS,
+				NumberOf.YOUNGLINGS,
+		};
 	}
 
 	public List<Team> createTeams()
@@ -64,20 +76,12 @@ public class TeamsSetupBuilder
 	{
 		List<Team> teams = createRandomTeams();
 
-		return new TeamsSetup(
-			teams,
-			getFitnessCalculator(),
-			settings);
+		return new TeamsSetup(teams, getFitnessCalculator(), categories);
 	}
 
 	private FitnessCalculator getFitnessCalculator()
 	{
-		return new LffFitnessCalculator(
-			createOptimalTeam(),
-			NumberOf.PLAYERS,
-			NumberOf.SCORE_ABLE,
-			NumberOf.TEEN_AGERS,
-			NumberOf.YOUNGLINGS);
+		return new LffFitnessCalculator(createOptimalTeam(), categories);
 	}
 
 	private List<Team> createRandomTeams()

@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import model.Group;
 import model.Group.GroupSplit;
 import model.NumberOf;
+import model.NumberOf.Counter;
 import model.Team;
 import model.Unit;
-import teamsbuilder.TeamSettings;
 
 public class TeamsSetup
 {
@@ -19,7 +19,8 @@ public class TeamsSetup
 
 	private final List<Team> teams;
 	private final FitnessCalculator fitnessCalculator;
-	private final TeamSettings settings;
+
+	private final Counter[] categories;
 
 	private Team team1;
 	private Team team2;
@@ -27,11 +28,12 @@ public class TeamsSetup
 	private Unit unit1;
 	private Unit unit2;
 
-	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, TeamSettings settings)
+	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, Counter[] categories)
 	{
 		this.teams = cloneTeams(teams);
 		this.fitnessCalculator = fitnessCalculator;
-		this.settings = settings;
+
+		this.categories = categories;
 
 		mutate();
 	}
@@ -52,7 +54,7 @@ public class TeamsSetup
 
 		for (int i = 0; i < 50; i++)
 		{
-			setups.add(new TeamsSetup(teams, fitnessCalculator, settings));
+			setups.add(new TeamsSetup(teams, fitnessCalculator, categories));
 		}
 
 		return setups;
@@ -67,29 +69,6 @@ public class TeamsSetup
 		builder.append(" (");
 		builder.append(teams.stream().map(t -> toString(t)).collect(Collectors.joining(", ")));
 		builder.append(")");
-
-		// builder.append(System.lineSeparator());
-		//
-		// for (Team team : teams)
-		// {
-		// builder.append(
-		// "Team "
-		// + team.getName()
-		// + " - "
-		// + team.count(NumberOf.PLAYERS)
-		// + "("
-		// + team.count(NumberOf.SCORE_ABLE)
-		// + "):");
-		// builder.append(System.lineSeparator());
-		//
-		// for (Player player : team.getPlayers())
-		// {
-		// builder.append(player.getName() + ", " + player.getAge());
-		// builder.append(System.lineSeparator());
-		// }
-		//
-		// builder.append(System.lineSeparator());
-		// }
 
 		return builder.toString();
 	}
@@ -123,74 +102,35 @@ public class TeamsSetup
 	{
 		do
 		{
-			int mutation = random.nextInt(5);
+			int mutation = random.nextInt(2 + categories.length);
 
 			switch (mutation)
 			{
 				case 0:
-					nonScoreAbleMutation();
-					break;
-
-				case 1:
-					scoreAbleMutation();
-					break;
-
-				case 2:
-					teenAgersMutation();
-					break;
-
-				case 3:
 					splitGroupMutation();
 					break;
 
-				case 4:
+				case 1:
 					randomUnitMutation();
 					break;
+
+				default:
+					mutate(categories[mutation - 2]);
 			}
 		}
 		while (random.nextBoolean());
 	}
 
-	private void nonScoreAbleMutation()
+	private void mutate(Counter category)
 	{
-		selectTeamsWithHighestAndLowestNbrOfPlayers();
+		selectTeamsWithHighestAndLowest(category);
 
-		List<Unit> nonScoreAbleUnits = team1.getUnits()
+		List<Unit> units = team1.getUnits()
 			.stream()
-			.filter(u -> u.count(NumberOf.SCORE_ABLE) == 0)
+			.filter(u -> u.count(category) > 0)
 			.collect(Collectors.toList());
 
-		unit1 = getRandomUnit(nonScoreAbleUnits);
-		unit2 = getRandomUnit(team2.getUnits());
-
-		moveUnits();
-	}
-
-	private void scoreAbleMutation()
-	{
-		selectTeamsWithHighestAndLowestNbrOfScoreAble();
-
-		List<Unit> scoreAbleUnits = team1.getUnits()
-			.stream()
-			.filter(u -> u.count(NumberOf.SCORE_ABLE) > 0)
-			.collect(Collectors.toList());
-
-		unit1 = getRandomUnit(scoreAbleUnits);
-		unit2 = getRandomUnit(team2.getUnits());
-
-		moveUnits();
-	}
-
-	private void teenAgersMutation()
-	{
-		selectTeamsWithHighestAndLowestNbrOfTeenAgers();
-
-		List<Unit> teenAgersUnits = team1.getUnits()
-			.stream()
-			.filter(u -> nbrOfTeenAgers(u) == 0)
-			.collect(Collectors.toList());
-
-		unit1 = getRandomUnit(teenAgersUnits);
+		unit1 = getRandomUnit(units);
 		unit2 = getRandomUnit(team2.getUnits());
 
 		moveUnits();
@@ -227,22 +167,10 @@ public class TeamsSetup
 		moveUnits();
 	}
 
-	private void selectTeamsWithHighestAndLowestNbrOfPlayers()
+	private void selectTeamsWithHighestAndLowest(Counter category)
 	{
-		team1 = teams.stream().sorted(byNbrOfPlayers().reversed()).findFirst().get();
-		team2 = teams.stream().sorted(byNbrOfPlayers()).findFirst().get();
-	}
-
-	private void selectTeamsWithHighestAndLowestNbrOfScoreAble()
-	{
-		team1 = teams.stream().sorted(byNbrOfScoreAble().reversed()).findFirst().get();
-		team2 = teams.stream().sorted(byNbrOfScoreAble()).findFirst().get();
-	}
-
-	private void selectTeamsWithHighestAndLowestNbrOfTeenAgers()
-	{
-		team1 = teams.stream().sorted(byNbrOfTeenAgers().reversed()).findFirst().get();
-		team2 = teams.stream().sorted(byNbrOfTeenAgers()).findFirst().get();
+		team1 = teams.stream().sorted(by(category).reversed()).findFirst().get();
+		team2 = teams.stream().sorted(by(category)).findFirst().get();
 	}
 
 	private void selectRandomTeams()
@@ -269,7 +197,7 @@ public class TeamsSetup
 			.filter(u -> u instanceof Group)
 			.map(u -> (Group)u)
 			.filter(g -> !g.isLocked())
-			.sorted(byNbrOfPlayers().reversed())
+			.sorted(by(NumberOf.PLAYERS).reversed())
 			.findFirst()
 			.orElse(null);
 	}
@@ -301,30 +229,8 @@ public class TeamsSetup
 		return units.get(index);
 	}
 
-	private Comparator<? super Unit> byNbrOfScoreAble()
+	private Comparator<? super Unit> by(Counter category)
 	{
-		return (unit1, unit2) -> Integer.compare(
-			unit1.count(NumberOf.SCORE_ABLE),
-			unit2.count(NumberOf.SCORE_ABLE));
-	}
-
-	private Comparator<? super Unit> byNbrOfPlayers()
-	{
-		return (unit1, unit2) -> Integer.compare(
-			unit1.count(NumberOf.PLAYERS),
-			unit2.count(NumberOf.PLAYERS));
-	}
-
-	private Comparator<? super Unit> byNbrOfTeenAgers()
-	{
-		return (unit1, unit2) -> Integer.compare(nbrOfTeenAgers(unit1), nbrOfTeenAgers(unit2));
-	}
-
-	private int nbrOfTeenAgers(Unit unit)
-	{
-		return (int)unit.getPlayers()
-			.stream()
-			.filter(p -> 12 < p.getAge() && p.getAge() < 20)
-			.count();
+		return (unit1, unit2) -> Integer.compare(unit1.count(category), unit2.count(category));
 	}
 }
