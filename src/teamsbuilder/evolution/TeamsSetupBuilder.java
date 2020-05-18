@@ -7,7 +7,7 @@ import java.util.List;
 import model.NumberOf;
 import model.Team;
 import model.Unit;
-import model.NumberOf.Counter;
+import model.NumberOf.Category;
 import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
@@ -17,7 +17,7 @@ public class TeamsSetupBuilder
 	private final List<Unit> units;
 	private final TeamSettings settings;
 
-	private final Counter[] categories;
+	private final Category[] categories;
 
 	private final List<TeamsSetup> setups = new LinkedList<>();
 
@@ -26,14 +26,14 @@ public class TeamsSetupBuilder
 		this.units = units;
 		this.settings = settings;
 
-		categories = new Counter[]
+		categories = new Category[]
 		{
 				NumberOf.PLAYERS,
 				NumberOf.SCORE_ABLE,
 				NumberOf.NON_SCORE_ABLE,
 				NumberOf.TEEN_AGERS,
 				NumberOf.YOUNG_CHILDREN,
-				NumberOf.YOUNG_ADULTS,
+				// NumberOf.YOUNG_ADULTS,
 		};
 	}
 
@@ -114,8 +114,6 @@ public class TeamsSetupBuilder
 	private void sortByFitness()
 	{
 		setups.sort(byHighestFitness());
-
-		System.out.println(setups.get(0));
 	}
 
 	private Comparator<? super TeamsSetup> byHighestFitness()

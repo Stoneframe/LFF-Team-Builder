@@ -10,13 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import gui.components.LffButton;
 import gui.components.LffLabel;
 import gui.components.LffPanel;
-import gui.components.LffProgressBar;
 import gui.components.LffScrollPane;
 import gui.components.LffTextArea;
 import gui.components.LffTextField;
@@ -40,8 +38,6 @@ public class SettingsPanel
 
 	private final LffButton generateButton;
 
-	private final JProgressBar progressBar;
-
 	public SettingsPanel()
 	{
 		titleLabel = new LffLabel("Inställningar", Font.BOLD, 40);
@@ -60,9 +56,6 @@ public class SettingsPanel
 
 		generateButton = new LffButton("Generera");
 		generateButton.setEnabled(false);
-
-		progressBar = new LffProgressBar();
-		progressBar.setMinimumSize(progressBar.getPreferredSize());
 
 		setLayout(new BorderLayout());
 
@@ -111,15 +104,8 @@ public class SettingsPanel
 		gbc.weighty = 0;
 		gbc.gridwidth = 1;
 		gbc.gridy = 4;
-		gbc.gridx = 0;
-		center.add(generateButton, gbc);
-
-		gbc.insets = new Insets(10, 10, 20, 10);
-		gbc.weighty = 0;
-		gbc.gridwidth = 1;
-		gbc.gridy = 4;
 		gbc.gridx = 1;
-		center.add(progressBar, gbc);
+		center.add(generateButton, gbc);
 
 		add(titleLabel, BorderLayout.NORTH);
 		add(center, BorderLayout.CENTER);
@@ -171,11 +157,6 @@ public class SettingsPanel
 		nbrOfTeamsTextField.setEnabled(isEnabled);
 		teamNamesTextArea.setEnabled(isEnabled);
 		generateButton.setEnabled(isEnabled);
-	}
-
-	public void setProgress(int percent)
-	{
-		progressBar.setValue(percent);
 	}
 
 	private boolean isFormValid()

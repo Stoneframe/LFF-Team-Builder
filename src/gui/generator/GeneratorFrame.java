@@ -14,10 +14,11 @@ import gui.LffFrameBase;
 import gui.components.LffPanel;
 import io.FileHandler;
 import logging.LoggerFactory;
+import model.NumberOf;
+import model.NumberOf.Category;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
-import teamsbuilder.evolution.ProgressListener;
 import teamsbuilder.evolution.TeamsSetupBuilder;
 
 public class GeneratorFrame
@@ -117,30 +118,25 @@ public class GeneratorFrame
 	private class TeamsBuilderWorker
 		extends SwingWorker<List<Team>, Object>
 	{
-		private final TeamSettings settings;
+		private ProgressFrame progressFrame;
+		private TeamsSetupBuilder teamsBuilder;
 
 		public TeamsBuilderWorker(TeamSettings settings)
 		{
-			this.settings = settings;
+			progressFrame = new ProgressFrame();
+			progressFrame.setLocationRelativeTo(GeneratorFrame.this);
+
+			teamsBuilder = new TeamsSetupBuilder(unitListPanel.getUnits(), settings);
+			teamsBuilder.addProgressListener(progressFrame);
 		}
 
 		@Override
 		protected List<Team> doInBackground() throws Exception
 		{
 			settingsPanel.setEnabled(false);
+			progressFrame.setVisible(true);
 
-			TeamsSetupBuilder builder = new TeamsSetupBuilder(unitListPanel.getUnits(), settings);
-
-			builder.addProgressListener(new ProgressListener()
-			{
-				@Override
-				public void progressChanged(int percent)
-				{
-					settingsPanel.setProgress(percent);
-				}
-			});
-
-			return builder.createTeams();
+			return teamsBuilder.createTeams();
 		}
 
 		@Override
@@ -149,6 +145,7 @@ public class GeneratorFrame
 			try
 			{
 				teamListPanel.showTeams(get());
+				progressFrame.setDetails(getDetails());
 
 				printTeamsToFile(get());
 			}
@@ -158,6 +155,50 @@ public class GeneratorFrame
 			}
 
 			settingsPanel.setEnabled(true);
+		}
+
+		private String getDetails() throws Exception
+		{
+			StringBuilder builder = new StringBuilder();
+
+			builder.append(header());
+			builder.append(detailsAbout(NumberOf.PLAYERS));
+			builder.append(detailsAbout(NumberOf.SCORE_ABLE));
+			builder.append(detailsAbout(NumberOf.YOUNG_CHILDREN));
+			builder.append(detailsAbout(NumberOf.TEEN_AGERS));
+
+			return builder.toString();
+		}
+
+		private String header()
+		{
+			return "Kategori (per lag):         Min:    Max:" + System.lineSeparator();
+		}
+
+		private String detailsAbout(Category category) throws Exception
+		{
+			return String
+				.format(
+					"%-20s        %4d    %4d" + System.lineSeparator(),
+					category,
+					lowestNumberOf(category),
+					highestNumberOf(category));
+		}
+
+		private int lowestNumberOf(Category category) throws Exception
+		{
+			return get().stream()
+				.mapToInt(t -> t.count(category))
+				.min()
+				.getAsInt();
+		}
+
+		private int highestNumberOf(Category category) throws Exception
+		{
+			return get().stream()
+				.mapToInt(t -> t.count(category))
+				.max()
+				.getAsInt();
 		}
 	}
 }

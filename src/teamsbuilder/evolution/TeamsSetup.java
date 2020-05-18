@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import model.Group;
 import model.Group.GroupSplit;
 import model.NumberOf;
-import model.NumberOf.Counter;
+import model.NumberOf.Category;
 import model.Team;
 import model.Unit;
 
@@ -20,7 +20,7 @@ public class TeamsSetup
 	private final List<Team> teams;
 	private final FitnessCalculator fitnessCalculator;
 
-	private final Counter[] categories;
+	private final Category[] categories;
 
 	private Team team1;
 	private Team team2;
@@ -28,7 +28,7 @@ public class TeamsSetup
 	private Unit unit1;
 	private Unit unit2;
 
-	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, Counter[] categories)
+	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, Category[] categories)
 	{
 		this.teams = cloneTeams(teams);
 		this.fitnessCalculator = fitnessCalculator;
@@ -121,7 +121,7 @@ public class TeamsSetup
 		while (random.nextBoolean());
 	}
 
-	private void mutate(Counter category)
+	private void mutate(Category category)
 	{
 		selectTeamsWithHighestAndLowest(category);
 
@@ -167,7 +167,7 @@ public class TeamsSetup
 		moveUnits();
 	}
 
-	private void selectTeamsWithHighestAndLowest(Counter category)
+	private void selectTeamsWithHighestAndLowest(Category category)
 	{
 		team1 = teams.stream().sorted(by(category).reversed()).findFirst().get();
 		team2 = teams.stream().sorted(by(category)).findFirst().get();
@@ -229,7 +229,7 @@ public class TeamsSetup
 		return units.get(index);
 	}
 
-	private Comparator<? super Unit> by(Counter category)
+	private Comparator<? super Unit> by(Category category)
 	{
 		return (unit1, unit2) -> Integer.compare(unit1.count(category), unit2.count(category));
 	}

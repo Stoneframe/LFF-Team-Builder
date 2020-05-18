@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import model.NumberOf.Counter;
+import model.NumberOf.Category;
 import model.Team;
 
 public class LffFitnessCalculator
@@ -20,13 +20,13 @@ public class LffFitnessCalculator
 
 	private final Map<List<Team>, Double> cache = new HashMap<>();
 
-	public LffFitnessCalculator(OptimalTeam optimalTeam, Counter... counters)
+	public LffFitnessCalculator(OptimalTeam optimalTeam, Category... categories)
 	{
 		this.optimalTeam = optimalTeam;
 
-		for (Counter counter : counters)
+		for (Category category : categories)
 		{
-			calculators.add(new CategoryFitnessCalculator(counter));
+			calculators.add(new CategoryFitnessCalculator(category));
 		}
 	}
 
@@ -48,11 +48,11 @@ public class LffFitnessCalculator
 		implements
 			FitnessCalculator
 	{
-		private final Counter counter;
+		private final Category category;
 
-		public CategoryFitnessCalculator(Counter counter)
+		public CategoryFitnessCalculator(Category category)
 		{
-			this.counter = counter;
+			this.category = category;
 		}
 
 		@Override
@@ -63,7 +63,7 @@ public class LffFitnessCalculator
 
 		private double calculate(Team team)
 		{
-			double diff = Math.abs(optimalTeam.count(counter) - team.count(counter));
+			double diff = Math.abs(optimalTeam.count(category) - team.count(category));
 
 			return FACTOR / (FACTOR + diff);
 		}
