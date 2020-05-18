@@ -52,7 +52,7 @@ public class TeamsSetup
 	{
 		List<TeamsSetup> setups = new LinkedList<>();
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			setups.add(new TeamsSetup(teams, fitnessCalculator, categories));
 		}
