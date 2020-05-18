@@ -78,7 +78,7 @@ public class TeamsSetup
 		int nbrOfPlayers = team.count(NumberOf.PLAYERS);
 		int nbrOfScoreAble = team.count(NumberOf.SCORE_ABLE);
 		int nbrOfTeenAgers = team.count(NumberOf.TEEN_AGERS);
-		int nbrOfYounglings = team.count(NumberOf.YOUNGLINGS);
+		int nbrOfYounglings = team.count(NumberOf.YOUNG_CHILDREN);
 
 		return "("
 			+ nbrOfPlayers

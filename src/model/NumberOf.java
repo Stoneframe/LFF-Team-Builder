@@ -7,7 +7,8 @@ public class NumberOf
 	public static final Counter SCORE_ABLE = new Counter(p -> p.getAge() < 13 || 50 <= p.getAge());
 	public static final Counter NON_SCORE_ABLE = new Counter(p -> !SCORE_ABLE.test(p));
 	public static final Counter TEEN_AGERS = new Counter(p -> 12 < p.getAge() && p.getAge() < 20);
-	public static final Counter YOUNGLINGS = new Counter(p -> p.getAge() < 8);
+	public static final Counter YOUNG_CHILDREN = new Counter(p -> p.getAge() < 8);
+	public static final Counter YOUNG_ADULTS = new Counter(p -> 19 < p.getAge() && p.getAge() < 30);
 	public static final Counter PLAYERS = new Counter(p -> true);
 
 	public static class Counter

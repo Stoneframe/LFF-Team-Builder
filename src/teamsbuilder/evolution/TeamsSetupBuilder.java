@@ -32,7 +32,8 @@ public class TeamsSetupBuilder
 				NumberOf.SCORE_ABLE,
 				NumberOf.NON_SCORE_ABLE,
 				NumberOf.TEEN_AGERS,
-				NumberOf.YOUNGLINGS,
+				NumberOf.YOUNG_CHILDREN,
+				NumberOf.YOUNG_ADULTS,
 		};
 	}
 
