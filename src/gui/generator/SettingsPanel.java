@@ -126,16 +126,6 @@ public class SettingsPanel
 		return getInteger(nbrOfTeamsTextField);
 	}
 
-	public void setNbrOfTeams(int nbrOfTeams)
-	{
-		nbrOfTeamsTextField.setText(Integer.toString(nbrOfTeams));
-	}
-
-	public int getNbrOfTeamNames()
-	{
-		return getTeamNames().size();
-	}
-
 	public TeamSettings getTeamSettings()
 	{
 		TeamSettings settings = new TeamSettings(getTeamNames());
@@ -161,10 +151,7 @@ public class SettingsPanel
 
 	private boolean isFormValid()
 	{
-		int nbrOfTeams = getNbrOfTeams();
-		int nbrOfTeamNames = getNbrOfTeamNames();
-
-		return nbrOfTeams > 1 && nbrOfTeamNames >= nbrOfTeams;
+		return getNbrOfTeams() > 1;
 	}
 
 	private List<String> getTeamNames()

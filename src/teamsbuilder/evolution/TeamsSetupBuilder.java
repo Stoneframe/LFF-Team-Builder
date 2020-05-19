@@ -105,10 +105,22 @@ public class TeamsSetupBuilder
 
 		for (int i = 0; i < settings.getNumberOfTeams(); i++)
 		{
-			teams.add(new Team(settings.getTeamNames().get(i)));
+			teams.add(new Team(getTeamName(i)));
 		}
 
 		return teams;
+	}
+
+	private String getTeamName(int index)
+	{
+		if (index < settings.getTeamNames().size())
+		{
+			return settings.getTeamNames().get(index);
+		}
+		else
+		{
+			return "Team " + (index + 1);
+		}
 	}
 
 	private void sortByFitness()
