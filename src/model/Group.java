@@ -56,6 +56,8 @@ public class Group
 
 	public GroupSplit split()
 	{
+		if (isLocked) throw new IllegalStateException("Group is locked");
+
 		List<Player> players1 = new LinkedList<>();
 		List<Player> players2 = new LinkedList<>();
 
