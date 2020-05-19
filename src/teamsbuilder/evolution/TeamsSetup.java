@@ -1,5 +1,6 @@
 package teamsbuilder.evolution;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,11 +23,12 @@ public class TeamsSetup
 
 	private final Category[] categories;
 
-	private Team team1;
-	private Team team2;
-
-	private Unit unit1;
-	private Unit unit2;
+	private final List<Mutation> mutations = Arrays.asList(
+		new Mutation(NumberOf.PLAYERS),
+		new Mutation(NumberOf.SCORE_ABLE),
+		new Mutation(NumberOf.NON_SCORE_ABLE),
+		new Mutation(NumberOf.YOUNG_CHILDREN),
+		new Mutation(NumberOf.TEEN_AGERS));
 
 	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, Category[] categories)
 	{
@@ -63,32 +65,7 @@ public class TeamsSetup
 	@Override
 	public String toString()
 	{
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("Fitness: " + getFitness());
-		builder.append(" (");
-		builder.append(teams.stream().map(t -> toString(t)).collect(Collectors.joining(", ")));
-		builder.append(")");
-
-		return builder.toString();
-	}
-
-	private String toString(Team team)
-	{
-		int nbrOfPlayers = team.count(NumberOf.PLAYERS);
-		int nbrOfScoreAble = team.count(NumberOf.SCORE_ABLE);
-		int nbrOfTeenAgers = team.count(NumberOf.TEEN_AGERS);
-		int nbrOfYounglings = team.count(NumberOf.YOUNG_CHILDREN);
-
-		return "("
-			+ nbrOfPlayers
-			+ ", "
-			+ nbrOfScoreAble
-			+ ", "
-			+ nbrOfTeenAgers
-			+ ", "
-			+ nbrOfYounglings
-			+ ")";
+		return "Fitness: " + getFitness();
 	}
 
 	private List<Team> cloneTeams(List<Team> teams)
@@ -102,47 +79,118 @@ public class TeamsSetup
 	{
 		do
 		{
-			int mutation = random.nextInt(2 + categories.length);
+			int index = random.nextInt(mutations.size());
 
-			switch (mutation)
-			{
-				case 0:
-					splitGroupMutation();
-					break;
-
-				case 1:
-					randomUnitMutation();
-					break;
-
-				default:
-					mutate(categories[mutation - 2]);
-			}
+			mutations.get(index).perform();
 		}
 		while (random.nextBoolean());
 	}
 
-	private void mutate(Category category)
+	private class Mutation
 	{
-		selectTeamsWithHighestAndLowest(category);
+		private final Category category;
 
-		List<Unit> units = team1.getUnits()
-			.stream()
-			.filter(u -> u.count(category) > 0)
-			.collect(Collectors.toList());
+		private Team team1;
+		private Team team2;
 
-		unit1 = getRandomUnit(units);
-		unit2 = getRandomUnit(team2.getUnits());
+		private Unit unit1;
+		private Unit unit2;
 
-		moveUnits();
-	}
+		public Mutation(Category category)
+		{
+			this.category = category;
+		}
 
-	private void splitGroupMutation()
-	{
-		selectRandomTeams();
+		public void perform()
+		{
+			selectTeams();
+			selectUnitFromTeam1();
+			selectUnitFromTeam2();
+			moveOrSwapUnits();
+		}
 
-		Group group = getLargestGroup(team1);
+		protected void selectTeams()
+		{
+			team1 = teams.stream().sorted(by(category).reversed()).findFirst().get();
+			team2 = teams.stream().sorted(by(category)).findFirst().get();
+		}
 
-		if (group != null)
+		private void selectUnitFromTeam1()
+		{
+			unit1 = getUnitFromTeam1();
+
+			if (isUnitSplitAble(unit1) && random.nextBoolean())
+			{
+				unit1 = getSplitUnit((Group)unit1);
+			}
+		}
+
+		private void selectUnitFromTeam2()
+		{
+			unit2 = getRandomUnit(team2.getUnits());
+		}
+
+		private Unit getUnitFromTeam1()
+		{
+			List<Unit> units = team1.getUnits()
+				.stream()
+				.filter(u -> u.count(category) > 0)
+				.collect(Collectors.toList());
+
+			return getRandomUnit(units);
+		}
+
+		private Unit getRandomUnit(List<Unit> units)
+		{
+			if (units.size() == 0)
+			{
+				return null;
+			}
+
+			int index = random.nextInt(units.size());
+
+			return units.get(index);
+		}
+
+		private void moveOrSwapUnits()
+		{
+			moveUnit1();
+			moveUnit2();
+		}
+
+		private void moveUnit1()
+		{
+			if (unit1 != null && random.nextBoolean())
+			{
+				team1.remove(unit1);
+				team2.add(unit1);
+			}
+		}
+
+		private void moveUnit2()
+		{
+			if (unit2 != null && random.nextBoolean())
+			{
+				team2.remove(unit2);
+				team1.add(unit2);
+			}
+		}
+
+		private Unit getSplitUnit(Group group)
+		{
+			GroupSplit split = split(group);
+
+			return random.nextBoolean()
+					? split.getUnit1()
+					: split.getUnit2();
+		}
+
+		private boolean isUnitSplitAble(Unit unit)
+		{
+			return unit instanceof Group && !((Group)unit1).isLocked();
+		}
+
+		private GroupSplit split(Group group)
 		{
 			GroupSplit split = group.split();
 
@@ -150,87 +198,12 @@ public class TeamsSetup
 			team1.add(split.getUnit1());
 			team1.add(split.getUnit2());
 
-			unit1 = split.getUnit2();
-			unit2 = getRandomUnit(team2.getUnits());
-
-			moveUnits();
+			return split;
 		}
-	}
 
-	private void randomUnitMutation()
-	{
-		selectRandomTeams();
-
-		unit1 = getRandomUnit(team1.getUnits());
-		unit2 = getRandomUnit(team2.getUnits());
-
-		moveUnits();
-	}
-
-	private void selectTeamsWithHighestAndLowest(Category category)
-	{
-		team1 = teams.stream().sorted(by(category).reversed()).findFirst().get();
-		team2 = teams.stream().sorted(by(category)).findFirst().get();
-	}
-
-	private void selectRandomTeams()
-	{
-		do
+		private Comparator<? super Unit> by(Category category)
 		{
-			team1 = getRandomTeam();
-			team2 = getRandomTeam();
+			return (unit1, unit2) -> Integer.compare(unit1.count(category), unit2.count(category));
 		}
-		while (team1 == team2 || team1.count(NumberOf.PLAYERS) == 0);
-	}
-
-	private Team getRandomTeam()
-	{
-		int index = random.nextInt(teams.size());
-
-		return teams.get(index);
-	}
-
-	private Group getLargestGroup(Team team)
-	{
-		return team.getUnits()
-			.stream()
-			.filter(u -> u instanceof Group)
-			.map(u -> (Group)u)
-			.filter(g -> !g.isLocked())
-			.sorted(by(NumberOf.PLAYERS).reversed())
-			.findFirst()
-			.orElse(null);
-	}
-
-	private void moveUnits()
-	{
-		if (unit1 != null)
-		{
-			team1.remove(unit1);
-			team2.add(unit1);
-
-			if (unit2 != null && random.nextBoolean())
-			{
-				team2.remove(unit2);
-				team1.add(unit2);
-			}
-		}
-	}
-
-	private Unit getRandomUnit(List<Unit> units)
-	{
-		if (units.size() == 0)
-		{
-			return null;
-		}
-
-		int index = random.nextInt(units.size());
-
-		return units.get(index);
-	}
-
-	private Comparator<? super Unit> by(Category category)
-	{
-		return (unit1, unit2) -> Integer.compare(unit1.count(category), unit2.count(category));
 	}
 }
