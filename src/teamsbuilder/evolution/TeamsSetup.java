@@ -100,8 +100,8 @@ public class TeamsSetup
 
 	protected void selectTeams(Category category)
 	{
-		team1 = teams.stream().sorted(by(category).reversed()).findFirst().get();
-		team2 = teams.stream().sorted(by(category)).findFirst().get();
+		team1 = teams.stream().max(numberOf(category)).get();
+		team2 = teams.stream().min(numberOf(category)).get();
 	}
 
 	private void selectUnitFromTeam1(Category category)
@@ -190,7 +190,7 @@ public class TeamsSetup
 		return split;
 	}
 
-	private Comparator<? super Unit> by(Category category)
+	private Comparator<? super Unit> numberOf(Category category)
 	{
 		return (unit1, unit2) -> Integer.compare(unit1.count(category), unit2.count(category));
 	}
