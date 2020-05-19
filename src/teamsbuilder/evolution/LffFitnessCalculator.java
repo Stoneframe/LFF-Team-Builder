@@ -1,9 +1,7 @@
 package teamsbuilder.evolution;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import model.NumberOf.Category;
 import model.Team;
@@ -18,8 +16,6 @@ public class LffFitnessCalculator
 
 	private final List<FitnessCalculator> calculators = new LinkedList<>();
 
-	private final Map<List<Team>, Double> cache = new HashMap<>();
-
 	public LffFitnessCalculator(OptimalTeam optimalTeam, Category... categories)
 	{
 		this.optimalTeam = optimalTeam;
@@ -32,11 +28,6 @@ public class LffFitnessCalculator
 
 	@Override
 	public double calculate(List<Team> teams)
-	{
-		return cache.computeIfAbsent(teams, t -> calculateFitness(t));
-	}
-
-	private double calculateFitness(List<Team> teams)
 	{
 		return calculators.stream()
 			.mapToDouble(c -> c.calculate(teams))
