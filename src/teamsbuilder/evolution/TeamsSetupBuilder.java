@@ -130,7 +130,7 @@ public class TeamsSetupBuilder
 
 	private Comparator<? super TeamsSetup> byHighestFitness()
 	{
-		return (s1, s2) -> Double.compare(s2.getFitness(), s1.getFitness());
+		return Comparator.comparing(Util.cache(s -> s.getFitness()), Comparator.reverseOrder());
 	}
 
 	private void cullTheWeak()
