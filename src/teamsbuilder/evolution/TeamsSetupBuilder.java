@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.NumberOf;
+import model.NumberOf.Category;
 import model.Team;
 import model.Unit;
-import model.NumberOf.Category;
 import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
@@ -31,9 +31,12 @@ public class TeamsSetupBuilder
 				NumberOf.PLAYERS,
 				NumberOf.SCORE_ABLE,
 				NumberOf.NON_SCORE_ABLE,
-				NumberOf.TEEN_AGERS,
 				NumberOf.YOUNG_CHILDREN,
-				// NumberOf.YOUNG_ADULTS,
+				NumberOf.CHILDREN,
+				NumberOf.TEEN_AGERS,
+				NumberOf.YOUNG_ADULTS,
+				NumberOf.ADULTS,
+				NumberOf.SENIORS,
 		};
 	}
 
