@@ -67,7 +67,14 @@ public class UnitsUtil
 	{
 		String name = "Player " + ++playerCount + "_" + group;
 
-		return new Player(name, new Random().nextInt(25) + 5);
+		return new Player(name, getRandomAge());
+	}
+
+	private static int getRandomAge()
+	{
+		Random random = new Random();
+		double x = random.nextInt(99) + random.nextDouble();
+		return (int)(0.005 * Math.pow(x, 2) + 0.02 * Math.pow(x, 1) + 6);
 	}
 
 	public static void print(List<Unit> units, List<Team> teams)
