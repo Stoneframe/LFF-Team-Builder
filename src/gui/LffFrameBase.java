@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,7 +96,7 @@ public abstract class LffFrameBase
 	protected abstract void onWindowOpened();
 
 	protected abstract void onWindowClosed();
-	
+
 	private void onEditUnit()
 	{
 		Unit selectedUnit = unitListPanel.getSelectedUnit();
@@ -119,7 +120,7 @@ public abstract class LffFrameBase
 		frame.setLayout(new BorderLayout());
 		frame.add(centerPanel, BorderLayout.CENTER);
 		frame.setSize(600, 520);
-		frame.setLocationRelativeTo(this);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
@@ -137,7 +138,7 @@ public abstract class LffFrameBase
 				Unit unit1 = splitPanel.getUnit1();
 				Unit unit2 = splitPanel.getUnit2();
 
-				unitListPanel.replaceUnit(selectedUnit, unit1, unit2);
+				unitListPanel.replaceUnit(selectedUnit, Arrays.asList(unit1, unit2));
 
 				frame.dispose();
 			}
@@ -145,7 +146,7 @@ public abstract class LffFrameBase
 
 		frame.setLayout(new BorderLayout());
 		frame.add(splitPanel, BorderLayout.CENTER);
-		frame.setLocationRelativeTo(this);
+		frame.setLocationRelativeTo(null);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -158,9 +159,7 @@ public abstract class LffFrameBase
 			.flatMap(u -> u.getPlayers().stream())
 			.collect(Collectors.toList());
 
-		Group group = new Group(getIsLocked(), allPlayers);
-
-		replace(units, group);
+		unitListPanel.replaceUnit(units, new Group(getIsLocked(), allPlayers));
 	}
 
 	private boolean getIsLocked()
@@ -172,16 +171,6 @@ public abstract class LffFrameBase
 			JOptionPane.YES_NO_OPTION);
 
 		return choice == JOptionPane.YES_OPTION;
-	}
-
-	private void replace(List<Unit> units, Group group)
-	{
-		unitListPanel.replaceUnit(units.get(0), group);
-
-		for (int i = 1; i < units.size(); i++)
-		{
-			unitListPanel.removeUnit(units.get(i));
-		}
 	}
 
 	private void onRemoveUnit()

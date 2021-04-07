@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -95,18 +96,39 @@ public class UnitListPanel
 		unitListModel.removeElement(unit);
 	}
 
-	public void replaceUnit(Unit unitToRemove, Unit... unitsToAdd)
+	public void replaceUnit(Unit unitToRemove, Unit unitToAdd)
 	{
-		int index = unitListModel.indexOf(unitToRemove);
+		replaceUnit(Arrays.asList(unitToRemove), Arrays.asList(unitToAdd));
+	}
 
-		unitListModel.remove(index);
+	public void replaceUnit(Unit unitToRemove, List<Unit> unitsToAdd)
+	{
+		replaceUnit(Arrays.asList(unitToRemove), unitsToAdd);
+	}
 
-		for (int i = 0; i < unitsToAdd.length; i++)
+	public void replaceUnit(List<Unit> unitsToRemove, Unit unitToAdd)
+	{
+		replaceUnit(unitsToRemove, Arrays.asList(unitToAdd));
+	}
+
+	public void replaceUnit(List<Unit> unitsToRemove, List<Unit> unitsToAdd)
+	{
+		int index = unitsToRemove.stream()
+			.mapToInt(unit -> unitListModel.indexOf(unit))
+			.min()
+			.getAsInt();
+
+		for (int i = 0; i < unitsToAdd.size(); i++)
 		{
-			unitListModel.add(index + i, unitsToAdd[i]);
+			unitListModel.add(index + i, unitsToAdd.get(i));
 		}
 
-		unitList.setSelectedIndices(IntStream.range(index, index + unitsToAdd.length).toArray());
+		for (Unit unit : unitsToRemove)
+		{
+			unitListModel.removeElement(unit);
+		}
+
+		unitList.setSelectedIndices(IntStream.range(index, index + unitsToAdd.size()).toArray());
 		unitList.ensureIndexIsVisible(index);
 	}
 
