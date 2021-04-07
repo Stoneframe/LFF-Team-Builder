@@ -2,18 +2,13 @@ package gui.registrator;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
 import gui.LffFrameBase;
 import gui.components.LffPanel;
-import io.FileHandler;
 import logging.LoggerFactory;
-import model.Unit;
 
 public class RegistratorFrame
 	extends LffFrameBase
@@ -47,44 +42,17 @@ public class RegistratorFrame
 	@Override
 	protected void onWindowOpened()
 	{
-		readUnitsFromFile();
 	}
 
 	@Override
 	protected void onWindowClosed()
 	{
-		writeUnitsToFile();
 	}
 
 	private void onAddUnit()
 	{
 		unitListPanel.addUnit(unitFormPanel.getUnit());
 		unitFormPanel.reset();
-	}
-
-	private void readUnitsFromFile()
-	{
-		String fileName = FileHandler.getFileName();
-
-		Path filePath = Paths.get(PLAYER_FOLDER, fileName);
-		logger.info("Reading from file: " + filePath.toAbsolutePath());
-
-		List<Unit> units = FileHandler.readFromFile(filePath);
-
-		unitListPanel.setUnits(units);
-	}
-
-	private void writeUnitsToFile()
-	{
-		String fileName = FileHandler.getFileName();
-
-		Path filePath = Paths.get(PLAYER_FOLDER, fileName);
-		logger.info("Writing to file: " + filePath.toAbsolutePath());
-
-		List<Unit> units = unitListPanel.getUnits();
-		logger.info("Write " + units.size() + " units");
-
-		FileHandler.writeToFile(filePath, units);
 	}
 
 	public static void main(String[] args)

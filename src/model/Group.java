@@ -111,6 +111,20 @@ public class Group
 	}
 
 	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof Group)
+		{
+			Group other = (Group)obj;
+
+			return this.isLocked == other.isLocked
+				&& this.players.equals(other.players);
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString()
 	{
 		return String.join(

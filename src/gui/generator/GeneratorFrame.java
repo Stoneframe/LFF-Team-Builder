@@ -17,7 +17,6 @@ import logging.LoggerFactory;
 import model.NumberOf;
 import model.NumberOf.Category;
 import model.Team;
-import model.Unit;
 import teamsbuilder.TeamSettings;
 import teamsbuilder.evolution.TeamsSetupBuilder;
 
@@ -59,13 +58,6 @@ public class GeneratorFrame
 	@Override
 	protected void onWindowOpened()
 	{
-		Path folderPath = Paths.get(PLAYER_FOLDER);
-		logger.info("Reading from folder: " + folderPath.toAbsolutePath());
-
-		List<Unit> allUnits = FileHandler.readFromDirectory(folderPath);
-		logger.info("Read " + allUnits.size() + " units");
-
-		unitListPanel.setUnits(allUnits);
 		settingsPanel.setNbrOfPlayers(unitListPanel.getNbrOfPlayers());
 	}
 

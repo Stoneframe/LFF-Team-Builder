@@ -51,6 +51,20 @@ public class Player
 	}
 
 	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof Player)
+		{
+			Player other = (Player)obj;
+
+			return this.name.equals(other.name)
+				&& this.age == other.age;
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString()
 	{
 		return String.format("%s (%d)", name, age);

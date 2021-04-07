@@ -37,9 +37,11 @@ public abstract class LffFrameBase
 
 	protected LffFrameBase(String title)
 	{
+		UnitListModel unitListModel = new UnitListModel();
+
 		lundsFFPanel = new LundsFFPanel();
 
-		unitListPanel = new UnitListPanel("Spelare");
+		unitListPanel = new UnitListPanel("Spelare", unitListModel);
 		unitListPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
 		unitListPanel.setRemoveButtonVisible(true);
 		unitListPanel.addEditButtonActionListener(l -> onEditUnit());
@@ -61,11 +63,13 @@ public abstract class LffFrameBase
 		{
 			public void windowOpened(WindowEvent e)
 			{
+				unitListModel.load(PLAYER_FOLDER);
 				LffFrameBase.this.onWindowOpened();
 			};
 
 			public void windowClosing(WindowEvent e)
 			{
+				unitListModel.save(PLAYER_FOLDER);
 				LffFrameBase.this.onWindowClosed();
 			};
 		});

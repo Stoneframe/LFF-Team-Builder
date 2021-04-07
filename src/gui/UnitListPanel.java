@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 
 import gui.components.LffButton;
@@ -27,7 +26,7 @@ public class UnitListPanel
 
 	private final LffLabel titleLabel;
 
-	private final DefaultListModel<Unit> unitListModel;
+	private final UnitListModel unitListModel;
 	private final LffList<Unit> unitList;
 
 	private final LffButton editButton;
@@ -35,11 +34,11 @@ public class UnitListPanel
 	private final LffButton mergeButton;
 	private final LffButton removeButton;
 
-	public UnitListPanel(String titel)
+	public UnitListPanel(String titel, UnitListModel unitListModel)
 	{
-		titleLabel = new LffLabel(titel, Font.BOLD, 40);
+		this.unitListModel = unitListModel;
 
-		unitListModel = new DefaultListModel<>();
+		titleLabel = new LffLabel(titel, Font.BOLD, 40);
 
 		unitList = new LffList<>(unitListModel);
 		unitList.addListSelectionListener(l -> onSelectionChanged());
@@ -81,19 +80,14 @@ public class UnitListPanel
 		return unitList.getSelectedValuesList();
 	}
 
-	public void setUnits(List<Unit> units)
-	{
-		units.forEach(unit -> unitListModel.addElement(unit));
-	}
-
 	public void addUnit(Unit unit)
 	{
-		unitListModel.addElement(unit);
+		unitListModel.add(unit);
 	}
 
 	public void removeUnit(Unit unit)
 	{
-		unitListModel.removeElement(unit);
+		unitListModel.remove(unit);
 	}
 
 	public void replaceUnit(Unit unitToRemove, Unit unitToAdd)
@@ -113,20 +107,12 @@ public class UnitListPanel
 
 	public void replaceUnit(List<Unit> unitsToRemove, List<Unit> unitsToAdd)
 	{
-		int index = unitsToRemove.stream()
+		unitListModel.replace(unitsToRemove, unitsToAdd);
+
+		int index = unitsToAdd.stream()
 			.mapToInt(unit -> unitListModel.indexOf(unit))
 			.min()
 			.getAsInt();
-
-		for (int i = 0; i < unitsToAdd.size(); i++)
-		{
-			unitListModel.add(index + i, unitsToAdd.get(i));
-		}
-
-		for (Unit unit : unitsToRemove)
-		{
-			unitListModel.removeElement(unit);
-		}
 
 		unitList.setSelectedIndices(IntStream.range(index, index + unitsToAdd.size()).toArray());
 		unitList.ensureIndexIsVisible(index);

@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -118,6 +121,65 @@ public class FileHandler
 		catch (IOException e)
 		{
 			logger.severe(e.toString());
+		}
+	}
+
+	public static boolean exists(Path path)
+	{
+		return Files.exists(path);
+	}
+
+	public static void delete(Path path)
+	{
+		try
+		{
+			Files.deleteIfExists(path);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static void empty(Path path)
+	{
+		try
+		{
+			Files.write(path, "".getBytes("utf-8"), StandardOpenOption.TRUNCATE_EXISTING);
+		}
+		catch (IOException e)
+		{
+			logger.severe(e.toString());
+		}
+	}
+
+	public static List<String> readLines(Path path)
+	{
+		try
+		{
+			return Files.readAllLines(path);
+		}
+		catch (IOException e)
+		{
+			logger.severe(e.toString());
+		}
+
+		return Collections.emptyList();
+	}
+
+	public static void appendLine(Path path, String line)
+	{
+		try
+		{
+			Files.write(
+				path,
+				line.getBytes("utf-8"),
+				StandardOpenOption.CREATE,
+				StandardOpenOption.APPEND);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
