@@ -40,11 +40,6 @@ public class GeneratorFrame
 
 		logger.info("Starting Generator");
 
-		unitListPanel.setEditButtonVisible(false);
-		unitListPanel.setSplitButtonVisible(false);
-		unitListPanel.setMergeButtonVisible(false);
-		unitListPanel.setRemoveButtonVisible(false);
-
 		settingsPanel = new SettingsPanel();
 		settingsPanel.addGenerateButtonActionListener(l -> onGenerate());
 
