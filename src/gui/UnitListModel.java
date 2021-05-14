@@ -121,8 +121,6 @@ public class UnitListModel
 					break;
 			}
 		}
-
-		FileHandler.empty(Paths.get(FILE_NAME));
 	}
 
 	private void disposeBackup()
