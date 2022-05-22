@@ -68,11 +68,16 @@ public class UnitListModel
 		replaceInternal(unitsToRemove, unitsToAdd);
 	}
 
-	public void load(String playerFolder)
+	public void loadFromFile(String playerFolder)
 	{
-		readUnits(playerFolder);
+		readUnitsFromFile(playerFolder);
 
 		loadBackup();
+	}
+
+	public void loadFromFolder(String playerFolder)
+	{
+		insertAllInternal(FileHandler.readFromDirectory(Paths.get(playerFolder)));
 	}
 
 	public void save(String playerFolder)
@@ -82,7 +87,7 @@ public class UnitListModel
 		disposeBackup();
 	}
 
-	private void readUnits(String playerFolder)
+	private void readUnitsFromFile(String playerFolder)
 	{
 		Path filePath = Paths.get(playerFolder, FileHandler.getFileName());
 

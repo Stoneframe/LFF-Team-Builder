@@ -63,13 +63,13 @@ public abstract class LffFrameBase
 		{
 			public void windowOpened(WindowEvent e)
 			{
-				unitListModel.load(PLAYER_FOLDER);
+				LffFrameBase.this.loadPlayers(unitListModel);
 				LffFrameBase.this.onWindowOpened();
 			};
 
 			public void windowClosing(WindowEvent e)
 			{
-				unitListModel.save(PLAYER_FOLDER);
+				LffFrameBase.this.savePlayers(unitListModel);
 				LffFrameBase.this.onWindowClosed();
 			};
 		});
@@ -100,6 +100,10 @@ public abstract class LffFrameBase
 	protected abstract void onWindowOpened();
 
 	protected abstract void onWindowClosed();
+
+	protected abstract void loadPlayers(UnitListModel unitListModel);
+
+	protected abstract void savePlayers(UnitListModel unitListModel);
 
 	private void onEditUnit()
 	{

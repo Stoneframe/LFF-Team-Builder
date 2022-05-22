@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import gui.LffFrameBase;
+import gui.UnitListModel;
 import gui.components.LffPanel;
 import io.FileHandler;
 import logging.LoggerFactory;
@@ -63,6 +64,18 @@ public class GeneratorFrame
 
 	@Override
 	protected void onWindowClosed()
+	{
+
+	}
+
+	@Override
+	protected void loadPlayers(UnitListModel unitListModel)
+	{
+		unitListModel.loadFromFolder(PLAYER_FOLDER);
+	}
+
+	@Override
+	protected void savePlayers(UnitListModel unitListModel)
 	{
 
 	}
