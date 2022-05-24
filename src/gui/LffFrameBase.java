@@ -35,9 +35,11 @@ public abstract class LffFrameBase
 	protected final LundsFFPanel lundsFFPanel;
 	protected final UnitListPanel unitListPanel;
 
+	protected UnitListModel unitListModel;
+
 	protected LffFrameBase(String title)
 	{
-		UnitListModel unitListModel = new UnitListModel();
+		unitListModel = new UnitListModel();
 
 		lundsFFPanel = new LundsFFPanel();
 
@@ -63,13 +65,13 @@ public abstract class LffFrameBase
 		{
 			public void windowOpened(WindowEvent e)
 			{
-				LffFrameBase.this.loadPlayers(unitListModel);
+				LffFrameBase.this.loadPlayers();
 				LffFrameBase.this.onWindowOpened();
 			};
 
 			public void windowClosing(WindowEvent e)
 			{
-				LffFrameBase.this.savePlayers(unitListModel);
+				LffFrameBase.this.savePlayers();
 				LffFrameBase.this.onWindowClosed();
 			};
 		});
@@ -101,11 +103,11 @@ public abstract class LffFrameBase
 
 	protected abstract void onWindowClosed();
 
-	protected abstract void loadPlayers(UnitListModel unitListModel);
+	protected abstract void loadPlayers();
 
-	protected abstract void savePlayers(UnitListModel unitListModel);
+	protected abstract void savePlayers();
 
-	private void onEditUnit()
+	protected void onEditUnit()
 	{
 		Unit selectedUnit = unitListPanel.getSelectedUnit();
 

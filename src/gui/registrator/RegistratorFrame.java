@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 import gui.LffFrameBase;
-import gui.UnitListModel;
 import gui.components.LffPanel;
 import logging.LoggerFactory;
 
@@ -51,13 +50,13 @@ public class RegistratorFrame
 	}
 
 	@Override
-	protected void loadPlayers(UnitListModel unitListModel)
+	protected void loadPlayers()
 	{
 		unitListModel.loadFromFile(PLAYER_FOLDER);
 	}
 
 	@Override
-	protected void savePlayers(UnitListModel unitListModel)
+	protected void savePlayers()
 	{
 		unitListModel.save(PLAYER_FOLDER);
 	}

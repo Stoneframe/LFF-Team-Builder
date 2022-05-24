@@ -9,9 +9,10 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import gui.LffFrameBase;
-import gui.UnitListModel;
 import gui.components.LffPanel;
 import io.FileHandler;
 import logging.LoggerFactory;
@@ -40,6 +41,32 @@ public class GeneratorFrame
 
 		logger.info("Starting Generator");
 
+		unitListModel.addListDataListener(new ListDataListener()
+		{
+			@Override
+			public void intervalRemoved(ListDataEvent e)
+			{
+				updateNumberOfPlayers();
+			}
+
+			@Override
+			public void intervalAdded(ListDataEvent e)
+			{
+				updateNumberOfPlayers();
+			}
+
+			@Override
+			public void contentsChanged(ListDataEvent e)
+			{
+				updateNumberOfPlayers();
+			}
+
+			private void updateNumberOfPlayers()
+			{
+				settingsPanel.setNbrOfPlayers(unitListPanel.getNbrOfPlayers());
+			}
+		});
+
 		settingsPanel = new SettingsPanel();
 		settingsPanel.addGenerateButtonActionListener(l -> onGenerate());
 
@@ -65,19 +92,17 @@ public class GeneratorFrame
 	@Override
 	protected void onWindowClosed()
 	{
-
 	}
 
 	@Override
-	protected void loadPlayers(UnitListModel unitListModel)
+	protected void loadPlayers()
 	{
 		unitListModel.loadFromFolder(PLAYER_FOLDER);
 	}
 
 	@Override
-	protected void savePlayers(UnitListModel unitListModel)
+	protected void savePlayers()
 	{
-
 	}
 
 	@Override
