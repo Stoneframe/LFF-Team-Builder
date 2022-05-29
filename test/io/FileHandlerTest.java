@@ -3,6 +3,7 @@ package io;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ import util.UnitsUtil;
 public class FileHandlerTest
 {
 	@Test
-	public void writeToFile()
+	public void writeToFile() throws IOException
 	{
 		File file = new File("units");
 

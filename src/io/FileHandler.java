@@ -38,12 +38,12 @@ public class FileHandler
 		return getUniqueId() + ".txt";
 	}
 
-	public static void writeToFile(Path filePath, List<Unit> units)
+	public static void writeToFile(Path filePath, List<Unit> units) throws IOException
 	{
 		writeToFile(filePath.toFile(), units);
 	}
 
-	public static void writeToFile(File file, List<Unit> units)
+	public static void writeToFile(File file, List<Unit> units) throws IOException
 	{
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
 		{
@@ -58,15 +58,16 @@ public class FileHandler
 		catch (IOException e)
 		{
 			logger.severe(e.toString());
+			throw e;
 		}
 	}
 
-	public static List<Unit> readFromFile(Path filePath)
+	public static List<Unit> readFromFile(Path filePath) throws IOException
 	{
 		return readFromFile(filePath.toFile());
 	}
 
-	public static List<Unit> readFromFile(File file)
+	public static List<Unit> readFromFile(File file) throws IOException
 	{
 		List<Unit> units = new LinkedList<>();
 
@@ -81,17 +82,18 @@ public class FileHandler
 		catch (IOException e)
 		{
 			logger.severe(e.toString());
+			throw e;
 		}
 
 		return units;
 	}
 
-	public static List<Unit> readFromDirectory(Path folderPath)
+	public static List<Unit> readFromFolder(Path folderPath) throws IOException
 	{
-		return readFromDirectory(folderPath.toFile());
+		return readFromFolder(folderPath.toFile());
 	}
 
-	public static List<Unit> readFromDirectory(File folder)
+	public static List<Unit> readFromFolder(File folder) throws IOException
 	{
 		List<Unit> units = new LinkedList<>();
 
@@ -141,18 +143,6 @@ public class FileHandler
 		}
 	}
 
-	public static void empty(Path path)
-	{
-		try
-		{
-			Files.write(path, "".getBytes("utf-8"), StandardOpenOption.TRUNCATE_EXISTING);
-		}
-		catch (IOException e)
-		{
-			logger.severe(e.toString());
-		}
-	}
-
 	public static List<String> readLines(Path path)
 	{
 		try
@@ -188,7 +178,7 @@ public class FileHandler
 		try
 		{
 			Enumeration<NetworkInterface> networkInterfaces =
-					NetworkInterface.getNetworkInterfaces();
+				NetworkInterface.getNetworkInterfaces();
 
 			int hash = 0;
 

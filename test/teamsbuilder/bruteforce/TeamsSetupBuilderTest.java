@@ -3,6 +3,7 @@ package teamsbuilder.bruteforce;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -116,7 +117,7 @@ public class TeamsSetupBuilderTest
 	}
 
 	@Test
-	public void largeTest()
+	public void largeTest() throws IOException
 	{
 		TeamSettings settings = getTeamSettings(10);
 

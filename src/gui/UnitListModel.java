@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -70,35 +71,70 @@ public class UnitListModel
 
 	public void loadFromFile(String playerFolder)
 	{
-		readUnitsFromFile(playerFolder);
+		Path filePath = Paths.get(playerFolder, FileHandler.getFileName());
+
+		List<Unit> units = readFromFile(filePath);
+
+		insertAllInternal(units);
 
 		loadBackup();
 	}
 
 	public void loadFromFolder(String playerFolder)
 	{
-		insertAllInternal(FileHandler.readFromDirectory(Paths.get(playerFolder)));
+		Path folderPath = Paths.get(playerFolder);
+
+		List<Unit> units = readFromFolder(folderPath);
+
+		insertAllInternal(units);
 	}
 
 	public void save(String playerFolder)
 	{
-		writeUnits(playerFolder);
-
-		disposeBackup();
+		if (tryWriteUnits(playerFolder))
+		{
+			disposeBackup();
+		}
 	}
 
-	private void readUnitsFromFile(String playerFolder)
+	private boolean tryWriteUnits(String playerFolder)
 	{
 		Path filePath = Paths.get(playerFolder, FileHandler.getFileName());
 
-		insertAllInternal(FileHandler.readFromFile(filePath));
+		try
+		{
+			FileHandler.writeToFile(filePath, units);
+
+			return true;
+		}
+		catch (IOException e)
+		{
+			return false;
+		}
 	}
 
-	private void writeUnits(String playerFolder)
+	private List<Unit> readFromFile(Path filePath)
 	{
-		Path filePath = Paths.get(playerFolder, FileHandler.getFileName());
+		try
+		{
+			return FileHandler.readFromFile(filePath);
+		}
+		catch (IOException e)
+		{
+			return new LinkedList<>();
+		}
+	}
 
-		FileHandler.writeToFile(filePath, units);
+	private List<Unit> readFromFolder(Path directoryPath)
+	{
+		try
+		{
+			return FileHandler.readFromFolder(directoryPath);
+		}
+		catch (IOException e)
+		{
+			return new LinkedList<>();
+		}
 	}
 
 	private void loadBackup()
