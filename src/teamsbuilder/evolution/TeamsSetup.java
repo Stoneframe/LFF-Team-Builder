@@ -170,8 +170,8 @@ public class TeamsSetup
 		GroupSplit split = split(group);
 
 		return random.nextBoolean()
-				? split.getUnit1()
-				: split.getUnit2();
+			? split.getUnit1()
+			: split.getUnit2();
 	}
 
 	private boolean isUnitSplitAble(Unit unit)

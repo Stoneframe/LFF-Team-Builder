@@ -76,8 +76,8 @@ public class Group
 		Function<List<Player>, Unit> converter = (players) ->
 			{
 				return players.size() == 1
-						? players.get(0)
-						: new Group(players);
+					? players.get(0)
+					: new Group(players);
 			};
 
 		Unit unit1 = converter.apply(players1);

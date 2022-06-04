@@ -180,7 +180,7 @@ public class SplitPanel
 	private static Unit getUnit(LffList<Player> list, LffCheckBox lockCheckBox)
 	{
 		return list.nbrOfElemets() == 1
-				? list.getElementAt(0)
-				: new Group(lockCheckBox.isEnabled(), list.getAllElements());
+			? list.getElementAt(0)
+			: new Group(lockCheckBox.isEnabled(), list.getAllElements());
 	}
 }

@@ -28,15 +28,15 @@ public class TeamsSetupBuilder
 
 		categories = new Category[]
 		{
-				NumberOf.PLAYERS,
-				NumberOf.SCORE_ABLE,
-				NumberOf.NON_SCORE_ABLE,
-				NumberOf.YOUNG_CHILDREN,
-				NumberOf.CHILDREN,
-				NumberOf.TEEN_AGERS,
-				NumberOf.YOUNG_ADULTS,
-				NumberOf.ADULTS,
-				NumberOf.SENIORS,
+			NumberOf.PLAYERS,
+			NumberOf.SCORE_ABLE,
+			NumberOf.NON_SCORE_ABLE,
+			NumberOf.YOUNG_CHILDREN,
+			NumberOf.CHILDREN,
+			NumberOf.TEEN_AGERS,
+			NumberOf.YOUNG_ADULTS,
+			NumberOf.ADULTS,
+			NumberOf.SENIORS,
 		};
 	}
 

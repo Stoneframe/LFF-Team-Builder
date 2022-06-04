@@ -34,8 +34,8 @@ public class GroupPanel
 		}
 
 		Border border = group.isLocked()
-				? BorderFactory.createLineBorder(Util.FOREGROUND)
-				: BorderFactory.createDashedBorder(Util.FOREGROUND);
+			? BorderFactory.createLineBorder(Util.FOREGROUND)
+			: BorderFactory.createDashedBorder(Util.FOREGROUND);
 
 		setBorder(border);
 

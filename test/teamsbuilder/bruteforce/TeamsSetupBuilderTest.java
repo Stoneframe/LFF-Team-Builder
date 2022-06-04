@@ -22,7 +22,7 @@ import teamsbuilder.evolution.TeamsSetupBuilder;
 public class TeamsSetupBuilderTest
 {
 	private static final List<String> TEAM_NAMES =
-			Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
+		Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
 
 	@Test
 	public void threeScoreAblePlayersThreeTeams()
