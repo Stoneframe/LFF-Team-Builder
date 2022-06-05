@@ -73,8 +73,8 @@ public class FormPanel
 			lock,
 			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-		plusButton = new LffButton("+", 20);
-		plusButton.setPreferredSize(new Dimension(50, 30));
+		plusButton = new LffButton("+", 15);
+		plusButton.setPreferredSize(new Dimension(60, 30));
 		plusButton.addActionListener(l -> plusClicked());
 		plusButton.setFocusable(false);
 		plusButton.registerKeyboardAction(
@@ -86,8 +86,8 @@ public class FormPanel
 			plus,
 			JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-		minusButton = new LffButton("-", 20);
-		minusButton.setPreferredSize(new Dimension(50, 30));
+		minusButton = new LffButton("-", 15);
+		minusButton.setPreferredSize(new Dimension(60, 30));
 		minusButton.addActionListener(l -> minusClicked());
 		minusButton.setFocusable(false);
 		minusButton.registerKeyboardAction(

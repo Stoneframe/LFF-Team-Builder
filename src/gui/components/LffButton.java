@@ -17,6 +17,8 @@ public class LffButton
 
 		setForeground(Util.BACKGROUND);
 		setBackground(Util.FOREGROUND);
+		setOpaque(true);
+		setBorderPainted(false);
 	}
 
 	public LffButton(String text, boolean isEnabled)

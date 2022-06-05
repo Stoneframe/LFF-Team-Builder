@@ -129,7 +129,7 @@ public abstract class LffFrameBase
 
 		frame.setLayout(new BorderLayout());
 		frame.add(centerPanel, BorderLayout.CENTER);
-		frame.setSize(600, 520);
+		frame.setSize(680, 520);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
