@@ -43,7 +43,7 @@ public class ProgressFrame
 
 		detailsTextArea = new LffTextArea();
 		detailsTextArea.setEditable(false);
-		detailsTextArea.setPreferredSize(new Dimension(300, 200));
+		detailsTextArea.setPreferredSize(new Dimension(300, 250));
 		detailsTextArea.setFont(new Font("monospaced", Font.PLAIN, 12));
 
 		detailsScrollPane = new LffScrollPane(detailsTextArea);

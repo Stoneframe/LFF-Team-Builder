@@ -189,10 +189,12 @@ public class GeneratorFrame
 			builder.append(header());
 			builder.append(detailsAbout(NumberOf.PLAYERS));
 			builder.append(detailsAbout(NumberOf.SCORE_ABLE));
-			builder.append(detailsAbout(NumberOf.YOUNG_CHILDREN));
+			builder.append(detailsAbout(NumberOf.YOUNGER_CHILDREN));
 			builder.append(detailsAbout(NumberOf.CHILDREN));
-			builder.append(detailsAbout(NumberOf.TEEN_AGERS));
-			builder.append(detailsAbout(NumberOf.YOUNG_ADULTS));
+			builder.append(detailsAbout(NumberOf.OLDER_CHILDREN));
+			builder.append(detailsAbout(NumberOf.YOUNGER_TEENS));
+			builder.append(detailsAbout(NumberOf.OLDER_TEENS));
+			builder.append(detailsAbout(NumberOf.YOUNGER_ADULTS));
 			builder.append(detailsAbout(NumberOf.ADULTS));
 			builder.append(detailsAbout(NumberOf.SENIORS));
 

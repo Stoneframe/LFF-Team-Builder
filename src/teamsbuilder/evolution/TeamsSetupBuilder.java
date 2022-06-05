@@ -30,11 +30,15 @@ public class TeamsSetupBuilder
 		{
 			NumberOf.PLAYERS,
 			NumberOf.SCORE_ABLE,
+			NumberOf.YOUNG_SCORE_ABLE,
+			NumberOf.OLDER_SCORE_ABLE,
 			NumberOf.NON_SCORE_ABLE,
-			NumberOf.YOUNG_CHILDREN,
+			NumberOf.YOUNGER_CHILDREN,
 			NumberOf.CHILDREN,
-			NumberOf.TEEN_AGERS,
-			NumberOf.YOUNG_ADULTS,
+			NumberOf.OLDER_CHILDREN,
+			NumberOf.YOUNGER_TEENS,
+			NumberOf.OLDER_TEENS,
+			NumberOf.YOUNGER_ADULTS,
 			NumberOf.ADULTS,
 			NumberOf.SENIORS,
 		};
