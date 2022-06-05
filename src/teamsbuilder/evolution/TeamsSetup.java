@@ -56,9 +56,11 @@ public class TeamsSetup
 
 	public List<TeamsSetup> reproduce()
 	{
+		final int nbrOfChildren = 10;
+
 		List<TeamsSetup> setups = new LinkedList<>();
 
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < nbrOfChildren; i++)
 		{
 			setups.add(new TeamsSetup(teams, fitnessCalculator, categories));
 		}

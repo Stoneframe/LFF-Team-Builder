@@ -59,6 +59,8 @@ public class TeamsSetupBuilder
 
 		notifyProgress(100);
 
+		System.out.println(setups.get(0).getFitness());
+
 		return getTeams();
 	}
 
@@ -142,11 +144,13 @@ public class TeamsSetupBuilder
 
 	private void cullTheWeak()
 	{
+		final int nbrToKeep = 100;
+
 		int size = setups.size();
 
-		for (int i = 0; i < size - 5; i++)
+		for (int i = 0; i < size - nbrToKeep; i++)
 		{
-			setups.remove(5);
+			setups.remove(nbrToKeep);
 		}
 	}
 

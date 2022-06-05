@@ -31,8 +31,7 @@ public class LffFitnessCalculator
 	{
 		return calculators.stream()
 			.mapToDouble(c -> c.calculate(teams))
-			.average()
-			.getAsDouble();
+			.sum();
 	}
 
 	private class CategoryFitnessCalculator
