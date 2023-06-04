@@ -39,11 +39,11 @@ public class ProgressFrame
 		super("Framsteg");
 
 		progressBar = new LffProgressBar();
-		progressBar.setPreferredSize(new Dimension(304, 30));
+		progressBar.setPreferredSize(new Dimension(354, 30));
 
 		detailsTextArea = new LffTextArea();
 		detailsTextArea.setEditable(false);
-		detailsTextArea.setPreferredSize(new Dimension(300, 250));
+		detailsTextArea.setPreferredSize(new Dimension(300, 300));
 		detailsTextArea.setFont(new Font("monospaced", Font.PLAIN, 12));
 
 		detailsScrollPane = new LffScrollPane(detailsTextArea);

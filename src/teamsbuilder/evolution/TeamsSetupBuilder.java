@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.NumberOf;
 import model.NumberOf.Category;
 import model.Team;
 import model.Unit;
@@ -12,6 +11,9 @@ import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
 {
+	private static final int NUMBER_TO_KEEP = 2000;
+	private static final int NUMBER_OF_CHILDREN = 5;
+
 	private final List<ProgressListener> progressListeners = new LinkedList<>();
 
 	private final List<Unit> units;
@@ -21,27 +23,11 @@ public class TeamsSetupBuilder
 
 	private final List<TeamsSetup> setups = new LinkedList<>();
 
-	public TeamsSetupBuilder(List<Unit> units, TeamSettings settings)
+	public TeamsSetupBuilder(List<Unit> units, TeamSettings settings, Category[] categories)
 	{
 		this.units = units;
 		this.settings = settings;
-
-		categories = new Category[]
-		{
-			NumberOf.PLAYERS,
-			NumberOf.SCORE_ABLE,
-			NumberOf.YOUNG_SCORE_ABLE,
-			NumberOf.OLDER_SCORE_ABLE,
-			NumberOf.NON_SCORE_ABLE,
-			NumberOf.YOUNGER_CHILDREN,
-			NumberOf.CHILDREN,
-			NumberOf.OLDER_CHILDREN,
-			NumberOf.YOUNGER_TEENS,
-			NumberOf.OLDER_TEENS,
-			NumberOf.YOUNGER_ADULTS,
-			NumberOf.ADULTS,
-			NumberOf.SENIORS,
-		};
+		this.categories = categories;
 	}
 
 	public List<Team> createTeams()
@@ -144,13 +130,11 @@ public class TeamsSetupBuilder
 
 	private void cullTheWeak()
 	{
-		final int nbrToKeep = 100;
-
 		int size = setups.size();
 
-		for (int i = 0; i < size - nbrToKeep; i++)
+		for (int i = 0; i < size - NUMBER_TO_KEEP; i++)
 		{
-			setups.remove(nbrToKeep);
+			setups.remove(NUMBER_TO_KEEP);
 		}
 	}
 
@@ -160,7 +144,7 @@ public class TeamsSetupBuilder
 
 		for (int i = 0; i < size; i++)
 		{
-			setups.addAll(setups.get(i).reproduce());
+			setups.addAll(setups.get(i).reproduce(NUMBER_OF_CHILDREN));
 		}
 	}
 

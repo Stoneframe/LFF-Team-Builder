@@ -54,10 +54,8 @@ public class TeamsSetup
 		return cachedFitness;
 	}
 
-	public List<TeamsSetup> reproduce()
+	public List<TeamsSetup> reproduce(int nbrOfChildren)
 	{
-		final int nbrOfChildren = 10;
-
 		List<TeamsSetup> setups = new LinkedList<>();
 
 		for (int i = 0; i < nbrOfChildren; i++)

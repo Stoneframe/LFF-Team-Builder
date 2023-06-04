@@ -27,6 +27,24 @@ public class GeneratorFrame
 {
 	private static final long serialVersionUID = 1932555429400080599L;
 
+	private static final Category[] CATEGORIES = new Category[]
+	{
+		NumberOf.PLAYERS,
+		NumberOf.SCORE_ABLE,
+		NumberOf.YOUNG_SCORE_ABLE,
+		NumberOf.OLDER_SCORE_ABLE,
+		NumberOf.NON_SCORE_ABLE,
+		NumberOf.YOUNGER_CHILDREN,
+		NumberOf.CHILDREN,
+		NumberOf.OLDER_CHILDREN,
+		NumberOf.YOUNGER_TEENS,
+		NumberOf.OLDER_TEENS,
+		NumberOf.YOUNGER_ADULTS,
+		NumberOf.ADULTS,
+		NumberOf.SENIORS,
+		NumberOf.PEAK,
+	};
+
 	protected static final String TEAM_FOLDER = "Lag";
 	protected static final String TEAM_FILE = "Lag.txt";
 
@@ -151,7 +169,7 @@ public class GeneratorFrame
 			progressFrame = new ProgressFrame();
 			progressFrame.setLocationRelativeTo(GeneratorFrame.this);
 
-			teamsBuilder = new TeamsSetupBuilder(unitListPanel.getUnits(), settings);
+			teamsBuilder = new TeamsSetupBuilder(unitListPanel.getUnits(), settings, CATEGORIES);
 			teamsBuilder.addProgressListener(progressFrame);
 		}
 
@@ -187,33 +205,29 @@ public class GeneratorFrame
 			StringBuilder builder = new StringBuilder();
 
 			builder.append(header());
-			builder.append(detailsAbout(NumberOf.PLAYERS));
-			builder.append(detailsAbout(NumberOf.SCORE_ABLE));
-			builder.append(detailsAbout(NumberOf.YOUNGER_CHILDREN));
-			builder.append(detailsAbout(NumberOf.CHILDREN));
-			builder.append(detailsAbout(NumberOf.OLDER_CHILDREN));
-			builder.append(detailsAbout(NumberOf.YOUNGER_TEENS));
-			builder.append(detailsAbout(NumberOf.OLDER_TEENS));
-			builder.append(detailsAbout(NumberOf.YOUNGER_ADULTS));
-			builder.append(detailsAbout(NumberOf.ADULTS));
-			builder.append(detailsAbout(NumberOf.SENIORS));
+
+			for (Category category : CATEGORIES)
+			{
+				builder.append(detailsAbout(category));
+			}
 
 			return builder.toString();
 		}
 
 		private String header()
 		{
-			return "Kategori (per lag):         Min:    Max:" + System.lineSeparator();
+			return "Kategori (per lag):         Min:    Max:    Tot:" + System.lineSeparator();
 		}
 
 		private String detailsAbout(Category category) throws Exception
 		{
 			return String
 				.format(
-					"%-20s        %4d    %4d" + System.lineSeparator(),
+					"%-20s        %4d    %4d    %4d" + System.lineSeparator(),
 					category,
 					lowestNumberOf(category),
-					highestNumberOf(category));
+					highestNumberOf(category),
+					totalNumberOf(category));
 		}
 
 		private int lowestNumberOf(Category category) throws Exception
@@ -230,6 +244,15 @@ public class GeneratorFrame
 				.mapToInt(t -> t.count(category))
 				.max()
 				.getAsInt();
+		}
+
+		private int totalNumberOf(Category category)
+		{
+			return (int)unitListPanel.getUnits()
+				.stream()
+				.flatMap(u -> u.getPlayers().stream())
+				.filter(p -> category.test(p))
+				.count();
 		}
 	}
 }

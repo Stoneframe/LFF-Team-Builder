@@ -43,6 +43,9 @@ public class NumberOf
 	public static final Category SENIORS =
 		new Category("Seniorer", p -> 55 < p.getAge());
 
+	public static final Category PEAK =
+		new Category("Peak", p -> 15 <= p.getAge() && p.getAge() <= 25);
+
 	public static class Category
 		implements
 			Predicate<Player>
