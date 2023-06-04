@@ -5,24 +5,23 @@ import java.util.List;
 
 import model.NumberOf.Category;
 import model.Team;
+import model.Unit;
 
-public class LffFitnessCalculator
+public class OptimalTeamFitnessCalculator
 	implements
 		FitnessCalculator
 {
-	private static final double FACTOR = 10;
-
 	private final OptimalTeam optimalTeam;
 
 	private final List<FitnessCalculator> calculators = new LinkedList<>();
 
-	public LffFitnessCalculator(OptimalTeam optimalTeam, Category... categories)
+	public OptimalTeamFitnessCalculator(List<Unit> units, int nbrOfTeams, Category... categories)
 	{
-		this.optimalTeam = optimalTeam;
+		optimalTeam = createOptimalTeam(units, nbrOfTeams);
 
 		for (Category category : categories)
 		{
-			calculators.add(new CategoryFitnessCalculator(category));
+			calculators.add(new OptimalTeamFitnessCalculatorInternal(category));
 		}
 	}
 
@@ -34,13 +33,18 @@ public class LffFitnessCalculator
 			.sum();
 	}
 
-	private class CategoryFitnessCalculator
+	private OptimalTeam createOptimalTeam(List<Unit> units, int nbrOfTeams)
+	{
+		return new OptimalTeam(units, nbrOfTeams);
+	}
+
+	private class OptimalTeamFitnessCalculatorInternal
 		implements
 			FitnessCalculator
 	{
 		private final Category category;
 
-		public CategoryFitnessCalculator(Category category)
+		public OptimalTeamFitnessCalculatorInternal(Category category)
 		{
 			this.category = category;
 		}
@@ -48,14 +52,12 @@ public class LffFitnessCalculator
 		@Override
 		public double calculate(List<Team> teams)
 		{
-			return teams.stream().mapToDouble(t -> calculate(t)).average().getAsDouble();
+			return teams.stream().mapToDouble(t -> calculate(t)).sum();
 		}
 
 		private double calculate(Team team)
 		{
-			double diff = Math.abs(optimalTeam.count(category) - team.count(category));
-
-			return FACTOR / (FACTOR + diff);
+			return Math.abs(optimalTeam.count(category) - team.count(category));
 		}
 	}
 }

@@ -20,6 +20,7 @@ import model.NumberOf;
 import model.NumberOf.Category;
 import model.Team;
 import teamsbuilder.TeamSettings;
+import teamsbuilder.evolution.EqualCategoryFitnessCalculator;
 import teamsbuilder.evolution.TeamsSetupBuilder;
 
 public class GeneratorFrame
@@ -169,7 +170,12 @@ public class GeneratorFrame
 			progressFrame = new ProgressFrame();
 			progressFrame.setLocationRelativeTo(GeneratorFrame.this);
 
-			teamsBuilder = new TeamsSetupBuilder(unitListPanel.getUnits(), settings, CATEGORIES);
+			teamsBuilder = new TeamsSetupBuilder(
+				unitListPanel.getUnits(),
+				settings,
+				CATEGORIES,
+				new EqualCategoryFitnessCalculator(CATEGORIES));
+
 			teamsBuilder.addProgressListener(progressFrame);
 		}
 

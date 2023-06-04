@@ -18,6 +18,8 @@ import model.Player;
 import model.Team;
 import model.Unit;
 import teamsbuilder.TeamSettings;
+import teamsbuilder.evolution.FitnessCalculator;
+import teamsbuilder.evolution.OptimalTeamFitnessCalculator;
 import teamsbuilder.evolution.TeamsSetupBuilder;
 
 public class TeamsSetupBuilderTest
@@ -53,7 +55,7 @@ public class TeamsSetupBuilderTest
 			new Player("2", 12),
 			new Player("3", 12));
 
-		List<Team> teams = new TeamsSetupBuilder(units, settings, CATEGORIES).createTeams();
+		List<Team> teams = getTeamsSetupBuilder(settings, units).createTeams();
 
 		assertNumberOfTeams(teams, 3);
 		assertNumberOfPlayers(teams, 3);
@@ -72,7 +74,7 @@ public class TeamsSetupBuilderTest
 			new Player("3", 12),
 			new Player("4", 35));
 
-		List<Team> teams = new TeamsSetupBuilder(units, settings, CATEGORIES).createTeams();
+		List<Team> teams = getTeamsSetupBuilder(settings, units).createTeams();
 
 		assertNumberOfTeams(teams, 3);
 		assertNumberOfPlayers(teams, units.size());
@@ -99,7 +101,7 @@ public class TeamsSetupBuilderTest
 			new Player("11", 35),
 			new Player("12", 35));
 
-		List<Team> teams = new TeamsSetupBuilder(units, settings, CATEGORIES).createTeams();
+		List<Team> teams = getTeamsSetupBuilder(settings, units).createTeams();
 
 		assertNumberOfTeams(teams, 3);
 		assertNumberOfPlayers(teams, 12);
@@ -127,7 +129,7 @@ public class TeamsSetupBuilderTest
 				new Player("8", 35)),
 			new Player("9", 35));
 
-		List<Team> teams = new TeamsSetupBuilder(units, settings, CATEGORIES).createTeams();
+		List<Team> teams = getTeamsSetupBuilder(settings, units).createTeams();
 
 		assertNumberOfTeams(teams, 3);
 		assertNumberOfPlayers(teams, 9);
@@ -142,12 +144,22 @@ public class TeamsSetupBuilderTest
 
 		List<Unit> units = FileHandler.readFromFile(Paths.get("large_test_input.txt"));
 
-		List<Team> teams = new TeamsSetupBuilder(units, settings, CATEGORIES).createTeams();
+		List<Team> teams = getTeamsSetupBuilder(settings, units).createTeams();
 
 		assertNumberOfTeams(teams, 10);
 		assertNumberOfPlayers(teams, 105);
 		assertTeamSize(teams);
 		assertScoreAblePlayers(teams);
+	}
+
+	private TeamsSetupBuilder getTeamsSetupBuilder(TeamSettings settings, List<Unit> units)
+	{
+		FitnessCalculator fitnessCalculator = new OptimalTeamFitnessCalculator(
+			units,
+			settings.getNumberOfTeams(),
+			CATEGORIES);
+
+		return new TeamsSetupBuilder(units, settings, CATEGORIES, fitnessCalculator);
 	}
 
 	private TeamSettings getTeamSettings(int numberOfTeams)

@@ -1,5 +1,6 @@
 package teamsbuilder.evolution;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,14 +30,18 @@ public class TeamsSetup
 	private Unit unit1;
 	private Unit unit2;
 
-	public TeamsSetup(List<Team> teams, FitnessCalculator fitnessCalculator, Category[] categories)
+	public TeamsSetup(
+		List<Team> teams,
+		FitnessCalculator fitnessCalculator,
+		Category[] categories,
+		boolean specificMutation)
 	{
 		this.teams = cloneTeams(teams);
 		this.fitnessCalculator = fitnessCalculator;
 
 		this.categories = categories;
 
-		mutate();
+		mutate(specificMutation);
 	}
 
 	public List<Team> getTeams()
@@ -60,7 +65,7 @@ public class TeamsSetup
 
 		for (int i = 0; i < nbrOfChildren; i++)
 		{
-			setups.add(new TeamsSetup(teams, fitnessCalculator, categories));
+			setups.add(new TeamsSetup(teams, fitnessCalculator, categories, random.nextBoolean()));
 		}
 
 		return setups;
@@ -79,15 +84,42 @@ public class TeamsSetup
 			.collect(Collectors.toList());
 	}
 
-	private void mutate()
+	private void mutate(boolean specificMutation)
 	{
-		do
+		if (specificMutation)
 		{
-			int index = random.nextInt(categories.length);
-
-			mutate(categories[index]);
+			do
+			{
+				mutate(getWorstCategory());
+			}
+			while (random.nextBoolean());
 		}
-		while (random.nextBoolean());
+		else
+		{
+			do
+			{
+				mutate(getRandomCategory());
+			}
+			while (random.nextBoolean());
+		}
+	}
+
+	private Category getWorstCategory()
+	{
+		Comparator<? super Category> comparator = (c1, c2) -> Integer.compare(
+			teams.stream().mapToInt(t -> t.count(c1)).max().getAsInt()
+				- teams.stream().mapToInt(t -> t.count(c1)).min().getAsInt(),
+			teams.stream().mapToInt(t -> t.count(c2)).max().getAsInt()
+				- teams.stream().mapToInt(t -> t.count(c2)).min().getAsInt());
+
+		return Arrays.stream(categories).max(comparator).get();
+	}
+
+	protected Category getRandomCategory()
+	{
+		int index = random.nextInt(categories.length);
+
+		return categories[index];
 	}
 
 	private void mutate(Category category)
@@ -149,7 +181,7 @@ public class TeamsSetup
 
 	private void moveUnit1()
 	{
-		if (unit1 != null && random.nextBoolean())
+		if (unit1 != null/* && random.nextBoolean() */)
 		{
 			team1.remove(unit1);
 			team2.add(unit1);

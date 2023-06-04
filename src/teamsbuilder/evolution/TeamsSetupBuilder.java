@@ -11,8 +11,8 @@ import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
 {
-	private static final int NUMBER_TO_KEEP = 2000;
-	private static final int NUMBER_OF_CHILDREN = 5;
+	private static final int NUMBER_TO_KEEP = 10;
+	private static final int NUMBER_OF_CHILDREN = 10;
 
 	private final List<ProgressListener> progressListeners = new LinkedList<>();
 
@@ -23,11 +23,19 @@ public class TeamsSetupBuilder
 
 	private final List<TeamsSetup> setups = new LinkedList<>();
 
-	public TeamsSetupBuilder(List<Unit> units, TeamSettings settings, Category[] categories)
+	private final FitnessCalculator fitnessCalculator;
+
+	public TeamsSetupBuilder(
+		List<Unit> units,
+		TeamSettings settings,
+		Category[] categories,
+		FitnessCalculator fitnessCalculator)
 	{
 		this.units = units;
 		this.settings = settings;
 		this.categories = categories;
+
+		this.fitnessCalculator = fitnessCalculator;
 	}
 
 	public List<Team> createTeams()
@@ -72,12 +80,7 @@ public class TeamsSetupBuilder
 	{
 		List<Team> teams = createRandomTeams();
 
-		return new TeamsSetup(teams, getFitnessCalculator(), categories);
-	}
-
-	private FitnessCalculator getFitnessCalculator()
-	{
-		return new LffFitnessCalculator(createOptimalTeam(), categories);
+		return new TeamsSetup(teams, fitnessCalculator, categories, true);
 	}
 
 	private List<Team> createRandomTeams()
@@ -120,12 +123,12 @@ public class TeamsSetupBuilder
 
 	private void sortByFitness()
 	{
-		setups.sort(byHighestFitness());
+		setups.sort(byBestFitness());
 	}
 
-	private Comparator<? super TeamsSetup> byHighestFitness()
+	private Comparator<? super TeamsSetup> byBestFitness()
 	{
-		return Comparator.comparing(Util.cache(s -> s.getFitness()), Comparator.reverseOrder());
+		return Comparator.comparing(Util.cache(s -> s.getFitness()));
 	}
 
 	private void cullTheWeak()
@@ -151,10 +154,5 @@ public class TeamsSetupBuilder
 	private List<Team> getTeams()
 	{
 		return setups.get(0).getTeams();
-	}
-
-	private OptimalTeam createOptimalTeam()
-	{
-		return new OptimalTeam(units, settings.getNumberOfTeams());
 	}
 }
