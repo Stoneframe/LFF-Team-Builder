@@ -1,11 +1,15 @@
 package teamsbuilder.evolution;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
+import static util.ListUtil.getRandom;
+
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.NumberOf.Category;
@@ -13,8 +17,6 @@ import model.Team;
 
 public class TeamsSetup
 {
-	private final Random random = new Random();
-
 	private final FitnessCalculator fitnessCalculator;
 	private final Category[] categories;
 
@@ -30,7 +32,7 @@ public class TeamsSetup
 		this.fitnessCalculator = fitnessCalculator;
 		this.categories = categories;
 
-		this.teams = mutate(teams);
+		this.teams = mutate(cloneTeams(teams));
 	}
 
 	public List<Team> getTeams()
@@ -68,6 +70,8 @@ public class TeamsSetup
 
 	private List<Team> mutate(List<Team> teams)
 	{
+		final int maxNbrOfMutations = 10;
+
 		double startingFitness = fitnessCalculator.calculate(teams);
 
 		int i = 0;
@@ -77,60 +81,39 @@ public class TeamsSetup
 			teams = performMutation(teams);
 			i++;
 		}
-		while (fitnessCalculator.calculate(teams) > startingFitness && i < 10);
+		while (fitnessCalculator.calculate(teams) > startingFitness && i < maxNbrOfMutations);
 
 		return teams;
 	}
 
 	private List<Team> performMutation(List<Team> teams)
 	{
-		// switch (random.nextInt(2))
-		switch (0)
-		{
-			case 0:
-				return new SpecificMutation(getWorstCategory(teams), teams).mutate();
-			case 1:
-				return new RandomMutation(teams).mutate();
-			default:
-				throw new RuntimeException();
-		}
+		return new SpecificMutation(getWorstCategory(teams), teams).mutate();
 	}
 
 	private Category getWorstCategory(List<Team> teams)
 	{
-		// Comparator<? super Category> comparator = (c1, c2) ->
-		// {
-		// IntSummaryStatistics summery1 = teams.stream()
-		// .mapToInt(t -> t.count(c1))
-		// .summaryStatistics();
-		//
-		// IntSummaryStatistics summery2 = teams.stream()
-		// .mapToInt(t -> t.count(c2))
-		// .summaryStatistics();
-		//
-		// return Integer.compare(
-		// summery1.getMax() - summery1.getMin(),
-		// summery2.getMax() - summery2.getMin());
-		// };
-		//
-		// return Arrays.stream(categories).max(comparator).get();
+		Function<? super Category, ? extends Integer> largestDiffClassifier = category ->
+			{
+				IntSummaryStatistics summery = teams.stream()
+					.mapToInt(t -> t.count(category))
+					.summaryStatistics();
 
-		Map<Integer, List<Category>> map = Arrays.stream(categories)
-			.collect(Collectors.groupingBy(c ->
-				{
-					IntSummaryStatistics summery = teams.stream()
-						.mapToInt(t -> t.count(c))
-						.summaryStatistics();
+				return summery.getMax() - summery.getMin();
+			};
 
-					return summery.getMax() - summery.getMin();
-				}));
+		List<Category> worstCategories = Arrays.stream(categories)
+			.collect(groupingBy(largestDiffClassifier, TreeMap::new, toList()))
+			.lastEntry()
+			.getValue();
 
-		int highestDiff = map.keySet().stream().max(Integer::compareTo).get();
+		return getRandom(worstCategories);
+	}
 
-		List<Category> categoriesWithHighestDiff = map.get(highestDiff);
-
-		int randomIndex = random.nextInt(categoriesWithHighestDiff.size());
-
-		return categoriesWithHighestDiff.get(randomIndex);
+	private static List<Team> cloneTeams(List<Team> teams)
+	{
+		return teams.stream()
+			.map(t -> new Team(t.getName(), t.getUnits()))
+			.collect(Collectors.toList());
 	}
 }

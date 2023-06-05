@@ -1,8 +1,12 @@
 package teamsbuilder.evolution;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
+import static util.ListUtil.getRandom;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import model.Group;
@@ -30,7 +34,7 @@ public class SpecificMutation
 	{
 		this.category = category;
 
-		this.teams = cloneTeams(teams);
+		this.teams = teams;
 	}
 
 	@Override
@@ -44,46 +48,10 @@ public class SpecificMutation
 		return teams;
 	}
 
-	private static List<Team> cloneTeams(List<Team> teams)
-	{
-		return teams.stream()
-			.map(t -> new Team(t.getName(), t.getUnits()))
-			.collect(Collectors.toList());
-	}
-
 	private void selectTeams(Category category)
 	{
-		team1 = getRandomTeamWithHighestNumberOfCategory(teams, category);
-		team2 = getRandomTeamWithLowestNumberOfCategory(teams, category);
-
-	}
-
-	private static Team getRandomTeamWithHighestNumberOfCategory(
-		List<Team> teams,
-		Category category)
-	{
-		Map<Integer, List<Team>> nbrToTeamMap = teams.stream()
-			.collect(Collectors.groupingBy(t -> t.count(category)));
-
-		int highest = nbrToTeamMap.keySet().stream().max(Integer::compareTo).get();
-
-		List<Team> teamsWithHighest = nbrToTeamMap.get(highest);
-
-		return teamsWithHighest.get(random.nextInt(teamsWithHighest.size()));
-	}
-
-	private static Team getRandomTeamWithLowestNumberOfCategory(
-		List<Team> teams,
-		Category category)
-	{
-		Map<Integer, List<Team>> nbrToTeamMap = teams.stream()
-			.collect(Collectors.groupingBy(t -> t.count(category)));
-
-		int highest = nbrToTeamMap.keySet().stream().min(Integer::compareTo).get();
-
-		List<Team> teamsWithHighest = nbrToTeamMap.get(highest);
-
-		return teamsWithHighest.get(random.nextInt(teamsWithHighest.size()));
+		team1 = getRandom(getTeamsWithHighestOf(category));
+		team2 = getRandom(getTeamsWithLowestOf(category));
 	}
 
 	private void selectUnitFromTeam1(Category category)
@@ -98,7 +66,7 @@ public class SpecificMutation
 
 	private void selectUnitFromTeam2()
 	{
-		unit2 = getRandomUnit(team2.getUnits());
+		unit2 = getRandom(team2.getUnits());
 
 		if (isUnitSplitAble(unit2) && random.nextBoolean())
 		{
@@ -119,7 +87,7 @@ public class SpecificMutation
 			.filter(u -> u.count(category) > 0)
 			.collect(Collectors.toList());
 
-		return getSpecificUnit(category, units);
+		return getRandomUnit(category, units);
 	}
 
 	private boolean isUnitSplitAble(Unit unit)
@@ -147,7 +115,7 @@ public class SpecificMutation
 		return split;
 	}
 
-	private Unit getSpecificUnit(Category category, List<Unit> units)
+	private Unit getRandomUnit(Category category, List<Unit> units)
 	{
 		if (units.size() == 0)
 		{
@@ -158,21 +126,7 @@ public class SpecificMutation
 			.filter(u -> u.count(category) > 0)
 			.collect(Collectors.toList());
 
-		int index = random.nextInt(unitsOfCategory.size());
-
-		return unitsOfCategory.get(index);
-	}
-
-	private Unit getRandomUnit(List<Unit> units)
-	{
-		if (units.size() == 0)
-		{
-			return null;
-		}
-
-		int index = random.nextInt(units.size());
-
-		return units.get(index);
+		return getRandom(unitsOfCategory);
 	}
 
 	private void moveUnit1()
@@ -191,5 +145,21 @@ public class SpecificMutation
 			team2.remove(unit2);
 			team1.add(unit2);
 		}
+	}
+
+	private List<Team> getTeamsWithHighestOf(Category category)
+	{
+		return teams.stream()
+			.collect(groupingBy(t -> t.count(category), TreeMap::new, toList()))
+			.lastEntry()
+			.getValue();
+	}
+
+	private List<Team> getTeamsWithLowestOf(Category category)
+	{
+		return teams.stream()
+			.collect(groupingBy(t -> t.count(category), TreeMap::new, toList()))
+			.firstEntry()
+			.getValue();
 	}
 }

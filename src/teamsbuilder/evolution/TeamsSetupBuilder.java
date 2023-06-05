@@ -1,6 +1,7 @@
 package teamsbuilder.evolution;
 
-import java.util.Collections;
+import static util.ListUtil.getShuffledCopy;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,8 +51,6 @@ public class TeamsSetupBuilder
 
 		for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
 		{
-			// notifyProgress(i * 100 / NUMBER_OF_ITERATIONS);
-
 			sortByFitness();
 			cullTheWeak();
 			reproduce();
@@ -101,11 +100,7 @@ public class TeamsSetupBuilder
 
 	private TeamsSetup createRandomTeamsSetup()
 	{
-		List<Unit> shuffledUnits = new LinkedList<>(units);
-
-		Collections.shuffle(shuffledUnits);
-
-		List<Team> teams = createRandomTeams(shuffledUnits);
+		List<Team> teams = createRandomTeams(getShuffledCopy(units));
 
 		return new TeamsSetup(fitnessCalculator, categories, teams);
 	}
