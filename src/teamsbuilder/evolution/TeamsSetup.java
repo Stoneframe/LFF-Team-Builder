@@ -1,47 +1,36 @@
 package teamsbuilder.evolution;
 
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import model.Group;
-import model.Group.GroupSplit;
 import model.NumberOf.Category;
 import model.Team;
-import model.Unit;
 
 public class TeamsSetup
 {
 	private final Random random = new Random();
 
-	private final List<Team> teams;
 	private final FitnessCalculator fitnessCalculator;
-
 	private final Category[] categories;
+
+	private final List<Team> teams;
 
 	private Double cachedFitness;
 
-	private Team team1;
-	private Team team2;
-
-	private Unit unit1;
-	private Unit unit2;
-
 	public TeamsSetup(
-		List<Team> teams,
 		FitnessCalculator fitnessCalculator,
 		Category[] categories,
-		boolean specificMutation)
+		List<Team> teams)
 	{
-		this.teams = cloneTeams(teams);
 		this.fitnessCalculator = fitnessCalculator;
-
 		this.categories = categories;
 
-		mutate(specificMutation);
+		this.teams = mutate(teams);
 	}
 
 	public List<Team> getTeams()
@@ -65,7 +54,7 @@ public class TeamsSetup
 
 		for (int i = 0; i < nbrOfChildren; i++)
 		{
-			setups.add(new TeamsSetup(teams, fitnessCalculator, categories, random.nextBoolean()));
+			setups.add(new TeamsSetup(fitnessCalculator, categories, teams));
 		}
 
 		return setups;
@@ -77,153 +66,71 @@ public class TeamsSetup
 		return "Fitness: " + getFitness();
 	}
 
-	private List<Team> cloneTeams(List<Team> teams)
+	private List<Team> mutate(List<Team> teams)
 	{
-		return teams.stream()
-			.map(t -> new Team(t.getName(), t.getUnits()))
-			.collect(Collectors.toList());
-	}
+		double startingFitness = fitnessCalculator.calculate(teams);
 
-	private void mutate(boolean specificMutation)
-	{
-		if (specificMutation)
+		int i = 0;
+
+		do
 		{
-			do
-			{
-				mutate(getWorstCategory());
-			}
-			while (random.nextBoolean());
+			teams = performMutation(teams);
+			i++;
 		}
-		else
+		while (fitnessCalculator.calculate(teams) > startingFitness && i < 10);
+
+		return teams;
+	}
+
+	private List<Team> performMutation(List<Team> teams)
+	{
+		// switch (random.nextInt(2))
+		switch (0)
 		{
-			do
-			{
-				mutate(getRandomCategory());
-			}
-			while (random.nextBoolean());
-		}
-	}
-
-	private Category getWorstCategory()
-	{
-		Comparator<? super Category> comparator = (c1, c2) -> Integer.compare(
-			teams.stream().mapToInt(t -> t.count(c1)).max().getAsInt()
-				- teams.stream().mapToInt(t -> t.count(c1)).min().getAsInt(),
-			teams.stream().mapToInt(t -> t.count(c2)).max().getAsInt()
-				- teams.stream().mapToInt(t -> t.count(c2)).min().getAsInt());
-
-		return Arrays.stream(categories).max(comparator).get();
-	}
-
-	protected Category getRandomCategory()
-	{
-		int index = random.nextInt(categories.length);
-
-		return categories[index];
-	}
-
-	private void mutate(Category category)
-	{
-		selectTeams(category);
-		selectUnitFromTeam1(category);
-		selectUnitFromTeam2();
-		moveOrSwapUnits();
-	}
-
-	protected void selectTeams(Category category)
-	{
-		team1 = teams.stream().max(numberOf(category)).get();
-		team2 = teams.stream().min(numberOf(category)).get();
-	}
-
-	private void selectUnitFromTeam1(Category category)
-	{
-		unit1 = getUnitFromTeam1(category);
-
-		if (isUnitSplitAble(unit1) && random.nextBoolean())
-		{
-			unit1 = getSplitUnit((Group)unit1);
+			case 0:
+				return new SpecificMutation(getWorstCategory(teams), teams).mutate();
+			case 1:
+				return new RandomMutation(teams).mutate();
+			default:
+				throw new RuntimeException();
 		}
 	}
 
-	private void selectUnitFromTeam2()
+	private Category getWorstCategory(List<Team> teams)
 	{
-		unit2 = getRandomUnit(team2.getUnits());
-	}
+		// Comparator<? super Category> comparator = (c1, c2) ->
+		// {
+		// IntSummaryStatistics summery1 = teams.stream()
+		// .mapToInt(t -> t.count(c1))
+		// .summaryStatistics();
+		//
+		// IntSummaryStatistics summery2 = teams.stream()
+		// .mapToInt(t -> t.count(c2))
+		// .summaryStatistics();
+		//
+		// return Integer.compare(
+		// summery1.getMax() - summery1.getMin(),
+		// summery2.getMax() - summery2.getMin());
+		// };
+		//
+		// return Arrays.stream(categories).max(comparator).get();
 
-	private Unit getUnitFromTeam1(Category category)
-	{
-		List<Unit> units = team1.getUnits()
-			.stream()
-			.filter(u -> u.count(category) > 0)
-			.collect(Collectors.toList());
+		Map<Integer, List<Category>> map = Arrays.stream(categories)
+			.collect(Collectors.groupingBy(c ->
+				{
+					IntSummaryStatistics summery = teams.stream()
+						.mapToInt(t -> t.count(c))
+						.summaryStatistics();
 
-		return getRandomUnit(units);
-	}
+					return summery.getMax() - summery.getMin();
+				}));
 
-	private Unit getRandomUnit(List<Unit> units)
-	{
-		if (units.size() == 0)
-		{
-			return null;
-		}
+		int highestDiff = map.keySet().stream().max(Integer::compareTo).get();
 
-		int index = random.nextInt(units.size());
+		List<Category> categoriesWithHighestDiff = map.get(highestDiff);
 
-		return units.get(index);
-	}
+		int randomIndex = random.nextInt(categoriesWithHighestDiff.size());
 
-	private void moveOrSwapUnits()
-	{
-		moveUnit1();
-		moveUnit2();
-	}
-
-	private void moveUnit1()
-	{
-		if (unit1 != null/* && random.nextBoolean() */)
-		{
-			team1.remove(unit1);
-			team2.add(unit1);
-		}
-	}
-
-	private void moveUnit2()
-	{
-		if (unit2 != null && random.nextBoolean())
-		{
-			team2.remove(unit2);
-			team1.add(unit2);
-		}
-	}
-
-	private Unit getSplitUnit(Group group)
-	{
-		GroupSplit split = split(group);
-
-		return random.nextBoolean()
-			? split.getUnit1()
-			: split.getUnit2();
-	}
-
-	private boolean isUnitSplitAble(Unit unit)
-	{
-		return unit instanceof Group && !((Group)unit1).isLocked();
-	}
-
-	private GroupSplit split(Group group)
-	{
-		GroupSplit split = group.split();
-
-		team1.remove(group);
-		team1.add(split.getUnit1());
-		team1.add(split.getUnit2());
-
-		return split;
-	}
-
-	private Comparator<Team> numberOf(Category category)
-	{
-		return Comparator.comparing(Util.cache(t -> t.count(category)));
+		return categoriesWithHighestDiff.get(randomIndex);
 	}
 }

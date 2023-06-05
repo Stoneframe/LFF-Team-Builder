@@ -1,5 +1,6 @@
 package teamsbuilder.evolution;
 
+import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,12 +43,11 @@ public class EqualCategoryFitnessCalculator
 		@Override
 		public double calculate(List<Team> teams)
 		{
-			int max = teams.stream().mapToInt(t -> t.count(category)).max().getAsInt();
-			int min = teams.stream().mapToInt(t -> t.count(category)).min().getAsInt();
+			IntSummaryStatistics summary = teams.stream()
+				.mapToInt(t -> t.count(category))
+				.summaryStatistics();
 
-			return Math.pow(max - min, 3);
-			
-//			return FACTOR / (FACTOR + (max - min));
+			return Math.pow(summary.getMax() - summary.getMin(), 3);
 		}
 	}
 }

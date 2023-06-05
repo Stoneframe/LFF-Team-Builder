@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,6 +61,10 @@ public class Group
 
 		List<Player> players1 = new LinkedList<>();
 		List<Player> players2 = new LinkedList<>();
+
+		List<Player> shuffledPlayers = new LinkedList<>(players);
+
+		Collections.shuffle(shuffledPlayers);
 
 		for (int i = 0; i < players.size(); i++)
 		{

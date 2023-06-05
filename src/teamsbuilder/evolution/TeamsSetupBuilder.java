@@ -1,5 +1,6 @@
 package teamsbuilder.evolution;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +12,9 @@ import teamsbuilder.TeamSettings;
 
 public class TeamsSetupBuilder
 {
-	private static final int NUMBER_TO_KEEP = 10;
-	private static final int NUMBER_OF_CHILDREN = 10;
+	private static final int NUMBER_OF_ITERATIONS = 20;
+	private static final int NUMBER_TO_KEEP = 500;
+	private static final int NUMBER_OF_CHILDREN = 1;
 
 	private final List<ProgressListener> progressListeners = new LinkedList<>();
 
@@ -24,6 +26,8 @@ public class TeamsSetupBuilder
 	private final List<TeamsSetup> setups = new LinkedList<>();
 
 	private final FitnessCalculator fitnessCalculator;
+
+	private int progress = 0;
 
 	public TeamsSetupBuilder(
 		List<Unit> units,
@@ -42,13 +46,24 @@ public class TeamsSetupBuilder
 	{
 		initalizeRandomSetup();
 
-		for (int i = 0; i < 100; i++)
+		double bestFitness = 100;
+
+		for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
 		{
-			notifyProgress(i);
+			// notifyProgress(i * 100 / NUMBER_OF_ITERATIONS);
 
 			sortByFitness();
 			cullTheWeak();
 			reproduce();
+
+			double curr = setups.get(0).getFitness();
+
+			if (curr < bestFitness)
+			{
+				bestFitness = curr;
+
+				System.out.println(i * 100 / NUMBER_OF_ITERATIONS + ": " + bestFitness);
+			}
 		}
 
 		notifyProgress(100);
@@ -63,6 +78,11 @@ public class TeamsSetupBuilder
 		progressListeners.add(listener);
 	}
 
+	private void notifyProgress()
+	{
+		notifyProgress(progress++ * 100 / (NUMBER_OF_ITERATIONS * NUMBER_TO_KEEP));
+	}
+
 	private void notifyProgress(int percent)
 	{
 		for (ProgressListener listener : progressListeners)
@@ -71,19 +91,26 @@ public class TeamsSetupBuilder
 		}
 	}
 
-	private boolean initalizeRandomSetup()
+	private void initalizeRandomSetup()
 	{
-		return setups.add(createInitialTeamsSetup());
+		for (int i = 0; i < NUMBER_TO_KEEP; i++)
+		{
+			setups.add(createRandomTeamsSetup());
+		}
 	}
 
-	private TeamsSetup createInitialTeamsSetup()
+	private TeamsSetup createRandomTeamsSetup()
 	{
-		List<Team> teams = createRandomTeams();
+		List<Unit> shuffledUnits = new LinkedList<>(units);
 
-		return new TeamsSetup(teams, fitnessCalculator, categories, true);
+		Collections.shuffle(shuffledUnits);
+
+		List<Team> teams = createRandomTeams(shuffledUnits);
+
+		return new TeamsSetup(fitnessCalculator, categories, teams);
 	}
 
-	private List<Team> createRandomTeams()
+	private List<Team> createRandomTeams(List<Unit> units)
 	{
 		List<Team> teams = createEmptyTeams();
 
@@ -143,11 +170,10 @@ public class TeamsSetupBuilder
 
 	private void reproduce()
 	{
-		int size = setups.size();
-
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < NUMBER_TO_KEEP; i++)
 		{
-			setups.addAll(setups.get(i).reproduce(NUMBER_OF_CHILDREN));
+			setups.addAll(setups.get(i).reproduce(NUMBER_OF_CHILDREN * Math.max(1, 20 - i)));
+			notifyProgress();
 		}
 	}
 
