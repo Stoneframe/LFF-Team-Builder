@@ -176,8 +176,8 @@ public abstract class LffFrameBase
 	{
 		int choice = JOptionPane.showConfirmDialog(
 			this,
-			"Vill du Låsa den nya gruppen?",
-			"Låsa grupp?",
+			"Vill du LÃ¥sa den nya gruppen?",
+			"LÃ¥sa grupp?",
 			JOptionPane.YES_NO_OPTION);
 
 		return choice == JOptionPane.YES_OPTION;

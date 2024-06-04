@@ -8,7 +8,7 @@ public class NumberOf
 		new Category("Spelare", p -> true);
 
 	public static final Category YOUNG_SCORE_ABLE =
-		new Category("Yngre målgörare", p -> p.getAge() < 14);
+		new Category("Yngre målgörare", p -> p.getAge() < 13);
 
 	public static final Category OLDER_SCORE_ABLE =
 		new Category("Äldre målgörare", p -> 50 <= p.getAge());

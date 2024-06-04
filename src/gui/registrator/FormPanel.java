@@ -67,7 +67,7 @@ public class FormPanel
 
 		playerPanels.forEach(pp -> pp.addTextLister(l -> onTextChanged()));
 
-		lockCheckBox = new LffCheckBox("Lås");
+		lockCheckBox = new LffCheckBox("LÃ¥s");
 		lockCheckBox.registerKeyboardAction(
 			l -> lockCheckBox.doClick(),
 			lock,
@@ -285,7 +285,7 @@ public class FormPanel
 
 			case ADD_MODE:
 			default:
-				return "Lägg till";
+				return "LÃ¤gg till";
 		}
 	}
 }

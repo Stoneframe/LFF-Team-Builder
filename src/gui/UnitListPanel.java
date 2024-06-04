@@ -46,7 +46,7 @@ public class UnitListPanel
 
 		editButton = new LffButton("Redigera...", false);
 		splitButton = new LffButton("Dela...", false);
-		mergeButton = new LffButton("Slå ihop", false);
+		mergeButton = new LffButton("SlÃ¥ ihop", false);
 		removeButton = new LffButton("Ta bort", false);
 
 		LffScrollPane scrollPane = new LffScrollPane(unitList, new Dimension(300, 500));

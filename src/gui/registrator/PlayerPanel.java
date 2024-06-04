@@ -29,7 +29,7 @@ public class PlayerPanel
 		nameLabel = new LffLabel("Namn:");
 		nameTextField = new LffTextField(15);
 
-		ageLabel = new LffLabel("Ålder:");
+		ageLabel = new LffLabel("Ã…lder:");
 		ageTextField = new LffTextField(5);
 
 		setLayout(new GridBagLayout());

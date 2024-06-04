@@ -40,7 +40,7 @@ public class SettingsPanel
 
 	public SettingsPanel()
 	{
-		titleLabel = new LffLabel("Inst‰llningar", Font.BOLD, 40);
+		titleLabel = new LffLabel("Inst√§llningar", Font.BOLD, 40);
 
 		nbrOfPlayersLabel = new LffLabel("Antal spelare:");
 		nbrOfPlayersTextField = new LffTextField();

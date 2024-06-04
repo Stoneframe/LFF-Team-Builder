@@ -47,8 +47,8 @@ public class SplitPanel
 	{
 		titleLabel = new LffLabel("Dela", Font.BOLD, 40);
 
-		leftLockCheckBox = new LffCheckBox("Lås", true);
-		rightLockCheckBox = new LffCheckBox("Lås", false);
+		leftLockCheckBox = new LffCheckBox("LÃ¥s", true);
+		rightLockCheckBox = new LffCheckBox("LÃ¥s", false);
 
 		leftListModel = new DefaultListModel<>();
 		rightListModel = new DefaultListModel<>();
@@ -60,11 +60,11 @@ public class SplitPanel
 		rightList.addListSelectionListener(l -> onSelectionChanged());
 
 		moveRightButton = new LffButton(">", 20, false);
-		moveRightButton.setPreferredSize(new Dimension(50, 30));
+		moveRightButton.setPreferredSize(new Dimension(55, 35));
 		moveRightButton.addActionListener(l -> onMoveRight());
 
 		moveLeftButton = new LffButton("<", 20, false);
-		moveLeftButton.setPreferredSize(new Dimension(50, 30));
+		moveLeftButton.setPreferredSize(new Dimension(55, 35));
 		moveLeftButton.addActionListener(l -> onMoveLeft());
 
 		okButton = new LffButton("Spara", false);

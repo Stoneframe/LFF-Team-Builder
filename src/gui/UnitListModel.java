@@ -82,7 +82,7 @@ public class UnitListModel
 
 	public void loadFromFolder(String playerFolder)
 	{
-		Path folderPath = Paths.get(playerFolder);
+		Path folderPath = Path.of(playerFolder);
 
 		List<Unit> units = readFromFolder(folderPath);
 
